@@ -312,7 +312,7 @@ class Abandoned_Report_Table extends \WP_List_Table {
 				$reminder .= "<tr class='wacv-get-logs $item->id' data-id='$item->id'>";
 				$reminder .= "<td style='position: absolute; left:-10px;'><i class='wacv-loading icon'></i><span class='wacv-email-reminder-popup $item->id'></span></td>";
 				$reminder .= "<td ><span class='wacv-reminder-number {$item->id}'>$item->email_reminder</span><span class='wacv-reminder-icon  dashicons dashicons-email-alt {$email_color}' data-id='$item->id'></span></td>";
-				$reminder .= "<td ><span class='wacv-reminder-number'>$item->messenger_reminder</span><span class='wacv-reminder-icon vlt-ico-messenger {$fb_color}' data-id='$item->id'> </span>";
+//				$reminder .= "<td ><span class='wacv-reminder-number'>$item->messenger_reminder</span><span class='wacv-reminder-icon vlt-ico-messenger {$fb_color}' data-id='$item->id'> </span>";
 				$reminder .= "<td ><span class='wacv-reminder-number'>$item->sms_reminder</span><span class='wacv-reminder-icon dashicons dashicons-smartphone {$sms_color}' data-id='$item->id'></span></td></tr></table>";
 
 				return $reminder;

@@ -63,9 +63,6 @@ class Admin_Settings {
                         <a class="item" data-tab="second">
 							<?php esc_html_e( 'Email', 'woo-abandoned-cart-recovery' ) ?>
                         </a>
-                        <a class="item" data-tab="third">
-							<?php esc_html_e( 'Facebook messenger', 'woo-abandoned-cart-recovery' ) ?>
-                        </a>
                         <a class="item" data-tab="fourth">
 							<?php esc_html_e( 'SMS', 'woo-abandoned-cart-recovery' ) ?>
                         </a>
@@ -76,7 +73,6 @@ class Admin_Settings {
 					<?php
 					General_Settings::get_instance()->setting_page();
 					Email_Settings::get_instance()->setting_page();
-					FB_Messenger_Settings::get_instance()->setting_page();
 					SMS_Settings::get_instance()->setting_page();
 					Email_Popup_Settings::get_instance()->setting_page();
 					?>

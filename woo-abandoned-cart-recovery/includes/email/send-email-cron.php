@@ -132,7 +132,6 @@ class Send_Email_Cron {
 	}
 
 	public function email_content( $item, $temp_id ) {
-
 		$result = '';
 		if ( ! empty( $item->user_id ) ) {
 

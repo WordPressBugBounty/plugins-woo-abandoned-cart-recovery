@@ -10,7 +10,6 @@ use WACV\Inc\Execute\Guest;
 use WACV\Inc\Execute\Recovered;
 use WACV\Inc\Reports\Reports;
 use WACV\Inc\Settings\Admin_Settings;
-use WACV\Inc\Settings\FB_Messenger_Settings;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -66,7 +65,6 @@ function load_class() {
 	Ajax::get_instance();
 	Cron::get_instance();
 	Cart_Logs::get_instance();
-	FB_Messenger_Settings::get_instance();
 
 	if ( is_file( WACV_INCLUDES . 'support.php' ) ) {
 		include_once( WACV_INCLUDES . 'support.php' );
@@ -88,12 +86,8 @@ function load_class() {
 		);
 	}
 
-//	if ( class_exists( '\Automattic\WooCommerce\Utilities\FeaturesUtil' ) ) {
-//		\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'custom_order_tables', __FILE__, true );
-//	}
 }
 
-add_action( 'plugins_loaded', __NAMESPACE__ . '\load_class' );
 
 
 class Init {

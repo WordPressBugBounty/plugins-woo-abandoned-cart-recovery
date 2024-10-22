@@ -168,8 +168,7 @@ jQuery(document).ready(function ($) {
     function abd_report(data) {
         var html = `<div class="wacv-cell"><h5>Abandoned</h5><div>Order: ${data.abd_count}</div><div>Total: ${data.abd_total}</div></div>
             <div class="wacv-cell"><h5>Recovered</h5><div>Order: ${data.rcv_count}</div><div>Total: ${data.rcv_total}</div></div>
-            <div class="wacv-cell"><h5>Email reminder</h5><div>Email sent: ${data.email_sent}</div><div></div><div>Clicked ratio: ${clicked_ratio(data.email_clicked, data.email_sent)}%</div></div>
-            <div class="wacv-cell"><h5>Messenger reminder</h5><div>Messenger sent: ${data.messenger_sent}</div><div></div><div>Clicked ratio: ${clicked_ratio(data.messenger_clicked, data.messenger_sent)}%</div>`;
+            <div class="wacv-cell"><h5>Email reminder</h5><div>Email sent: ${data.email_sent}</div><div></div><div>Clicked ratio: ${clicked_ratio(data.email_clicked, data.email_sent)}%</div></div>`;
 
         $('.wacv-general-reports-group').html(html);
     }

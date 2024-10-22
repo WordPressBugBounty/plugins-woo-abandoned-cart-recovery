@@ -1,3 +1,7 @@
+/**1.1.5 - 2024.10.22 **/
+- Updated: Compatible with WP 6.6 and WC 9.3
+- Removed: Facebook messenger tab
+
 /**1.1.4 - 2024.06.13 **/
 - Updated: Translate text and sanitize output fields
 

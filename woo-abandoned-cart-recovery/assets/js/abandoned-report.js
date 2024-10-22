@@ -146,7 +146,6 @@ jQuery(document).ready(function ($) {
                     },
                     success: function (res) {
                         progressBar.val(((index + 1) / lists.length) * 100);
-
                         if (res === true) {
                             let time = parseInt(lists[index].time) + 1;
                             $('.wacv-reminder-number.' + lists[index].id).text(time);

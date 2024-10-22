@@ -53,7 +53,13 @@ class Ajax {
 
 				switch ( sanitize_text_field( $_GET['param'] ) ) {
 					case 'user':
-						$args = array( 'orderby' => 'nicenamne', 'order' => 'DESC', 's' => $keyword );
+						$args = array( 'orderby' => 'nicenamne', 'order' => 'DESC', 'search' => "*$keyword*", 'search_columns' => array(
+							'user_login',
+							'user_nicename',
+							'user_email',
+							'user_url',
+							'display_name'
+						), );
 
 						$users = get_users( $args );
 						foreach ( $users as $user ) {

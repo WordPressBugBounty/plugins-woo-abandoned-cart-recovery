@@ -3,8 +3,8 @@ Contributors: villatheme, mrt3vn
 Donate link: https://www.villatheme.com/donate
 Tags: abandoned cart pro for woocommerce, woocommerce, woocommerce abandoned cart, woocommerce abandoned cart email, woocommerce abandoned cart recovery
 Requires at least: 5.0
-Tested up to: 6.5
-WC tested up to: 8.9
+Tested up to: 6.6
+WC tested up to: 9.3
 Requires PHP: 7.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -237,6 +237,10 @@ What is WooCommerce Abandoned Cart Recovery? WooCommerce Abandoned Cart Recovery
 3. Abandoned carts list
 
 == Changelog ==
+/**1.1.5 - 2024.10.22 **/
+- Updated: Compatible with WP 6.6 and WC 9.3
+- Removed: Facebook messenger tab
+
 /**1.1.4 - 2024.06.13 **/
 - Updated: Translate text and sanitize output fields
 
