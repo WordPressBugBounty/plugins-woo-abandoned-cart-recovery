@@ -1,3 +1,6 @@
+/**1.1.6 - 2024.10.26 **/
+- Fixed: Environment requirement check
+
 /**1.1.5 - 2024.10.22 **/
 - Updated: Compatible with WP 6.6 and WC 9.3
 - Removed: Facebook messenger tab
