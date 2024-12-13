@@ -8,6 +8,15 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
+
+if ( defined( 'WACV_IMAGES' ) ) {
+	$image_link = WACV_IMAGES;
+} else {
+	$_plugin_url = plugins_url( '', __FILE__ );
+	$_plugin_url = str_replace( '/includes', '', $_plugin_url );
+	$_plugin_url = str_replace( '/templates', '', $_plugin_url );
+	$image_link = $_plugin_url . "/assets/img/";
+}
 ?>
 <div class="li_80312 form-builder-field"
      style="width: 600px; right: auto; height: 43px; bottom: auto; position: relative; left: 0px; top: 0px;">
@@ -24,7 +33,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                 <tbody>
                 <tr>
                     <td><img class="wacv-image" width="100%"
-                             src="<?php echo esc_url( WACV_IMAGES ) ?>sample-logo.png"
+                             src="<?php echo esc_url( $image_link ) ?>sample-logo.png"
                              style="vertical-align: middle; "></td>
                 </tr>
                 </tbody>
@@ -138,7 +147,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                                 <td align="center" width="140"
                                     style="padding: 5px; border-top: 1px solid rgb(221, 221, 221); border-bottom: 1px solid rgb(221, 221, 221);"
                                     class="field-ctrl"><img style="width:140px; vertical-align: middle;"
-                                                            src="<?php echo esc_url( WACV_IMAGES ) ?>product.png">
+                                                            src="<?php echo esc_url( $image_link ) ?>product.png">
                                 </td>
                                 <td style="vertical-align: top; padding: 5px; border-top: 1px solid rgb(221, 221, 221); border-bottom: 1px solid rgb(221, 221, 221);"
                                     class="field-ctrl"><p style="line-height: 2; font-weight: 500; ">{product_name}</p>
@@ -197,7 +206,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                 <tbody>
                 <tr>
                     <td><img class="wacv-image" width="100%"
-                             src="<?php echo esc_url( WACV_IMAGES ) ?>placeholder.png"
+                             src="<?php echo esc_url( $image_link ) ?>placeholder.png"
                              style="vertical-align: middle; "></td>
                 </tr>
                 </tbody>

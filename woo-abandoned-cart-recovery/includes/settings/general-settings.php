@@ -36,8 +36,9 @@ class General_Settings extends Admin_Settings {
 				<?php
 				$this->checkbox_option( 'tracking_member', esc_html__( "Tracking Member's Cart", 'woo-abandoned-cart-recovery' ), esc_html__( 'If enable, the plugin will track abandoned cart of logged users', 'woo-abandoned-cart-recovery' ) );
 				$this->number_option( 'member_cut_off_time', esc_html__( 'Abandoned Cart time for Members', 'woo-abandoned-cart-recovery' ), esc_html__( 'Select the time to mark a cart as abandoned with logged in users', 'woo-abandoned-cart-recovery' ), 'minutes' );
-				$this->checkbox_option( 'tracking_guest', esc_html__( "Tracking Guest's Cart", 'woo-abandoned-cart-recovery' ), esc_html__( 'If enable, the plugin will track abandoned cart of guests', 'woo-abandoned-cart-recovery' ) );
-				$this->number_option( 'guest_cut_off_time', esc_html__( 'Abandoned Cart time for Guest', 'woo-abandoned-cart-recovery' ), esc_html__( 'Select the time to mark a cart as abandoned with guests', 'woo-abandoned-cart-recovery' ), 'minutes' );
+                $this->checkbox_option( 'tracking_guest', esc_html__( "Tracking Guest's Cart", 'woo-abandoned-cart-recovery' ), esc_html__( 'If enable, the plugin will track abandoned cart of guests', 'woo-abandoned-cart-recovery' ) );
+				$this->get_pro_version( esc_html__( 'Tracking if email available', 'woo-abandoned-cart-recovery' ), esc_html__( 'If enabled, the plugin will only track abandoned carts of guests if the input email is available', 'woo-abandoned-cart-recovery' ) );
+                $this->number_option( 'guest_cut_off_time', esc_html__( 'Abandoned Cart time for Guest', 'woo-abandoned-cart-recovery' ), esc_html__( 'Select the time to mark a cart as abandoned with guests', 'woo-abandoned-cart-recovery' ), 'minutes' );
 				$this->number_option( 'delete_record_time', esc_html__( 'Delete abandoned records', 'woo-abandoned-cart-recovery' ), esc_html__( 'Abandoned cart records will be automatically deleted after this time', 'woo-abandoned-cart-recovery' ), 'days' );
 
 				$tracking_user_exclude_opts = array();
@@ -51,7 +52,9 @@ class General_Settings extends Admin_Settings {
 					'direct_recover_link',
 					[ esc_html__( 'Cart page', 'woo-abandoned-cart-recovery' ), esc_html__( 'Checkout page', 'woo-abandoned-cart-recovery' ) ],
 					esc_html__( "Recover link to", 'woo-abandoned-cart-recovery' ) );
-				$this->get_pro_version( esc_html__( 'Cart log', 'woo-abandoned-cart-recovery' ) );
+				$this->get_pro_version( esc_html__( 'Cart log', 'woo-abandoned-cart-recovery' ), esc_html__( 'If enable, add to cart or remove cart action will be record.', 'woo-abandoned-cart-recovery' ) );
+				$this->get_pro_version( esc_html__( 'Load guest information', 'woo-abandoned-cart-recovery' ), esc_html__( 'If enable, load guest information checkout page if the guest already saved.', 'woo-abandoned-cart-recovery' ) );
+				$this->get_pro_version( esc_html__( 'Load full phone number', 'woo-abandoned-cart-recovery' ), esc_html__( 'If enabled, load guest phone number with the country code on the checkout page if the guest has already saved.', 'woo-abandoned-cart-recovery' ) );
 				$this->checkbox_option( 'enable_checkout_gdpr', esc_html__( "Checkout GDPR", 'woo-abandoned-cart-recovery' ), esc_html__( 'If enabled, a GDPR notice will display after the email input field on the checkout page.', 'woo-abandoned-cart-recovery' ) );
 				$this->text_option( 'checkout_gdpr_message', esc_html__( 'GDPR message', 'woo-abandoned-cart-recovery' ), '', '' );
 				$this->text_option( 'checkout_gdpr_cancel', esc_html__( 'Ignore Email Button Text', 'woo-abandoned-cart-recovery' ), '', '' );

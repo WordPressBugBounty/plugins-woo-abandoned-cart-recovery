@@ -684,7 +684,7 @@ class Send_Email_Cron {
 				foreach ( $this->cart_items as $item ) {
 					$item_link        = $this->data['email_item_link'] ? "href='{$item['url']}'" : '';
 					$item['name']     = $item['name'] . ' x ' . $item['quantity'];
-					$item['url']      = "<a " . $item_link . " style='font-weight: inherit'>${item['name']}</a>";
+					$item['url']      = "<a " . $item_link . " style='font-weight: inherit'>{$item['name']}</a>";
 					$item['price']    = esc_html__( 'Price:', 'woo-abandoned-cart-recovery' ) . $item['price'];
 					$item['quantity'] = esc_html__( 'Quantity:', 'woo-abandoned-cart-recovery' ) . $item['quantity'];
 

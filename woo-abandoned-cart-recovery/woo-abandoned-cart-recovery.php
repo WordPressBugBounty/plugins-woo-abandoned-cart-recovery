@@ -3,7 +3,7 @@
  * Plugin Name: Abandoned Cart Recovery for WooCommerce
  * Plugin URI: https://villatheme.com/extensions/woo-abandoned-cart-recovery/
  * Description: Capture abandoned cart & send reminder emails to the customers.
- * Version: 1.1.6
+ * Version: 1.1.7
  * Author: VillaTheme
  * Author URI: https://villatheme.com
  * License:           GPL v2 or later
@@ -13,9 +13,9 @@
  * Copyright 2019-2024 VillaTheme.com. All rights reserved.
  * Requires Plugins: woocommerce
  * Requires at least: 5.0
- * Tested up to: 6.6
+ * Tested up to: 6.7
  * WC requires at least: 7.0
- * WC tested up to: 9.3
+ * WC tested up to: 9.4
  * Requires PHP: 7.0
  **/
 
@@ -36,7 +36,7 @@ if ( is_plugin_active( 'woocommerce-abandoned-cart-recovery/woocommerce-abandone
 	return;
 }
 
-define( 'WACV_VERSION', '1.1.6' );
+define( 'WACV_VERSION', '1.1.7' );
 
 
 define( 'WACV_SLUG', 'woo-abandoned-cart-recovery' );

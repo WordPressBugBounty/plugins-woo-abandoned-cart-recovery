@@ -43,6 +43,13 @@ class Email_Settings extends Admin_Settings {
 				$this->checkbox_option( 'email_to_admin_when_cart_recover', esc_html__( "Notification to Admin", 'woo-abandoned-cart-recovery' ), esc_html__( 'Send a notification email to admin whenever a cart is recovered', 'woo-abandoned-cart-recovery' ) );
 				$this->text_option( 'email_custom_when_cart_recover', esc_html__( "Notification to custom email", 'woo-abandoned-cart-recovery' ) );
 				$this->checkbox_option( 'email_item_link', esc_html__( "Product link", 'woo-abandoned-cart-recovery' ), esc_html__( 'Enable product link in the product detail in the abandoned emails', 'woo-abandoned-cart-recovery' ) );
+				$this->get_pro_version( esc_html__( "Price include tax", 'woo-abandoned-cart-recovery' ), esc_html__( 'Display price include tax if tax is enabled & prices entered exclusive of tax', 'woo-abandoned-cart-recovery' ) );
+				$this->get_pro_version( esc_html__( "Product link", 'woo-abandoned-cart-recovery' ), esc_html__( 'Enable product link in the product detail in the abandoned emails', 'woo-abandoned-cart-recovery' ) );
+				$this->get_pro_version( esc_html__( "Product price", 'woo-abandoned-cart-recovery' ), esc_html__( 'Enable product price in the product detail in the abandoned emails', 'woo-abandoned-cart-recovery' ) );
+				$this->get_pro_version( esc_html__( "Display current price", 'woo-abandoned-cart-recovery' ), esc_html__( 'Enable to display current product price in the product detail in Abandoned email, disable to show price saved in abandoned cart', 'woo-abandoned-cart-recovery' ) );
+				$this->get_pro_version( esc_html__( "Active Campaign", 'woo-abandoned-cart-recovery' ), esc_html__( 'Once abandoned email is sent out to customers, use Active Campaign to achieve customer email', 'woo-abandoned-cart-recovery' ) );
+				$this->get_pro_version( esc_html__( "Sendinblue", 'woo-abandoned-cart-recovery' ), esc_html__( 'Once abandoned email is sent out to customers, use Sendinblue to achieve customer email', 'woo-abandoned-cart-recovery' ) );
+				$this->get_pro_version( esc_html__( "GetResponse", 'woo-abandoned-cart-recovery' ), esc_html__( 'Once abandoned email is sent out to customers, use GetResponse to achieve customer email', 'woo-abandoned-cart-recovery' ) );
 				?>
             </table>
             <hr>

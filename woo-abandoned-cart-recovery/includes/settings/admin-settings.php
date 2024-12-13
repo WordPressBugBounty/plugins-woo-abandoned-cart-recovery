@@ -274,11 +274,15 @@ class Admin_Settings {
 		<?php
 	}
 
-	public function get_pro_version( $title ) {
+	public function get_pro_version( $title, $explain = '' ) {
 		?>
         <tr>
             <td class="col-1">
                 <label class=""><?php esc_html_e( $title );// phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText ?></label>
+	            <?php if ( $explain ) {
+		            printf( '<span class="wacv-explain-group" data-tooltip="%s" data-variation="wide"><i class="question circle icon "></i></span>', esc_attr( $explain ) );
+	            }
+	            ?>
             </td>
             <td class="col-2">
                 <a href="<?php echo esc_url( WACV_PRO_URL ) ?>" class="vi-ui button tiny" target="_blank">

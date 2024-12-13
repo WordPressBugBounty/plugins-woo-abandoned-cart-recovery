@@ -8,6 +8,16 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
+
+if ( defined( 'WACV_IMAGES' ) ) {
+	$image_link = WACV_IMAGES;
+} else {
+	$_plugin_url = plugins_url( '', __FILE__ );
+	$_plugin_url = str_replace( '/includes', '', $_plugin_url );
+	$_plugin_url = str_replace( '/templates', '', $_plugin_url );
+	$image_link = $_plugin_url . "/assets/img/";
+}
+?>
 ?>
 <table width="600" align="center" valign="center" cellspacing="0" cellpadding="0" border="0"
        style="font-size: 14px; font-family: Lato, Arial, Helvetica, sans-serif;background-color: #ffffff;">
@@ -21,7 +31,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                             <tbody>
                             <tr>
                                 <td><img class="wacv-image" width="100%"
-                                         src="<?php echo esc_url( WACV_IMAGES ) ?>sample-logo.png"
+                                         src="<?php echo esc_url( $image_link ) ?>sample-logo.png"
                                          style="vertical-align: middle; "></td>
                             </tr>
                             </tbody>
@@ -174,7 +184,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                             <tbody>
                             <tr>
                                 <td><img class="wacv-image" width="100%"
-                                         src="<?php echo esc_url( WACV_IMAGES ) ?>placeholder.png"
+                                         src="<?php echo esc_url( $image_link ) ?>placeholder.png"
                                          style="vertical-align: middle; "></td>
                             </tr>
                             </tbody>
