@@ -1,3 +1,6 @@
+/**1.1.8 - 2025.02.28 **/
+- Updated: update support class
+
 /**1.1.7 - 2024.12.13 **/
 - Fixed: Error when active plugin
 - Update: Compatible with WP 6.7 and WC 9.4
