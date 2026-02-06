@@ -1,5 +1,6 @@
 jQuery(document).ready(function ($) {
     'use strict';
+
     var couponSetting = {
         init: function () {
 

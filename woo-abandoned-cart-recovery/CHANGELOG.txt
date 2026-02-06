@@ -1,3 +1,11 @@
+/**1.1.10 - 2026.01.20 **/
+- Update: Compatible with WP 6.9 and WC 10.4
+- Updated: update support class
+
+/**1.1.9 - 2025.11.17 **/
+- Updated: minify some source code
+- Updated: Add filter for edit recover link
+
 /**1.1.8 - 2025.02.28 **/
 - Updated: update support class
 

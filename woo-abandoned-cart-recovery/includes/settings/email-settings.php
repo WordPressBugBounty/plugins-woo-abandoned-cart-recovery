@@ -40,9 +40,11 @@ class Email_Settings extends Admin_Settings {
 				$this->checkbox_option( 'send_email_to_guest', esc_html__( "Send mail reminder to guest", 'woo-abandoned-cart-recovery' ) );
 				$this->text_option( 'email_reply_address', esc_html__( "Reply Emails to", 'woo-abandoned-cart-recovery' ) );
 				$this->send_email_rules_settings( 'email_rules', true );
+				$this->get_pro_version( esc_html__( "Add Cc/Bcc email when send abandoned email", 'woo-abandoned-cart-recovery' ), '' );
 				$this->checkbox_option( 'email_to_admin_when_cart_recover', esc_html__( "Notification to Admin", 'woo-abandoned-cart-recovery' ), esc_html__( 'Send a notification email to admin whenever a cart is recovered', 'woo-abandoned-cart-recovery' ) );
 				$this->text_option( 'email_custom_when_cart_recover', esc_html__( "Notification to custom email", 'woo-abandoned-cart-recovery' ) );
 				$this->checkbox_option( 'email_item_link', esc_html__( "Product link", 'woo-abandoned-cart-recovery' ), esc_html__( 'Enable product link in the product detail in the abandoned emails', 'woo-abandoned-cart-recovery' ) );
+				$this->get_pro_version( esc_html__( "One-time abandoned cart email", 'woo-abandoned-cart-recovery' ), esc_html__( 'Enable this option to prevent multiple abandoned cart emails from being sent to the same visitor. Only one email will be sent per user, even if multiple carts are abandoned.', 'woo-abandoned-cart-recovery' ) );
 				$this->get_pro_version( esc_html__( "Price include tax", 'woo-abandoned-cart-recovery' ), esc_html__( 'Display price include tax if tax is enabled & prices entered exclusive of tax', 'woo-abandoned-cart-recovery' ) );
 				$this->get_pro_version( esc_html__( "Product link", 'woo-abandoned-cart-recovery' ), esc_html__( 'Enable product link in the product detail in the abandoned emails', 'woo-abandoned-cart-recovery' ) );
 				$this->get_pro_version( esc_html__( "Product price", 'woo-abandoned-cart-recovery' ), esc_html__( 'Enable product price in the product detail in the abandoned emails', 'woo-abandoned-cart-recovery' ) );

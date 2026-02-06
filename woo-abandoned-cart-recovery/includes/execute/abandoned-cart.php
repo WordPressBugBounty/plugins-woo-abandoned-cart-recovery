@@ -236,7 +236,8 @@ class Abandoned_Cart {
 		}
 
 		$wc_order = wc_get_order( $order_id );
-		$ip = $wc_order->get_meta('_customer_ip_address', true );
+		$ip = $wc_order->get_customer_ip_address();
+//		$ip = $wc_order->get_meta('_customer_ip_address', true );
 		if ( $ip ) {
 			$this->query->remove_abd_record_via_ip( $ip );
 		}

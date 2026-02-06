@@ -48,10 +48,16 @@ class General_Settings extends Admin_Settings {
 					}
 				}
 				$this->select_option( 'tracking_user_exclude', $tracking_user_exclude_opts, esc_html__( "Exclude people", 'woo-abandoned-cart-recovery' ), '', true );
+				$this->get_pro_version( esc_html__( 'Exclude user role', 'woo-abandoned-cart-recovery' ), '' );
+				$this->get_pro_version( esc_html__( 'Send email exclude provider', 'woo-abandoned-cart-recovery' ), esc_html__( 'Split email provider by &quot;,&quot; eg: @dev.com,@track.net', 'woo-abandoned-cart-recovery' ) );
+				$this->get_pro_version( esc_html__( 'Send email minimum cart total', 'woo-abandoned-cart-recovery' ), esc_html__( 'Only send email for abandoned cart with cart total value higher this value. Leave blank to disable.', 'woo-abandoned-cart-recovery' ) );
+
 				$this->select_option(
 					'direct_recover_link',
 					[ esc_html__( 'Cart page', 'woo-abandoned-cart-recovery' ), esc_html__( 'Checkout page', 'woo-abandoned-cart-recovery' ) ],
 					esc_html__( "Recover link to", 'woo-abandoned-cart-recovery' ) );
+				$this->get_pro_version( esc_html__( 'Immediate show Cart detail in Abandoned list', 'woo-abandoned-cart-recovery' ), esc_html__( 'Enable to display the Cart detail, no need click to view cart details.', 'woo-abandoned-cart-recovery' ) );
+				$this->get_pro_version( esc_html__( 'Show Abandoned order options in Admin Order', 'woo-abandoned-cart-recovery' ), esc_html__( 'Enable to display the Send abandoned email buttons and the column of Abandoned email sending status in the Admin Order List Page; Display the Send abandoned email buttons on the order editing page.', 'woo-abandoned-cart-recovery' ) );
 				$this->get_pro_version( esc_html__( 'Cart log', 'woo-abandoned-cart-recovery' ), esc_html__( 'If enable, add to cart or remove cart action will be record.', 'woo-abandoned-cart-recovery' ) );
 				$this->get_pro_version( esc_html__( 'Load guest information', 'woo-abandoned-cart-recovery' ), esc_html__( 'If enable, load guest information checkout page if the guest already saved.', 'woo-abandoned-cart-recovery' ) );
 				$this->get_pro_version( esc_html__( 'Load full phone number', 'woo-abandoned-cart-recovery' ), esc_html__( 'If enabled, load guest phone number with the country code on the checkout page if the guest has already saved.', 'woo-abandoned-cart-recovery' ) );

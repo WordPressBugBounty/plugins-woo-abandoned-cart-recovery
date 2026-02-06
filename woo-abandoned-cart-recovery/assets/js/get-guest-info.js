@@ -1,5 +1,6 @@
 jQuery(document).ready(function ($) {
     'use strict';
+
     if ('1' === wacv_localize.enable_gdpr && !$('#wacv_checkout_gdpr_block').length) {
         $('input#billing_email').after(
             "<span id='wacv_checkout_gdpr_block'> <span style='font-size: x-small'> " +

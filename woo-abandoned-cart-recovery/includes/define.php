@@ -251,16 +251,31 @@ class Init {
 	}
 
 	public function plugin_enqueue_script( $script, $depend = array() ) {
-		wp_enqueue_script( WACV_SLUG . $script, WACV_JS . $script . '.js', $depend, WACV_VERSION, false );
+		if ( in_array( $script, [ 'abandoned-report', 'admin', 'coupon-setting', 'email-template', 'get-guest-info', 'unsubscribe-modal' ] ) ) {
+			$src_min = WP_DEBUG ? '' : '.min';
+			wp_enqueue_script( WACV_SLUG . $script, WACV_JS . $script . $src_min . '.js', $depend, WACV_VERSION, false );
+		} else {
+			wp_enqueue_script( WACV_SLUG . $script, WACV_JS . $script . '.js', $depend, WACV_VERSION, false );
+		}
 	}
 
 	public function plugin_enqueue_style( $styles ) {
+		$src_min = WP_DEBUG ? '' : '.min';
+		$plugin_src_style = [ 'admin-settings', 'customer-emails', 'email-template', 'get-email', 'reports', 'unsubscribe-modal' ];
 		if ( is_array( $styles ) ) {
 			foreach ( $styles as $style ) {
-				wp_enqueue_style( WACV_SLUG . $style, WACV_CSS . $style . '.css', '', WACV_VERSION );
+				if ( in_array( $style, $plugin_src_style ) ) {
+					wp_enqueue_style( WACV_SLUG . $style, WACV_CSS . $style . $src_min . '.css', '', WACV_VERSION );
+				} else {
+					wp_enqueue_style( WACV_SLUG . $style, WACV_CSS . $style . '.css', '', WACV_VERSION );
+				}
 			}
 		} else {
-			wp_enqueue_style( WACV_SLUG . $styles, WACV_CSS . $styles . '.css', '', WACV_VERSION );
+			if ( in_array( $styles, $plugin_src_style ) ) {
+				wp_enqueue_style( WACV_SLUG . $styles, WACV_CSS . $styles . $src_min . '.css', '', WACV_VERSION );
+			} else {
+				wp_enqueue_style( WACV_SLUG . $styles, WACV_CSS . $styles . '.css', '', WACV_VERSION );
+			}
 		}
 	}
 

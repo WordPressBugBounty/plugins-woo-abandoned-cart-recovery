@@ -237,12 +237,13 @@ class Send_Email_Cron {
 							}
 						}
 					}
+					$email_lang = isset( $item->current_lang ) && ! empty( $item->current_lang ) ? $item->current_lang : '';
 
 					$this->record_data['coupon_code']        = $coupon_code;
 					$this->record_data['coupon_expire']      = $coupon_expire;
-					$this->record_data['link']               = $this->create_link( $coupon_code, $acr_id, $sent_email_id, $temp_id );
-					$this->record_data['tracking_open_link'] = $this->create_tracking_open_link( $acr_id, $sent_email_id );
-					$this->record_data['unsubscribe_link']   = $this->create_unsubscribe_link( $acr_id );
+					$this->record_data['link']               = $this->create_link( $coupon_code, $acr_id, $sent_email_id, $temp_id, $email_lang );
+					$this->record_data['tracking_open_link'] = $this->create_tracking_open_link( $acr_id, $sent_email_id, $email_lang );
+					$this->record_data['unsubscribe_link']   = $this->create_unsubscribe_link( $acr_id, $email_lang );
 
 					$message = '';
 					if ( $temp_obj->post_type === 'wacv_email_template' ) {
@@ -413,27 +414,30 @@ class Send_Email_Cron {
 		return $this->characters_array[ $rand ];
 	}
 
-	public function create_link( $coupon_code, $acr_id, $sent_email_id, $temp_id ) {
+	public function create_link( $coupon_code, $acr_id, $sent_email_id, $temp_id, $email_lang = '' ) {
 		$coupon      = $coupon_code ? '&' . $coupon_code : '';
 		$template_id = $temp_id ? '&' . $temp_id : '&0';
 		$pass        = get_option( 'wacv_private_key' );
 		$url_encode  = Aes_Ctr::encrypt( $acr_id . '&' . $sent_email_id . $template_id . $coupon, $pass, 256 );
+		$site_url_param = apply_filters( 'wacv_abandoned_create_link', site_url( '?wacv_recover=cart_link&valid=' ), $email_lang );
 
-		return site_url( '?wacv_recover=cart_link&valid=' ) . $url_encode;
+		return  $site_url_param . $url_encode;
 	}
 
-	public function create_tracking_open_link( $acr_id, $sent_email_id ) {
+	public function create_tracking_open_link( $acr_id, $sent_email_id, $email_lang = '' ) {
 		$pass       = get_option( 'wacv_private_key' );
 		$url_encode = Aes_Ctr::encrypt( $acr_id . '&' . $sent_email_id, $pass, 256 );
+		$site_url_param = apply_filters( 'wacv_abandoned_create_tracking_open_link', site_url( '?wacv_open_email=' ), $email_lang );
 
-		return "<img width='0' height='0' style='width:0; height:0;' src='" . site_url( '?wacv_open_email=' ) . $url_encode . "' >";
+		return "<img width='0' height='0' style='width:0; height:0;' src='" . $site_url_param . $url_encode . "' >";
 	}
 
-	public function create_unsubscribe_link( $acr_id ) {
+	public function create_unsubscribe_link( $acr_id, $email_lang = '' ) {
 		$pass       = get_option( 'wacv_private_key' );
 		$url_encode = Aes_Ctr::encrypt( $acr_id, $pass, 256 );
+		$site_url_param = apply_filters( 'wacv_abandoned_create_unsubscribe_link', site_url( '?wacv_unsubscribe=' ), $email_lang );
 
-		return site_url( '?wacv_unsubscribe=' ) . $url_encode;
+		return $site_url_param . $url_encode;
 	}
 
 	public function complete_message( $template ) {
@@ -528,6 +532,35 @@ class Send_Email_Cron {
 		}
 
 		if ( ! empty( $this->data['abd_orders'] ) ) {
+			$multi_lang   = array();
+			$lang_src     = '';
+			$default_lang = '';
+			if ( is_plugin_active( 'sitepress-multilingual-cms/sitepress.php' ) ) {
+				global $sitepress;
+				$lang_src       = 'wpml';
+				$default_lang   = $sitepress->get_default_language();
+				$wpml_languages = icl_get_languages( 'skip_missing=N&orderby=KEY&order=DIR&link_empty_to=str' );
+
+				if ( count( $wpml_languages ) ) {
+					foreach ( $wpml_languages as $key => $language ) {
+						if ( $key != $default_lang ) {
+							$multi_lang[] = $key;
+						}
+					}
+				}
+			} elseif ( class_exists( 'Polylang' ) ) {
+				/*Polylang*/
+				$lang_src     = 'polylang';
+				$languages    = pll_languages_list();
+				$default_lang = pll_default_language( 'slug' );
+				foreach ( $languages as $language ) {
+					if ( $language == $default_lang ) {
+						continue;
+					}
+					$multi_lang[] = $language;
+				}
+			}
+
 			$email_rules = $this->data['abd_orders'];
 
 			for ( $i = 0; $i < count( $email_rules['send_time'] ); $i ++ ) {
