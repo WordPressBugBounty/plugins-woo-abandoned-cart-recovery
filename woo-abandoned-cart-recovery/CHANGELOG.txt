@@ -1,3 +1,6 @@
+/**1.1.11 - 2026.02.25 **/
+- Updated: update support class
+
 /**1.1.10 - 2026.01.20 **/
 - Update: Compatible with WP 6.9 and WC 10.4
 - Updated: update support class

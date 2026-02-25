@@ -279,7 +279,7 @@ class Abandoned_Report_Table extends \WP_List_Table {
 	public function column_default( $item, $column_name ) {
 		switch ( $column_name ) {
 			case 'checkbox':
-				$html = "<input type='checkbox' data-id='$item->id' data-time='$item->email_reminder' class='wacv-checkbox-bulk-action {$item->id}'>";
+				$html = "<input type='checkbox' data-id='".esc_attr($item->id)."' data-time='$item->email_reminder' class='wacv-checkbox-bulk-action ".esc_attr($item->id)."'>";
 
 				return $html;
 
@@ -289,11 +289,11 @@ class Abandoned_Report_Table extends \WP_List_Table {
 			case 'customer':
 				$phone = $item->valid_phone ? $item->phone : "<del>{$item->phone}</del>";
 
-				return "<div class='wacv-customer-info'>$item->customer</div><div class='wacv-customer-info'>$item->email</div><div class='wacv-customer-info'>$phone</div>"; //<div class='$item->user_ref wacv-messenger-subscribe wacv-customer-info'></div>
+				return "<div class='wacv-customer-info'>".wp_kses_post($item->customer??'')."</div><div class='wacv-customer-info'>".wp_kses_post($item->email??'')."</div><div class='wacv-customer-info'>".wp_kses_post($phone??'')."</div>"; //<div class='$item->user_ref wacv-messenger-subscribe wacv-customer-info'></div>
 
 			case 'cart_detail':
 				$unit = $item->item_qty > 1 ? esc_html__( 'items', 'woo-abandoned-cart-recovery' ) : esc_html__( 'item', 'woo-abandoned-cart-recovery' );
-				$out  = "<a href='javascript:void(0)' class='wacv-get-abd-cart-detail $item->id' data-id='$item->id'>" . wc_price( $item->total, array( 'currency' => $item->currency ) ) . " ({$item->item_qty} {$unit})<i class='icon'></i></a>";
+				$out  = "<a href='javascript:void(0)' class='wacv-get-abd-cart-detail ".esc_attr($item->id)."' data-id='".esc_attr($item->id)."'>" . wc_price( $item->total, array( 'currency' => $item->currency ) ) . " ({$item->item_qty} {$unit})<i class='icon'></i></a>";
 
 				return $out;
 
@@ -309,27 +309,26 @@ class Abandoned_Report_Table extends \WP_List_Table {
 				$sms_color   = ! empty( $item->phone ) && $item->billing_country && $item->valid_phone ? 'blue' : '';
 
 				$reminder = "<table class='wacv-email-reminder-group' >";
-				$reminder .= "<tr class='wacv-get-logs $item->id' data-id='$item->id'>";
-				$reminder .= "<td style='position: absolute; left:-10px;'><i class='wacv-loading icon'></i><span class='wacv-email-reminder-popup $item->id'></span></td>";
-				$reminder .= "<td ><span class='wacv-reminder-number {$item->id}'>$item->email_reminder</span><span class='wacv-reminder-icon  dashicons dashicons-email-alt {$email_color}' data-id='$item->id'></span></td>";
-//				$reminder .= "<td ><span class='wacv-reminder-number'>$item->messenger_reminder</span><span class='wacv-reminder-icon vlt-ico-messenger {$fb_color}' data-id='$item->id'> </span>";
-				$reminder .= "<td ><span class='wacv-reminder-number'>$item->sms_reminder</span><span class='wacv-reminder-icon dashicons dashicons-smartphone {$sms_color}' data-id='$item->id'></span></td></tr></table>";
+				$reminder .= "<tr class='wacv-get-logs ".esc_attr($item->id)."' data-id='".esc_attr($item->id)."'>";
+				$reminder .= "<td style='position: absolute; left:-10px;'><i class='wacv-loading icon'></i><span class='wacv-email-reminder-popup ".esc_attr($item->id)."'></span></td>";
+				$reminder .= "<td ><span class='wacv-reminder-number ".esc_attr($item->id)."'>".wp_kses_post($item->email_reminder)."</span><span class='wacv-reminder-icon  dashicons dashicons-email-alt ".esc_attr($email_color)."' data-id='".esc_attr($item->id)."'></span></td>";
+				$reminder .= "<td ><span class='wacv-reminder-number'>".wp_kses_post($item->sms_reminder)."</span><span class='wacv-reminder-icon dashicons dashicons-smartphone ".esc_attr($sms_color)."' data-id='".esc_attr($item->id)."'></span></td></tr></table>";
 
 				return $reminder;
 
 			case 'from':
 				$from = "<div class='wacv-from'>
                             <div class='wacv-country-flag-group wacv-inline-block'>
-                            <i class='flag {$item->country_flag}'></i>
+                            <i class='flag ".esc_attr($item->country_flag)."'></i>
                                 <div class='wacv-from-detail'>
-                                    <p>{$item->country_name}</p>
-                                    <p><a href='https://tools.keycdn.com/geo?host={$item->customer_ip}' target='_blank'>{$item->customer_ip}</a></p>
+                                    <p>".wp_kses_post($item->country_name)."</p>
+                                    <p><a href='https://tools.keycdn.com/geo?host=".esc_attr($item->customer_ip)."' target='_blank'>".esc_html($item->customer_ip)."</a></p>
                                 </div>
                             </div>
                             <div class='wacv-user-agent wacv-inline-block'>
                                 <i class='dashicons dashicons-info'></i>
                                 <span class='wacv-user-agent-detail'>
-                                    {$item->os_platform}
+                                    ".esc_html($item->os_platform)."
                                 </span>    
                             </div>
                         </div>";

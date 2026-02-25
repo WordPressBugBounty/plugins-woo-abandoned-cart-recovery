@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Abandoned Cart Recovery for WooCommerce\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-12-13 04:14+0000\n"
+"POT-Creation-Date: 2026-02-25 09:07+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: \n"
@@ -16,33 +16,33 @@ msgstr ""
 "X-Loco-Version: 2.6.9; wp-6.5.4\n"
 "X-Domain: woo-abandoned-cart-recovery"
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/general-settings.php:78
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/general-settings.php:84
 msgid ""
 " If you want to use CronJob server, access your server and config with "
 "command:"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/templates/html-date-picker.php:20
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/templates/html-date-picker.php:20
 msgid "30 days"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/templates/html-date-picker.php:22
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/templates/html-date-picker.php:22
 msgid "365 days"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/templates/html-date-picker.php:21
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/templates/html-date-picker.php:21
 msgid "90 days"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/reports/abandoned-report-table.php:227
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/reports/abandoned-report-table.php:227
 msgid "Abandoned"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/reports/reports.php:51
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/reports/reports.php:51
 msgid "Abandoned Cart"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/general-settings.php:42
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/general-settings.php:42
 msgid "Abandoned cart records will be automatically deleted after this time"
 msgstr ""
 
@@ -50,85 +50,89 @@ msgstr ""
 msgid "Abandoned Cart Recovery for WooCommerce"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/general-settings.php:41
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/general-settings.php:41
 msgid "Abandoned Cart time for Guest"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/general-settings.php:38
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/general-settings.php:38
 msgid "Abandoned Cart time for Members"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/reports/abandoned-report-table.php:92
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/reports/reports.php:63
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/reports/abandoned-report-table.php:92
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/reports/reports.php:63
 msgid "Abandoned Carts"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/sms-settings.php:42
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/sms-settings.php:42
 msgid "Access token"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/email-settings.php:90
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/email-settings.php:92
 msgid "Action"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/email-settings.php:50
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/email-settings.php:52
 msgid "Active Campaign"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/email-templates.php:67
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/email-settings.php:43
+msgid "Add Cc/Bcc email when send abandoned email"
+msgstr ""
+
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/email-templates.php:67
 msgid "Add New"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/email-templates.php:66
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/email-templates.php:66
 msgid "Add New Email Template"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/email-settings.php:197
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/email-settings.php:199
 msgid "Add rule"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/email-popup-settings.php:51
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/email-popup-settings.php:51
 msgid "Add to cart"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/reports/abandoned-report-table.php:97
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/reports/recovered-report-table.php:87
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/reports/abandoned-report-table.php:97
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/reports/recovered-report-table.php:87
 msgid "All"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/email-templates.php:64
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/email-templates.php:64
 msgid "All Emails"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/email-templates.php:250
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/email-templates.php:250
 msgid "Allow free shipping"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/reports/coupon-used-report-table.php:167
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/reports/coupon-used-report-table.php:167
 msgid "Amount"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/reports/product-report-table.php:98
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/reports/product-report-table.php:98
 msgid "Amount of Abandoned"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/reports/product-report-table.php:100
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/reports/product-report-table.php:100
 msgid "Amount of Recovered"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/sms-settings.php:34
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/sms-settings.php:34
 msgid "App ID"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/sms-settings.php:35
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/sms-settings.php:35
 msgid "App secret"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/email-popup-settings.php:38
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/email-popup-settings.php:38
 msgid "Appear on"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/sms-settings.php:39
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/sms-settings.php:39
 msgid "Bitly config"
 msgstr ""
 
@@ -136,261 +140,283 @@ msgstr ""
 msgid "Capture abandoned cart & send reminder emails to the customers."
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/general-settings.php:34
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/general-settings.php:34
 msgid "Cart"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/reports/abandoned-report-table.php:148
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/reports/abandoned-report-table.php:148
 msgid "Cart Detail"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/general-settings.php:55
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/general-settings.php:61
 msgid "Cart log"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/general-settings.php:53
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/general-settings.php:57
 msgid "Cart page"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/general-settings.php:58
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/general-settings.php:64
 msgid "Checkout GDPR"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/general-settings.php:53
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/general-settings.php:57
 msgid "Checkout page"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/execute/abandoned-cart.php:280
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/execute/abandoned-cart.php:281
 msgid "Click here to view order"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/execute/recovered.php:234
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/execute/recovered.php:234
 msgid "Close"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/email-popup-settings.php:53
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/email-popup-settings.php:53
 msgid "Color settings"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/plugin.php:262
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/plugin.php:262
 msgid "Continue shopping"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/reports/reports.php:143
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/reports/reports.php:143
 msgid "Coupon"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/email-templates.php:246
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/email-templates.php:246
 msgid "Coupon amount"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/reports/coupon-used-report-table.php:165
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/reports/coupon-used-report-table.php:165
 msgid "Coupon Code"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/email-templates.php:247
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/email-templates.php:247
 msgid "Coupon expiry after x days"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/email-templates.php:118
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/email-templates.php:118
 msgid "Coupon settings"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/reports/recovered-report-table.php:117
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/reports/recovered-report-table.php:117
 msgid "Coupon used"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/reports/product-report-table.php:97
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/reports/product-report-table.php:97
 msgid "Current Abandoned"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/templates/html-date-picker.php:23
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/templates/html-date-picker.php:23
 msgid "Custom"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/reports/abandoned-report-table.php:147
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/reports/recovered-report-table.php:114
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/reports/abandoned-report-table.php:147
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/reports/recovered-report-table.php:114
 msgid "Customer"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/email-templates.php:461
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/reports/abandoned-report-table.php:146
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/email-templates.php:461
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/reports/abandoned-report-table.php:146
 msgid "Date"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/reports/abandoned-report-table.php:385
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/reports/abandoned-report-table.php:384
 msgid "Delete"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/general-settings.php:42
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/general-settings.php:42
 msgid "Delete abandoned records"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/reports/coupon-used-report-table.php:169
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/reports/coupon-used-report-table.php:169
 msgid "Description"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/email-popup-settings.php:45
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/email-popup-settings.php:45
 msgid "Design"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/email-templates.php:245
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/email-templates.php:245
 msgid "Discount type"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/email-popup-settings.php:40
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/email-popup-settings.php:40
 msgid "Dismiss time"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/reports/reports.php:89
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/reports/reports.php:184
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/reports/reports.php:89
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/reports/reports.php:184
 msgid "Display"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/email-settings.php:49
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/email-settings.php:51
 msgid "Display current price"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/email-settings.php:46
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/email-settings.php:48
 msgid ""
 "Display price include tax if tax is enabled & prices entered exclusive of tax"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/email-templates.php:581
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/email-templates.php:581
 msgid "Duplicate"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/email-templates.php:68
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/email-templates.php:68
 msgid "Edit Email Templates"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/admin-settings.php:64
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/admin-settings.php:64
 msgid "Email"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/reports/recovered-report-table.php:115
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/reports/recovered-report-table.php:115
 msgid "Email Address"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/email-settings.php:36
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/email-settings.php:36
 msgid "Email for Abandoned Cart"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/email-settings.php:57
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/email-settings.php:59
 msgid "Email for Abandoned Order"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/admin-settings.php:70
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/admin-settings.php:70
 msgid "Email popup"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/email-popup-settings.php:39
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/email-popup-settings.php:39
 msgid "Email required"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/email-templates.php:105
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/email-templates.php:105
 msgid "Email settings"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/email-settings.php:89
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/email-settings.php:91
 msgid "Email template"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/email-templates.php:112
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/email-templates.php:112
 msgid "Email template builder"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/email-templates.php:51
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/email-templates.php:52
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/email-templates.php:62
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/email-templates.php:76
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/email-templates.php:51
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/email-templates.php:52
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/email-templates.php:62
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/email-templates.php:76
 msgid "Email Templates"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/define.php:276
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/define.php:291
 msgid ""
 "Email templates have been updated. Please re-create your email templates."
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/email-settings.php:60
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/sms-settings.php:50
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/sms-settings.php:58
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/email-settings.php:62
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/sms-settings.php:50
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/sms-settings.php:58
 msgid "Enable"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/email-settings.php:45
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/email-settings.php:47
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/email-settings.php:46
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/email-settings.php:49
 msgid "Enable product link in the product detail in the abandoned emails"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/email-settings.php:48
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/email-settings.php:50
 msgid "Enable product price in the product detail in the abandoned emails"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/email-settings.php:49
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/email-settings.php:47
+msgid ""
+"Enable this option to prevent multiple abandoned cart emails from being sent "
+"to the same visitor. Only one email will be sent per user, even if multiple "
+"carts are abandoned."
+msgstr ""
+
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/email-settings.php:51
 msgid ""
 "Enable to display current product price in the product detail in Abandoned "
 "email, disable to show price saved in abandoned cart"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/email-templates.php:256
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/general-settings.php:59
+msgid "Enable to display the Cart detail, no need click to view cart details."
+msgstr ""
+
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/general-settings.php:60
+msgid ""
+"Enable to display the Send abandoned email buttons and the column of "
+"Abandoned email sending status in the Admin Order List Page; Display the "
+"Send abandoned email buttons on the order editing page."
+msgstr ""
+
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/email-templates.php:256
 msgid "Exclude categories"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/general-settings.php:50
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/general-settings.php:50
 msgid "Exclude people"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/email-templates.php:254
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/email-templates.php:254
 msgid "Exclude products"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/email-templates.php:252
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/email-templates.php:252
 msgid "Exclude sale items"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/reports/abandoned-report-table.php:151
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/general-settings.php:51
+msgid "Exclude user role"
+msgstr ""
+
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/reports/abandoned-report-table.php:151
 msgid "From"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/general-settings.php:59
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/general-settings.php:65
 msgid "GDPR message"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/reports/reports.php:135
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/admin-settings.php:61
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/reports/reports.php:135
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/admin-settings.php:61
 msgid "General"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/email-templates.php:238
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/email-templates.php:238
 msgid "Generate coupon"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/email-settings.php:52
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/email-settings.php:54
 msgid "GetResponse"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/reports/abandoned-report-table.php:105
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/reports/abandoned-report-table.php:202
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/reports/recovered-report-table.php:95
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/reports/recovered-report-table.php:197
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/reports/abandoned-report-table.php:105
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/reports/abandoned-report-table.php:202
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/reports/recovered-report-table.php:95
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/reports/recovered-report-table.php:197
 msgid "Guest"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/execute/abandoned-cart.php:275
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/execute/abandoned-cart.php:276
 msgid "Have a recovered order from abandoned cart"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/email-templates.php:159
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/email-templates.php:159
 msgid "Heading"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/email-templates.php:128
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/email-templates.php:129
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/email-templates.php:128
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/email-templates.php:129
 msgid "Hey !! You left something in your cart"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/email-settings.php:112
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/email-settings.php:114
 msgid "hours"
 msgstr ""
 
@@ -402,445 +428,475 @@ msgstr ""
 msgid "https://villatheme.com/extensions/woo-abandoned-cart-recovery/"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/reports/recovered-report-table.php:113
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/reports/recovered-report-table.php:113
 msgid "ID"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/reports/coupon-used-report-table.php:164
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/reports/coupon-used-report-table.php:164
 msgid "Id"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/general-settings.php:55
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/general-settings.php:61
 msgid "If enable, add to cart or remove cart action will be record."
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/general-settings.php:56
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/general-settings.php:62
 msgid ""
 "If enable, load guest information checkout page if the guest already saved."
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/general-settings.php:39
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/general-settings.php:39
 msgid "If enable, the plugin will track abandoned cart of guests"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/general-settings.php:37
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/general-settings.php:37
 msgid "If enable, the plugin will track abandoned cart of logged users"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/general-settings.php:58
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/general-settings.php:64
 msgid ""
 "If enabled, a GDPR notice will display after the email input field on the "
 "checkout page."
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/general-settings.php:57
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/general-settings.php:63
 msgid ""
 "If enabled, load guest phone number with the country code on the checkout "
 "page if the guest has already saved."
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/general-settings.php:40
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/general-settings.php:40
 msgid ""
 "If enabled, the plugin will only track abandoned carts of guests if the "
 "input email is available"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/general-settings.php:60
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/general-settings.php:66
 msgid "Ignore Email Button Text"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/email-templates.php:251
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/general-settings.php:59
+msgid "Immediate show Cart detail in Abandoned list"
+msgstr ""
+
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/email-templates.php:251
 msgid "Individual use only"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/email-popup-settings.php:52
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/email-popup-settings.php:52
 msgid "Invalid email notice"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/reports/abandoned-report-table.php:295
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/reports/abandoned-report-table.php:295
 msgid "item"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/reports/abandoned-report-table.php:295
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/reports/abandoned-report-table.php:295
 msgid "items"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/email-templates.php:258
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/email-templates.php:258
 msgid "Limit usage to X items"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/general-settings.php:57
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/general-settings.php:63
 msgid "Load full phone number"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/general-settings.php:56
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/general-settings.php:62
 msgid "Load guest information"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/email-templates.php:249
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/email-templates.php:249
 msgid "Maximum spend"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/reports/abandoned-report-table.php:101
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/reports/recovered-report-table.php:91
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/reports/abandoned-report-table.php:101
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/reports/recovered-report-table.php:91
 msgid "Member"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/email-templates.php:248
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/email-templates.php:248
 msgid "Minimum spend"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/email-settings.php:109
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/email-settings.php:111
 msgid "minutes"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/reports/recovered-report-table.php:119
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/reports/recovered-report-table.php:119
 msgid "More Info"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/ajax.php:218
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/ajax.php:218
 msgid "No id to remove record"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/email-templates.php:71
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/email-templates.php:71
 msgid "Not Found"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/email-templates.php:72
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/email-templates.php:72
 msgid "Not found in Trash"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/email-templates.php:236
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/email-templates.php:236
 msgid "Note: This coupon won't be applied for order reminder email"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/email-settings.php:43
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/email-settings.php:44
 msgid "Notification to Admin"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/email-settings.php:44
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/email-settings.php:45
 msgid "Notification to custom email"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/reports/coupon-used-report-table.php:166
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/reports/coupon-used-report-table.php:166
 msgid "Number of Used"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/email-settings.php:50
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/email-settings.php:52
 msgid ""
 "Once abandoned email is sent out to customers, use Active Campaign to "
 "achieve customer email"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/email-settings.php:52
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/email-settings.php:54
 msgid ""
 "Once abandoned email is sent out to customers, use GetResponse to achieve "
 "customer email"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/email-settings.php:51
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/email-settings.php:53
 msgid ""
 "Once abandoned email is sent out to customers, use Sendinblue to achieve "
 "customer email"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/email-settings.php:61
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/sms-settings.php:59
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/email-settings.php:47
+msgid "One-time abandoned cart email"
+msgstr ""
+
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/general-settings.php:53
+msgid ""
+"Only send email for abandoned cart with cart total value higher this value. "
+"Leave blank to disable."
+msgstr ""
+
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/email-settings.php:63
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/sms-settings.php:59
 msgid "Order status"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/email-templates.php:63
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/email-templates.php:63
 msgid "Parent Email"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/email-popup-settings.php:35
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/email-popup-settings.php:35
 msgid "Pop-up config"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/email-templates.php:60
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/email-templates.php:60
 msgctxt "Post Type General Name"
 msgid "Email Templates"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/email-templates.php:61
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/email-templates.php:61
 msgctxt "Post Type Singular Name"
 msgid "Email Templates"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/email-settings.php:46
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/email-settings.php:48
 msgid "Price include tax"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/email-templates.php:535
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/send-email-cron.php:314
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/send-email-cron.php:688
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/email-templates.php:535
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/send-email-cron.php:315
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/send-email-cron.php:721
 msgid "Price:"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/email-templates.php:144
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/email-templates.php:144
 msgid "PRO: Use WC Email Template Customizer"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/reports/reports.php:139
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/reports/reports.php:139
 msgid "Product"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/email-templates.php:255
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/email-templates.php:255
 msgid "Product categories"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/email-settings.php:45
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/email-settings.php:47
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/email-settings.php:46
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/email-settings.php:49
 msgid "Product link"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/reports/product-report-table.php:96
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/reports/product-report-table.php:96
 msgid "Product Name"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/email-settings.php:48
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/email-settings.php:50
 msgid "Product price"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/email-templates.php:253
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/email-templates.php:253
 msgid "Products"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/email-templates.php:534
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/send-email-cron.php:316
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/send-email-cron.php:689
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/email-templates.php:534
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/send-email-cron.php:317
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/send-email-cron.php:722
 msgid "Quantity:"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/general-settings.php:54
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/general-settings.php:58
 msgid "Recover link to"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/email-templates.php:460
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/reports/abandoned-report-table.php:225
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/reports/product-report-table.php:99
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/email-templates.php:460
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/reports/abandoned-report-table.php:225
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/reports/product-report-table.php:99
 msgid "Recovered"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/reports/recovered-report-table.php:116
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/reports/recovered-report-table.php:116
 msgid "Recovered Cart Detail"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/reports/recovered-report-table.php:82
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/reports/recovered-report-table.php:82
 msgid "Recovered Carts"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/reports/recovered-report-table.php:118
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/reports/recovered-report-table.php:118
 msgid "Recovered Date"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/email-popup-settings.php:41
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/email-popup-settings.php:41
 msgid "Redirect after Add to cart"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/reports/abandoned-report-table.php:150
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/reports/abandoned-report-table.php:150
 msgid "Reminder logs"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/email-settings.php:41
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/email-settings.php:41
 msgid "Reply Emails to"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/reports/reports.php:72
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/reports/reports.php:131
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/reports/reports.php:72
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/reports/reports.php:131
 msgid "Reports"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/sms-settings.php:31
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/sms-settings.php:31
 msgid "Routee config"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/admin-settings.php:83
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/admin-settings.php:83
 msgid "Save settings"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/email-templates.php:70
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/email-templates.php:70
 msgid "Search Email Templates"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/email-templates.php:241
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/email-templates.php:241
 msgid "Select coupon"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/general-settings.php:41
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/general-settings.php:41
 msgid "Select the time to mark a cart as abandoned with guests"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/general-settings.php:38
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/general-settings.php:38
 msgid "Select the time to mark a cart as abandoned with logged in users"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/email-templates.php:169
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/email-templates.php:169
 msgid "Send"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/email-settings.php:43
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/email-settings.php:44
 msgid "Send a notification email to admin whenever a cart is recovered"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/reports/abandoned-report-table.php:382
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/reports/abandoned-report-table.php:381
 msgid "Send abandoned cart email"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/email-settings.php:87
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/email-settings.php:89
 msgid "Send after"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/email-settings.php:40
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/general-settings.php:52
+msgid "Send email exclude provider"
+msgstr ""
+
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/general-settings.php:53
+msgid "Send email minimum cart total"
+msgstr ""
+
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/email-settings.php:40
 msgid "Send mail reminder to guest"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/email-settings.php:39
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/email-settings.php:39
 msgid "Send mail reminder to members"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/email-settings.php:62
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/email-settings.php:80
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/email-settings.php:64
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/email-settings.php:82
 msgid "Send mail rules"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/email-settings.php:51
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/email-settings.php:53
 msgid "Sendinblue"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery.php:94
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/admin-settings.php:40
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/admin-settings.php:41
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/admin-settings.php:53
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery.php:95
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/admin-settings.php:40
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/admin-settings.php:41
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/admin-settings.php:53
 msgid "Settings"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/admin-settings.php:67
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/general-settings.php:60
+msgid "Show Abandoned order options in Admin Order"
+msgstr ""
+
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/admin-settings.php:67
 msgid "SMS"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/sms-settings.php:47
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/sms-settings.php:47
 msgid "SMS for Abandoned Cart"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/sms-settings.php:55
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/sms-settings.php:55
 msgid "SMS for Abandoned Order"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/reports/abandoned-report-table.php:149
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/general-settings.php:52
+msgid "Split email provider by &quot;,&quot; eg: @dev.com,@track.net"
+msgstr ""
+
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/reports/abandoned-report-table.php:149
 msgid "Status"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/email-popup-settings.php:50
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/email-popup-settings.php:50
 msgid "Sub title"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/email-templates.php:148
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/email-templates.php:148
 msgid "Subject"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/reports/recovered-report-table.php:244
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/reports/recovered-report-table.php:244
 msgid "Tax: "
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/email-templates.php:204
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/email-popup-settings.php:48
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/email-templates.php:204
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/email-popup-settings.php:48
 msgid "Template"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/email-templates.php:205
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/email-templates.php:205
 msgid "Template 1"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/email-templates.php:164
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/email-templates.php:164
 msgid "Test email"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/ajax.php:151
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/ajax.php:151
 msgid "This product is not exist"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/email-popup-settings.php:49
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/email-popup-settings.php:49
 msgid "Title"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/templates/html-date-picker.php:18
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/templates/html-date-picker.php:18
 msgid "Today"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/reports/recovered-report-table.php:243
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/reports/recovered-report-table.php:243
 msgid "Total: "
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/general-settings.php:39
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/general-settings.php:39
 msgid "Tracking Guest's Cart"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/general-settings.php:40
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/general-settings.php:40
 msgid "Tracking if email available"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/general-settings.php:37
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/general-settings.php:37
 msgid "Tracking Member's Cart"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/reports/coupon-used-report-table.php:168
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/reports/coupon-used-report-table.php:168
 msgid "Type"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/email-settings.php:88
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/email-settings.php:90
 msgid "Unit"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/data.php:307
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/data.php:307
 msgid "Unknown Browser"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/data.php:266
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/data.php:266
 msgid "Unknown OS Platform"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/email-settings.php:201
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/email-settings.php:203
 msgid "Unlock limit"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/admin-settings.php:289
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/admin-settings.php:289
 msgid "Unlock this feature"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/plugin.php:263
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/plugin.php:263
 msgid "Unsubscribe abandoned cart reminder"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/reports/abandoned-report-table.php:227
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/reports/abandoned-report-table.php:227
 msgid "Unsubscribed"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/email-templates.php:69
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/email-templates.php:69
 msgid "Update Email Templates"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/email-templates.php:257
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/email-templates.php:257
 msgid "Usage limit per coupon"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/email-templates.php:259
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/email-templates.php:259
 msgid "Usage limit per user"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/email-templates.php:236
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/email-templates.php:236
 msgid "Use coupon"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/email-templates.php:152
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/email-templates.php:152
 msgid "Use WC's header & footer default"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/templates/html-date-picker.php:39
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/templates/html-date-picker.php:39
 msgid "View"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/email-templates.php:65
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/email/email-templates.php:65
 msgid "View Template"
 msgstr ""
 
@@ -848,31 +904,31 @@ msgstr ""
 msgid "VillaTheme"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/reports/recovered-report-table.php:200
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/reports/recovered-report-table.php:200
 msgid "Visitor"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/templates/html-date-picker.php:19
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/templates/html-date-picker.php:19
 msgid "Yesterday"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/ajax.php:212
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/ajax.php:212
 msgid "You have no permission to do this action"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/general-settings.php:75
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/general-settings.php:81
 msgid ""
 "Your WP Cron is disabled. If you want to use WP Cron, open file wp-config."
 "php and delete row define( \"DISABLE_WP_CRON\", true );."
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/general-settings.php:87
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/settings/general-settings.php:93
 msgid ""
 "Your WP Cron is enabled. If you want to use Cronjob server, open file wp-"
 "config.php and add row define( \"DISABLE_WP_CRON\", true );. Access your "
 "server and config with command:"
 msgstr ""
 
-#: C:/villatheme-2017/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/execute/abandoned-cart.php:278
+#: D:/git/free-version/woo-abandoned-cart-recovery/woo-abandoned-cart-recovery/includes/execute/abandoned-cart.php:279
 msgid "You’ve received a recovered order from abandoned cart."
 msgstr ""

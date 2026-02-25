@@ -217,6 +217,8 @@ class Aes_Ctr extends Aes {
 	 * @since 2.8
 	 */
 	private static function urs( $a, $b ) {
+		$a = (int) $a;
+		$b = (int) $b;
 		$a &= 0xffffffff;
 		$b &= 0x1f; // (bounds check)
 		if ( $a & 0x80000000 && $b > 0 ) { // if left-most bit set
