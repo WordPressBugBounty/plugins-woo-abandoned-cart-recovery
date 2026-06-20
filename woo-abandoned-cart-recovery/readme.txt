@@ -3,8 +3,8 @@ Contributors: villatheme, mrt3vn
 Donate link: https://www.villatheme.com/donate
 Tags: abandoned cart pro for woocommerce, woocommerce, woocommerce abandoned cart, woocommerce abandoned cart email, woocommerce abandoned cart recovery
 Requires at least: 5.0
-Tested up to: 6.9
-WC tested up to: 10.5
+Tested up to: 7.0
+WC tested up to: 10.8.1
 Requires PHP: 7.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -266,6 +266,10 @@ https://youtu.be/HTFTNB9q-Ns
 4. Reports
 
 == Changelog ==
+/**1.1.12 - 2026.06.20 **/
+- Updated: VillaTheme support
+- Update: Compatible with WP 7.0 and WC 10.8.1
+
 /**1.1.11 - 2026.02.25 **/
 - Updated: update support class
 
