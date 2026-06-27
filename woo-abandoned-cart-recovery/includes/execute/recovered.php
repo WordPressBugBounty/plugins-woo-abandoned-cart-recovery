@@ -8,8 +8,8 @@
 
 namespace WACV\Inc\Execute;
 
-use WACV\Inc\Aes_Ctr;
 use WACV\Inc\Data;
+use WACV\Inc\Recovery_Token;
 use WACV\Inc\Query_DB;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -28,12 +28,14 @@ class Recovered {
 		$this->query    = Query_DB::get_instance();
 		$this->settings = Data::get_instance();
 
-		add_action( 'template_redirect', array( $this, 'handle_callback_link' ) );
-		add_action( 'woocommerce_before_checkout_form', array( $this, 'add_coupon' ) );
-		add_action( 'woocommerce_before_cart', array( $this, 'add_coupon' ) );
-		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_modal_script' ) );
-		add_action( 'wp_footer', array( $this, 'load_unsubscribe_modal' ) );
-	}
+        add_action( 'template_redirect', array( $this, 'handle_callback_link' ), 1 );
+        add_filter( 'login_redirect', array( $this, 'filter_login_redirect' ), 99, 3 );
+        add_filter( 'woocommerce_login_redirect', array( $this, 'filter_wc_login_redirect' ), 99, 2 );
+        add_action( 'woocommerce_before_checkout_form', array( $this, 'add_coupon' ) );
+        add_action( 'woocommerce_before_cart', array( $this, 'add_coupon' ) );
+        add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_modal_script' ) );
+        add_action( 'wp_footer', array( $this, 'load_unsubscribe_modal' ) );
+    }
 
 	public static function get_instance() {
 
@@ -49,97 +51,77 @@ class Recovered {
 		if ( is_admin() ) {
 			return;
 		}
-		$this->handle_recover_cart();
-		$this->handle_unsubscribe();
-		$this->handle_tracking_open();
-		$this->handle_recover_order();
-	}
 
-	public function handle_recover_cart() {
-		if ( isset( $_REQUEST['_wacv_admin_nonce'] ) && ! wp_verify_nonce( wc_clean( wp_unslash( $_REQUEST['_wacv_admin_nonce'] ) ), 'wacv_admin_nonce' ) ) {
-			return;
-		}
-		if ( isset( $_GET['wacv_recover'] ) && $_GET['wacv_recover'] == 'cart_link' ) {
-			if ( '' == session_id() ) {
-				@session_start();
-			}
-			if ( isset( $_GET['valid'] ) ) {
-				$pass          = get_option( 'wacv_private_key' );
-				$validate_code = str_replace( ' ', '+', rawurldecode( sanitize_text_field( $_GET['valid'] ) ) );
-				$validate_code = rawurldecode( Aes_Ctr::decrypt( $validate_code, $pass, 256 ) );
+        if ( is_user_logged_in() && $this->has_pending_recovery() ) {
+            $redirect_url = $this->maybe_complete_pending_recovery( wp_get_current_user() );
 
-				$explode       = explode( '&', $validate_code );
-				$acr_id        = isset( $explode[0] ) ? $explode[0] : '';
-				$sent_email_id = isset( $explode[1] ) ? $explode[1] : '';
-				$temp_id       = isset( $explode[2] ) ? $explode[2] : '';
-				$coupon        = isset( $explode[3] ) ? $explode[3] : '';
+            if ( $redirect_url ) {
+                wp_safe_redirect( $redirect_url );
+                exit;
+            }
 
-//				update_option( 'test_click_' . $sent_email_id, $_SERVER );
-				$this->query->update_email_tracking( $sent_email_id, 'clicked' );
+            $this->deny_recovery_access();
+        }
 
-				global $wpdb;
+        $this->handle_recover_cart();
+        $this->handle_unsubscribe();
+        $this->handle_tracking_open();
+        $this->handle_recover_order();
+    }
 
-				$query = "SELECT * FROM {$this->query->cart_record_tb} WHERE id = %d LIMIT 1";
-				$acr   = $wpdb->get_results( $wpdb->prepare( $query, $acr_id ) );// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.DirectQuery
-//				$this->query->update_abd_cart_record( array( 'abandoned_cart_time' => current_time( 'timestamp' ) ), array( 'id' => $acr_id ) );
+    public function handle_recover_cart() {
+        if ( isset( $_REQUEST['_wacv_admin_nonce'] ) && ! wp_verify_nonce( wc_clean( wp_unslash( $_REQUEST['_wacv_admin_nonce'] ) ), 'wacv_admin_nonce' ) ) {
+            return;
+        }
+        if ( isset( $_GET['wacv_recover'] ) && $_GET['wacv_recover'] == 'cart_link' && isset( $_GET['valid'] ) ) {
+            if ( '' == session_id() ) {
+                @session_start();
+            }
 
-				if ( count( $acr ) > 0 ) {
-					$user_id = $acr[0]->user_id;
+            $valid_token = wp_unslash( $_GET['valid'] );
+            $token       = Recovery_Token::verify( $valid_token, Recovery_Token::TYPE_CART );
 
-					if ( $user_id < 100000000 ) {
-						wp_set_current_user( $user_id );
-						if ( current_user_can( 'manage_options' ) ) {
-							wp_safe_redirect( site_url() );
-							exit;
-						}
-						wp_set_auth_cookie( $user_id );
+            if ( ! $token ) {
+                wp_safe_redirect( home_url() );
+                exit;
+            }
 
-						$saved_cart = get_user_meta( $user_id, '_woocommerce_persistent_cart_' . get_current_blog_id(), true );
+            $acr_id = isset( $token['acr_id'] ) ? (int) $token['acr_id'] : 0;
 
-						if ( ! $saved_cart ) {
-							wp_safe_redirect( site_url() );
-							exit;
-						}
+            if ( ! $acr_id ) {
+                wp_safe_redirect( home_url() );
+                exit;
+            }
 
-						$cart = WC()->session->cart;
+            global $wpdb;
+            $query = "SELECT user_id FROM {$this->query->cart_record_tb} WHERE id = %d LIMIT 1";
+            // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.DirectQuery
+            $cart_user_id = $wpdb->get_var( $wpdb->prepare( $query, $acr_id ) );
 
-						if ( empty( $cart ) || ! is_array( $cart ) || 0 === count( $cart ) ) {
-							WC()->session->cart = $saved_cart['cart'];
-						}
+            if ( ! $cart_user_id ) {
+                wp_safe_redirect( home_url() );
+                exit;
+            }
 
-						$this->query::set_session( 'wacv_order_type', 1 );
-						$this->query::set_session( 'wacv_recover_id', $acr_id );
-						$this->query::set_session( 'wacv_temp_id', $temp_id );
+            if ( (int) $cart_user_id < 100000000 && ! is_user_logged_in() ) {
+                $this->redirect_to_login_for_recovery(
+                    array(
+                        'wacv_recover' => 'cart_link',
+                        'valid'        => $valid_token,
+                    )
+                );
+            }
 
-					} else {
-						$cookie_time = current_time( 'timestamp' ) + 86400;
-						setCookie( 'wacv_get_email', true, $cookie_time, '/' );
+            $redirect_url = $this->complete_cart_recovery( $valid_token );
 
-						$rec_cart = json_decode( $acr[0]->abandoned_cart_info, true )['cart'];
-						WC()->session->set_customer_session_cookie( true );
-						$guest_info = $this->recover_get_info( $user_id );
+            if ( $redirect_url ) {
+                wp_safe_redirect( $redirect_url );
+                exit;
+            }
 
-						$this->query::set_session( 'cart', $rec_cart );
-						$this->query::set_session( 'user_id', $user_id );
-						$this->query::set_session( 'wacv_recover_id', $acr_id );
-						$this->query::set_session( 'guest_info', $guest_info );
-						$this->query::set_session( 'wacv_order_type', 1 );
-						$this->query::set_session( 'wacv_temp_id', $temp_id );
-					}
-					if ( $coupon ) {
-						WC()->session->set( 'wacv_coupon_to_add', $coupon );
-					}
-
-					if ( Data::get_param( 'direct_recover_link' ) ) {
-						wp_safe_redirect( wc_get_checkout_url() );
-					} else {
-						wp_safe_redirect( wc_get_cart_url() );
-					}
-					exit;
-				}
-			}
-		}
-	}
+            $this->deny_recovery_access();
+        }
+    }
 
 	public function recover_get_info( $user_id ) {
 		$result = $this->query->get_guest_info( $user_id );
@@ -174,22 +156,21 @@ class Recovered {
 		);
 	}
 
-	public function handle_unsubscribe() {
-		if ( isset( $_REQUEST['_wacv_admin_nonce'] ) && ! wp_verify_nonce( wc_clean( wp_unslash( $_REQUEST['_wacv_admin_nonce'] ) ), 'wacv_admin_nonce' ) ) {
-			return;
-		}
-		if ( isset( $_GET['wacv_unsubscribe'] ) ) {
-			$pass   = get_option( 'wacv_private_key' );
-			$link   = str_replace( ' ', '+', rawurldecode( sanitize_text_field( $_GET['wacv_unsubscribe'] ) ) );
-			$acr_id = rawurldecode( Aes_Ctr::decrypt( $link, $pass, 256 ) );
+    public function handle_unsubscribe() {
+        if ( isset( $_REQUEST['_wacv_admin_nonce'] ) && ! wp_verify_nonce( wc_clean( wp_unslash( $_REQUEST['_wacv_admin_nonce'] ) ), 'wacv_admin_nonce' ) ) {
+            return;
+        }
+        if ( isset( $_GET['wacv_unsubscribe'] ) ) {
+            $token  = Recovery_Token::verify( wp_unslash( $_GET['wacv_unsubscribe'] ), Recovery_Token::TYPE_UNSUB_CART );
+            $acr_id = $token && isset( $token['acr_id'] ) ? (int) $token['acr_id'] : 0;
 
-			if ( strlen( (int) $acr_id ) == strlen( $acr_id ) ) {
-				WC()->cart->empty_cart();
-				$this->query->update_abd_cart_record( array( 'unsubscribe_link' => 1 ), array( 'id' => $acr_id ) );
-				$this->unsub_modal = true;
-			}
-		}
-	}
+            if ( $acr_id ) {
+                WC()->cart->empty_cart();
+                $this->query->update_abd_cart_record( array( 'unsubscribe_link' => 1 ), array( 'id' => $acr_id ) );
+                $this->unsub_modal = true;
+            }
+        }
+    }
 
 	public function enqueue_modal_script() {
 		if ( ! $this->unsub_modal ) {
@@ -255,75 +236,522 @@ class Recovered {
 		<?php
 	}
 
-	public function handle_tracking_open() {
-		if ( isset( $_REQUEST['_wacv_admin_nonce'] ) && ! wp_verify_nonce( wc_clean( wp_unslash( $_REQUEST['_wacv_admin_nonce'] ) ), 'wacv_admin_nonce' ) ) {
-			return;
-		}
-		if ( isset( $_GET['wacv_open_email'] ) ) {
-			$pass          = get_option( 'wacv_private_key' );
-			$validate_code = str_replace( ' ', '+', rawurldecode( sanitize_text_field( $_GET['wacv_open_email'] ) ) );
-			$validate_code = rawurldecode( Aes_Ctr::decrypt( $validate_code, $pass, 256 ) );
-			$pos_acr       = strpos( $validate_code, '&' );
-			$pos_email_id  = strpos( $validate_code, '&', $pos_acr + 1 );
+    public function handle_tracking_open() {
+        if ( isset( $_REQUEST['_wacv_admin_nonce'] ) && ! wp_verify_nonce( wc_clean( wp_unslash( $_REQUEST['_wacv_admin_nonce'] ) ), 'wacv_admin_nonce' ) ) {
+            return;
+        }
+        if ( isset( $_GET['wacv_open_email'] ) ) {
+            $token = Recovery_Token::verify( wp_unslash( $_GET['wacv_open_email'] ), Recovery_Token::TYPE_OPEN );
 
-			$acr_id        = intval( substr( $validate_code, 0, $pos_acr ) );
-			$sent_email_id = $pos_email_id ? substr( $validate_code, $pos_acr + 1, $pos_email_id - $pos_acr - 1 ) : substr( $validate_code, $pos_acr + 1 );
-			$this->query->update_email_tracking( $sent_email_id, 'opened' );
+            if ( ! $token ) {
+                return;
+            }
 
-		}
-	}
+            $ref_id        = isset( $token['ref_id'] ) ? (int) $token['ref_id'] : 0;
+            $sent_email_id = isset( $token['sent_email_id'] ) ? $token['sent_email_id'] : '';
 
-	public function handle_recover_order() {
-		if ( isset( $_REQUEST['_wacv_admin_nonce'] ) && ! wp_verify_nonce( wc_clean( wp_unslash( $_REQUEST['_wacv_admin_nonce'] ) ), 'wacv_admin_nonce' ) ) {
-			return;
-		}
-		if ( isset( $_GET['wacv_recover'] ) && $_GET['wacv_recover'] == 'order_link' ) {
-			if ( isset( $_GET['valid'] ) ) {
-				$pass             = get_option( 'wacv_private_key' );
-				$validate_code    = str_replace( ' ', '+', rawurldecode( sanitize_text_field( $_GET['valid'] ) ) );
-				$validate_code    = rawurldecode( Aes_Ctr::decrypt( $validate_code, $pass, 256 ) );
-				$order_id_pos     = strpos( $validate_code, '&' );
-				$sent_mail_id_pos = strpos( $validate_code, '&', $order_id_pos + 1 );
-				$order_id         = intval( substr( $validate_code, 0, $order_id_pos ) );
-				$sent_email_id    = $sent_mail_id_pos ? substr( $validate_code, 0, $order_id_pos ) : substr( $validate_code, $order_id_pos + 1 );
-				$order            = wc_get_order( $order_id );
+            if ( ! $ref_id || ! $sent_email_id ) {
+                return;
+            }
 
-				if ( $order ) {
-					$check_stt = $order->get_status();
+            global $wpdb;
+            $query = "SELECT id FROM {$this->query->email_history_tb} WHERE sent_email_id = %s AND acr_id = %d LIMIT 1";
+            // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared
+            $history_id = $wpdb->get_var( $wpdb->prepare( $query, $sent_email_id, $ref_id ) );
 
-					$this->query->update_email_tracking( $sent_email_id, 'clicked' );
+            if ( $history_id ) {
+                $this->query->update_email_tracking( $sent_email_id, 'opened' );
+            }
+        }
+    }
 
-					if ( $check_stt == 'cancelled' ) {
-						$order->update_status( 'pending' );
-					}
+    public function handle_recover_order() {
+        if ( isset( $_REQUEST['_wacv_admin_nonce'] ) && ! wp_verify_nonce( wc_clean( wp_unslash( $_REQUEST['_wacv_admin_nonce'] ) ), 'wacv_admin_nonce' ) ) {
+            return;
+        }
+        if ( isset( $_GET['wacv_recover'] ) && $_GET['wacv_recover'] == 'order_link' ) {
+            if ( isset( $_GET['valid'] ) ) {
+                $valid_token = wp_unslash( $_GET['valid'] );
+                $token       = Recovery_Token::verify( $valid_token, Recovery_Token::TYPE_ORDER );
 
-					$checkout_url = ( $order->get_checkout_payment_url() );
-					wp_safe_redirect( $checkout_url );
-				} else {
-					wp_safe_redirect( home_url() );
-				}
-				exit;
+                if ( ! $token ) {
+                    wp_safe_redirect( home_url() );
+                    exit;
+                }
 
-			} elseif ( isset( $_GET['unsubscribe'] ) ) {
-				$pass          = get_option( 'wacv_private_key' );
-				$validate_code = str_replace( ' ', '+', rawurldecode( sanitize_text_field( $_GET['unsubscribe'] ) ) );
-				$validate_code = rawurldecode( Aes_Ctr::decrypt( $validate_code, $pass, 256 ) );
-				$order_id      = $validate_code;
-				$wc_order      = wc_get_order( $order_id );
-				$wc_order->update_meta_data( '_wacv_reminder_unsubscribe', 1 );
-				$wc_order->save_meta_data();
-				wp_safe_redirect( home_url() );
-				exit;
-			}
-		}
-	}
+                if ( ! is_user_logged_in() ) {
+                    $this->redirect_to_login_for_recovery(
+                        array(
+                            'wacv_recover' => 'order_link',
+                            'valid'        => $valid_token,
+                        )
+                    );
+                }
 
-	public function add_coupon() {
-		$coupon = WC()->session->get( 'wacv_coupon_to_add' );
-		if ( $coupon ) {
-			WC()->cart->apply_coupon( sanitize_text_field( $coupon ) );
-			WC()->session->__unset( 'wacv_coupon_to_add' );
-			WC()->cart->calculate_totals();
-		}
-	}
+                $redirect_url = $this->complete_order_recovery( $valid_token );
+
+                if ( $redirect_url ) {
+                    wp_safe_redirect( $redirect_url );
+                    exit;
+                }
+
+                $this->deny_recovery_access();
+
+            } elseif ( isset( $_GET['unsubscribe'] ) ) {
+                $token    = Recovery_Token::verify( wp_unslash( $_GET['unsubscribe'] ), Recovery_Token::TYPE_UNSUB_ORDER );
+                $order_id = $token && isset( $token['order_id'] ) ? (int) $token['order_id'] : 0;
+                $wc_order = $order_id ? wc_get_order( $order_id ) : false;
+
+                if ( $wc_order ) {
+                    $wc_order->update_meta_data( '_wacv_reminder_unsubscribe', 1 );
+                    $wc_order->save_meta_data();
+                }
+
+                wp_safe_redirect( home_url() );
+                exit;
+            }
+        }
+    }
+
+    public function add_coupon() {
+        $coupon = WC()->session->get( 'wacv_coupon_to_add' );
+        if ( $coupon ) {
+            WC()->cart->apply_coupon( sanitize_text_field( $coupon ) );
+            WC()->session->__unset( 'wacv_coupon_to_add' );
+            WC()->cart->calculate_totals();
+        }
+    }
+
+    /**
+     * Complete pending recovery after wp-login.php authentication.
+     *
+     * @param string           $redirect_to           Default redirect URL.
+     * @param string           $requested_redirect_to Requested redirect URL.
+     * @param \WP_User|\WP_Error $user                Authenticated user.
+     *
+     * @return string
+     */
+    public function filter_login_redirect( $redirect_to, $requested_redirect_to, $user ) {
+        if ( ! $user || is_wp_error( $user ) || ! $this->has_pending_recovery() ) {
+            return $redirect_to;
+        }
+
+        $target = $this->maybe_complete_pending_recovery( $user );
+
+        return $target ? $target : $this->get_recovery_failure_redirect();
+    }
+
+    /**
+     * Complete pending recovery after WooCommerce my-account login.
+     *
+     * @param string   $redirect Default redirect URL.
+     * @param \WP_User $user     Authenticated user.
+     *
+     * @return string
+     */
+    public function filter_wc_login_redirect( $redirect, $user ) {
+        if ( ! $user || is_wp_error( $user ) || ! $this->has_pending_recovery() ) {
+            return $redirect;
+        }
+
+        $target = $this->maybe_complete_pending_recovery( $user );
+
+        return $target ? $target : $this->get_recovery_failure_redirect();
+    }
+
+    /**
+     * Complete cart recovery and return the destination URL.
+     *
+     * @param string        $valid_token Signed recovery token.
+     * @param \WP_User|null $user        Optional user for post-login recovery.
+     *
+     * @return string
+     */
+    private function complete_cart_recovery( $valid_token, $user = null ) {
+        $token = Recovery_Token::verify( $valid_token, Recovery_Token::TYPE_CART );
+
+        if ( ! $token ) {
+            return '';
+        }
+
+        $acr_id        = isset( $token['acr_id'] ) ? (int) $token['acr_id'] : 0;
+        $sent_email_id = isset( $token['sent_email_id'] ) ? $token['sent_email_id'] : '';
+        $temp_id       = isset( $token['temp_id'] ) ? (int) $token['temp_id'] : 0;
+        $coupon        = isset( $token['coupon'] ) ? $token['coupon'] : '';
+
+        if ( ! $acr_id || ! $this->query->email_history_matches( $sent_email_id, $acr_id, 'email' ) ) {
+            return '';
+        }
+
+        global $wpdb;
+
+        $query = "SELECT * FROM {$this->query->cart_record_tb} WHERE id = %d LIMIT 1";
+        // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.DirectQuery
+        $acr = $wpdb->get_results( $wpdb->prepare( $query, $acr_id ) );
+
+        if ( empty( $acr ) ) {
+            return '';
+        }
+
+        $user_id = (int) $acr[0]->user_id;
+
+        if ( $user_id < 100000000 ) {
+            $current_user_id = $user ? (int) $user->ID : get_current_user_id();
+
+            if ( ! $current_user_id || $current_user_id !== $user_id ) {
+                return '';
+            }
+        } else {
+            $guest_info = $this->recover_get_info( $user_id );
+
+            if ( $user || is_user_logged_in() ) {
+                $check_user  = $user ? $user : wp_get_current_user();
+                $guest_email = isset( $guest_info['billing_email'] ) ? $guest_info['billing_email'] : '';
+
+                if ( ! $guest_email || ! $this->emails_match( $check_user->user_email, $guest_email ) ) {
+                    return '';
+                }
+            }
+        }
+
+        $this->ensure_wc_session();
+        $this->query->update_email_tracking( $sent_email_id, 'clicked' );
+
+        if ( $user_id < 100000000 ) {
+            $abd_cart_info = json_decode( $acr[0]->abandoned_cart_info, true );
+            $rec_cart      = ! empty( $abd_cart_info['cart'] ) ? $abd_cart_info['cart'] : array();
+
+            if ( ! empty( $rec_cart ) ) {
+                $this->query::set_session( 'cart', $rec_cart );
+            } else {
+                $saved_cart = get_user_meta( $user_id, '_woocommerce_persistent_cart_' . get_current_blog_id(), true );
+                if ( empty( $saved_cart['cart'] ) ) {
+                    return '';
+                }
+                WC()->session->cart = $saved_cart['cart'];
+            }
+        } else {
+            $cookie_time = current_time( 'timestamp' ) + 86400;
+            setCookie( 'wacv_get_email', true, $cookie_time, '/' );
+
+            $abd_cart_info = json_decode( $acr[0]->abandoned_cart_info, true );
+            $rec_cart      = ! empty( $abd_cart_info['cart'] ) ? $abd_cart_info['cart'] : array();
+
+            if ( empty( $rec_cart ) ) {
+                return '';
+            }
+
+            $guest_info = $this->recover_get_info( $user_id );
+
+            $this->query::set_session( 'cart', $rec_cart );
+            $this->query::set_session( 'user_id', $user_id );
+            $this->query::set_session( 'guest_info', $guest_info );
+        }
+
+        $this->query::set_session( 'wacv_order_type', 1 );
+        $this->query::set_session( 'wacv_recover_id', $acr_id );
+        $this->query::set_session( 'wacv_temp_id', $temp_id );
+
+        if ( $coupon ) {
+            WC()->session->set( 'wacv_coupon_to_add', $coupon );
+        }
+
+        return Data::get_param( 'direct_recover_link' ) ? wc_get_checkout_url() : wc_get_cart_url();
+    }
+
+    /**
+     * Complete order recovery and return the destination URL.
+     *
+     * @param string        $valid_token Signed recovery token.
+     * @param \WP_User|null $user        Optional user for post-login recovery.
+     *
+     * @return string
+     */
+    private function complete_order_recovery( $valid_token, $user = null ) {
+        $token = Recovery_Token::verify( $valid_token, Recovery_Token::TYPE_ORDER );
+
+        if ( ! $token ) {
+            return '';
+        }
+
+        $order_id      = isset( $token['order_id'] ) ? (int) $token['order_id'] : 0;
+        $sent_email_id = isset( $token['sent_email_id'] ) ? $token['sent_email_id'] : '';
+
+        if ( ! $order_id || ! $this->query->email_history_matches( $sent_email_id, $order_id, 'order' ) ) {
+            return '';
+        }
+
+        $order = wc_get_order( $order_id );
+
+        if ( ! $order ) {
+            return '';
+        }
+
+        if ( $user ) {
+            if ( ! $this->user_can_access_order_for_user( $order, $user ) ) {
+                return '';
+            }
+        } elseif ( ! $this->user_can_access_order( $order ) ) {
+            return '';
+        }
+
+        $this->query->update_email_tracking( $sent_email_id, 'clicked' );
+
+        if ( 'cancelled' === $order->get_status() ) {
+            $order->update_status( 'pending' );
+        }
+
+        return $order->get_checkout_payment_url();
+    }
+
+    /**
+     * Check whether a recovery action is waiting to be completed after login.
+     *
+     * @return bool
+     */
+    private function has_pending_recovery() {
+        return (bool) $this->get_pending_recovery();
+    }
+
+    /**
+     * Persist recovery intent across the login boundary.
+     *
+     * @param array $query_args Recovery query arguments.
+     */
+    private function store_pending_recovery( array $query_args ) {
+        if ( function_exists( 'WC' ) && WC()->session ) {
+            WC()->session->set( 'wacv_pending_recovery', $query_args );
+        }
+
+        $payload = wp_json_encode( $query_args );
+
+        if ( $payload ) {
+            setcookie(
+                'wacv_pending_recovery',
+                base64_encode( $payload ),
+                time() + HOUR_IN_SECONDS,
+                COOKIEPATH ? COOKIEPATH : '/',
+                COOKIE_DOMAIN,
+                is_ssl(),
+                true
+            );
+        }
+    }
+
+    /**
+     * Read pending recovery data from session or cookie.
+     *
+     * @return array
+     */
+    private function get_pending_recovery() {
+        if ( function_exists( 'WC' ) && WC()->session ) {
+            $pending = WC()->session->get( 'wacv_pending_recovery' );
+
+            if ( ! empty( $pending['wacv_recover'] ) && ! empty( $pending['valid'] ) ) {
+                return $pending;
+            }
+        }
+
+        if ( empty( $_COOKIE['wacv_pending_recovery'] ) ) {
+            return array();
+        }
+
+        $decoded = json_decode( base64_decode( wp_unslash( $_COOKIE['wacv_pending_recovery'] ) ), true );
+
+        return is_array( $decoded ) ? $decoded : array();
+    }
+
+    /**
+     * Clear stored recovery intent.
+     */
+    private function clear_pending_recovery() {
+        if ( function_exists( 'WC' ) && WC()->session ) {
+            WC()->session->__unset( 'wacv_pending_recovery' );
+        }
+
+        if ( isset( $_COOKIE['wacv_pending_recovery'] ) ) {
+            setcookie(
+                'wacv_pending_recovery',
+                '',
+                time() - HOUR_IN_SECONDS,
+                COOKIEPATH ? COOKIEPATH : '/',
+                COOKIE_DOMAIN,
+                is_ssl(),
+                true
+            );
+        }
+    }
+
+    /**
+     * Redirect target when post-login recovery fails.
+     *
+     * @return string
+     */
+    private function get_recovery_failure_redirect() {
+        if ( function_exists( 'WC' ) && WC()->session ) {
+            $message = WC()->session->get( 'wacv_recovery_denied_notice' );
+            if ( $message && function_exists( 'wc_add_notice' ) ) {
+                wc_add_notice( $message, 'error' );
+                WC()->session->__unset( 'wacv_recovery_denied_notice' );
+            }
+        }
+
+        if ( function_exists( 'wc_get_page_permalink' ) ) {
+            return wc_get_page_permalink( 'myaccount' );
+        }
+
+        return home_url( '/' );
+    }
+
+    /**
+     * Process recovery stored in the WooCommerce session after login.
+     *
+     * @param \WP_User $user Authenticated user.
+     *
+     * @return string
+     */
+    private function maybe_complete_pending_recovery( $user ) {
+        $pending = $this->get_pending_recovery();
+
+        if ( empty( $pending['wacv_recover'] ) || empty( $pending['valid'] ) ) {
+            return '';
+        }
+
+        $redirect_url = '';
+
+        if ( 'cart_link' === $pending['wacv_recover'] ) {
+            $redirect_url = $this->complete_cart_recovery( $pending['valid'], $user );
+        } elseif ( 'order_link' === $pending['wacv_recover'] ) {
+            $redirect_url = $this->complete_order_recovery( $pending['valid'], $user );
+        }
+
+        $this->clear_pending_recovery();
+
+        if ( ! $redirect_url ) {
+            $this->stash_recovery_denied_notice();
+        }
+
+        return $redirect_url;
+    }
+
+    /**
+     * Ensure WooCommerce session cookie exists before redirecting to login.
+     */
+    private function ensure_wc_session() {
+        if ( ! function_exists( 'WC' ) || ! WC()->session ) {
+            return;
+        }
+
+        WC()->session->set_customer_session_cookie( true );
+    }
+
+    /**
+     * Whether a specific user owns the given order.
+     *
+     * @param \WC_Order $order Order object.
+     * @param \WP_User  $user  User object.
+     *
+     * @return bool
+     */
+    private function user_can_access_order_for_user( $order, $user ) {
+        $customer_id = (int) $order->get_customer_id();
+
+        if ( $customer_id > 0 ) {
+            return $customer_id === (int) $user->ID;
+        }
+
+        $order_email = $order->get_billing_email();
+
+        return $order_email && $this->emails_match( $user->user_email, $order_email );
+    }
+
+    /**
+     * Store a denied-recovery notice for display on the next page load.
+     */
+    private function stash_recovery_denied_notice() {
+        if ( function_exists( 'WC' ) && WC()->session ) {
+            WC()->session->set(
+                'wacv_recovery_denied_notice',
+                esc_html__( 'You do not have permission to access this recovery link.', 'woo-abandoned-cart-recovery' )
+            );
+        }
+    }
+
+    /**
+     * Whether the logged-in user owns the given order.
+     *
+     * @param \WC_Order $order Order object.
+     *
+     * @return bool
+     */
+    private function user_can_access_order( $order ) {
+        if ( ! is_user_logged_in() ) {
+            return false;
+        }
+
+        $current_user_id = get_current_user_id();
+        $customer_id     = (int) $order->get_customer_id();
+
+        if ( $customer_id > 0 ) {
+            return $customer_id === $current_user_id;
+        }
+
+        $current_user = wp_get_current_user();
+        $order_email  = $order->get_billing_email();
+
+        return $order_email && $this->emails_match( $current_user->user_email, $order_email );
+    }
+
+    /**
+     * Compare two email addresses case-insensitively.
+     *
+     * @param string $email_a First email.
+     * @param string $email_b Second email.
+     *
+     * @return bool
+     */
+    private function emails_match( $email_a, $email_b ) {
+        if ( function_exists( 'wc_strcasecmp' ) ) {
+            return 0 === wc_strcasecmp( trim( (string) $email_a ), trim( (string) $email_b ) );
+        }
+
+        return strtolower( trim( (string) $email_a ) ) === strtolower( trim( (string) $email_b ) );
+    }
+
+    /**
+     * Redirect unauthenticated users to login, preserving the recovery URL.
+     *
+     * @param array $query_args Recovery query arguments.
+     */
+    private function redirect_to_login_for_recovery( array $query_args ) {
+        $this->ensure_wc_session();
+        $this->store_pending_recovery( $query_args );
+
+        $recovery_url = add_query_arg( $query_args, home_url( '/' ) );
+        wp_safe_redirect( wp_login_url( $recovery_url ) );
+        exit;
+    }
+
+    /**
+     * Deny recovery access for the wrong account and redirect home.
+     */
+    private function deny_recovery_access() {
+        $this->stash_recovery_denied_notice();
+
+        if ( function_exists( 'WC' ) && WC()->session ) {
+            $message = WC()->session->get( 'wacv_recovery_denied_notice' );
+            if ( $message && function_exists( 'wc_add_notice' ) ) {
+                wc_add_notice( $message, 'error' );
+                WC()->session->__unset( 'wacv_recovery_denied_notice' );
+            }
+        } elseif ( function_exists( 'wc_add_notice' ) ) {
+            wc_add_notice(
+                esc_html__( 'You do not have permission to access this recovery link.', 'woo-abandoned-cart-recovery' ),
+                'error'
+            );
+        }
+
+        wp_safe_redirect( home_url() );
+        exit;
+    }
 }

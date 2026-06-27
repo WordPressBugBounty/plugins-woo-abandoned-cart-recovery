@@ -266,6 +266,9 @@ https://youtu.be/HTFTNB9q-Ns
 4. Reports
 
 == Changelog ==
+/**1.1.13 - 2026.06.27 **/
+- Updated: VillaTheme support
+
 /**1.1.12 - 2026.06.20 **/
 - Updated: VillaTheme support
 - Update: Compatible with WP 7.0 and WC 10.8.1

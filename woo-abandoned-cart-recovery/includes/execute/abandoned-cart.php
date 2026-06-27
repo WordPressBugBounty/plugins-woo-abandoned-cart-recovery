@@ -36,7 +36,7 @@ class Abandoned_Cart {
 	public function __construct() {
 		$this->query = Query_DB::get_instance();
 
-//		add_action( 'woocommerce_cart_updated', array( $this, 'save_abandoned_cart' ) );
+		add_action( 'woocommerce_cart_updated', array( $this, 'save_abandoned_cart' ), 999 );
 		add_action( 'woocommerce_add_to_cart', array( $this, 'save_abandoned_cart' ), 999 );
 		add_action( 'woocommerce_cart_item_removed', array( $this, 'save_abandoned_cart' ), 999 );
 		add_action( 'woocommerce_cart_item_restored', array( $this, 'save_abandoned_cart' ), 999 );
@@ -91,9 +91,9 @@ class Abandoned_Cart {
 
 	public function save_abandoned_cart() {
 
-		if ( Functions::is_bot() || ( is_admin() && ! wp_doing_ajax() ) || current_user_can( 'manage_options' ) ) {
-			return;
-		}
+        if ( Functions::is_bot() || ( is_admin() && ! wp_doing_ajax() ) || current_user_can( 'update_core' ) ) {
+            return;
+        }
 
 		//Fix when after checkout, cart not empty
 //		if ( $this->query::get_session( 'wacv_order_processed' ) && wc()->cart->get_cart_contents_count() ) {

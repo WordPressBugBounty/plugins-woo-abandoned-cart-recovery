@@ -8,8 +8,8 @@
 
 namespace WACV\Inc\Email;
 
-use WACV\Inc\Aes_Ctr;
 use WACV\Inc\Data;
+use WACV\Inc\Recovery_Token;
 use WACV\Inc\Query_DB;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -414,28 +414,23 @@ class Send_Email_Cron {
 		return $this->characters_array[ $rand ];
 	}
 
-	public function create_link( $coupon_code, $acr_id, $sent_email_id, $temp_id, $email_lang = '' ) {
-		$coupon      = $coupon_code ? '&' . $coupon_code : '';
-		$template_id = $temp_id ? '&' . $temp_id : '&0';
-		$pass        = get_option( 'wacv_private_key' );
-		$url_encode  = Aes_Ctr::encrypt( $acr_id . '&' . $sent_email_id . $template_id . $coupon, $pass, 256 );
-		$site_url_param = apply_filters( 'wacv_abandoned_create_link', site_url( '?wacv_recover=cart_link&valid=' ), $email_lang );
+    public function create_link( $coupon_code, $acr_id, $sent_email_id, $temp_id, $email_lang = '' ) {
+        $url_encode     = Recovery_Token::create_cart_link( $acr_id, $sent_email_id, $temp_id ? $temp_id : 0, $coupon_code ? $coupon_code : '' );
+        $site_url_param = apply_filters( 'wacv_abandoned_create_link', site_url( '?wacv_recover=cart_link&valid=' ), $email_lang );
 
 		return  $site_url_param . $url_encode;
 	}
 
-	public function create_tracking_open_link( $acr_id, $sent_email_id, $email_lang = '' ) {
-		$pass       = get_option( 'wacv_private_key' );
-		$url_encode = Aes_Ctr::encrypt( $acr_id . '&' . $sent_email_id, $pass, 256 );
-		$site_url_param = apply_filters( 'wacv_abandoned_create_tracking_open_link', site_url( '?wacv_open_email=' ), $email_lang );
+    public function create_tracking_open_link( $acr_id, $sent_email_id, $email_lang = '' ) {
+        $url_encode     = Recovery_Token::create_open_link( $acr_id, $sent_email_id );
+        $site_url_param = apply_filters( 'wacv_abandoned_create_tracking_open_link', site_url( '?wacv_open_email=' ), $email_lang );
 
 		return "<img width='0' height='0' style='width:0; height:0;' src='" . $site_url_param . $url_encode . "' >";
 	}
 
-	public function create_unsubscribe_link( $acr_id, $email_lang = '' ) {
-		$pass       = get_option( 'wacv_private_key' );
-		$url_encode = Aes_Ctr::encrypt( $acr_id, $pass, 256 );
-		$site_url_param = apply_filters( 'wacv_abandoned_create_unsubscribe_link', site_url( '?wacv_unsubscribe=' ), $email_lang );
+    public function create_unsubscribe_link( $acr_id, $email_lang = '' ) {
+        $url_encode     = Recovery_Token::create_unsub_cart_link( $acr_id );
+        $site_url_param = apply_filters( 'wacv_abandoned_create_unsubscribe_link', site_url( '?wacv_unsubscribe=' ), $email_lang );
 
 		return $site_url_param . $url_encode;
 	}
@@ -622,17 +617,16 @@ class Send_Email_Cron {
 			$this->new_email_settings = get_post_meta( $template_id, 'wacv_email_settings_new', true );
 			$this->old_email_settings = get_post_meta( $template_id, 'wacv_email_settings', true );
 
-			$sent_email_id      = '&' . uniqid() . $order_id;
-			$pass               = get_option( 'wacv_private_key' );
-			$recover_url_encode = Aes_Ctr::encrypt( $order_id . $sent_email_id, $pass, 256 );
-			$unsub_url_encode   = Aes_Ctr::encrypt( $order_id, $pass, 256 );
+            $sent_email_id      = '&' . uniqid() . $order_id;
+            $recover_url_encode = Recovery_Token::create_order_link( $order_id, $sent_email_id );
+            $unsub_url_encode   = Recovery_Token::create_unsub_order_link( $order_id );
 
-			$this->record_data = array(
-				'link'             => site_url( '?wacv_recover=order_link&valid=' ) . $recover_url_encode,
-				'unsubscribe_link' => site_url( '?unsubscribe=' ) . $unsub_url_encode,
-				'customer_name'    => $order->get_billing_first_name(),
-				'customer_surname' => $order->get_billing_last_name(),
-			);
+            $this->record_data = array(
+                'link'             => site_url( '?wacv_recover=order_link&valid=' ) . $recover_url_encode,
+                'unsubscribe_link' => site_url( '?wacv_recover=order_link&unsubscribe=' ) . $unsub_url_encode,
+                'customer_name'    => $order->get_billing_first_name(),
+                'customer_surname' => $order->get_billing_last_name(),
+            );
 
 			$order_detail = $order->get_items();
 			if ( ! empty( $order_detail ) ) {

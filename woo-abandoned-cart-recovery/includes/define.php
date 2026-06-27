@@ -54,6 +54,7 @@ spl_autoload_register( function ( $class ) {
  * Initialize Plugin
  */
 function load_class() {
+    Recovery_Token::get_signing_key();
 	Init::get_instance();
 	Admin_Settings::get_instance();
 	Guest::get_instance();
@@ -69,6 +70,7 @@ function load_class() {
 	if ( is_file( WACV_INCLUDES . 'support.php' ) ) {
 		include_once( WACV_INCLUDES . 'support.php' );
 	}
+
 	if ( class_exists( '\VillaTheme_Support' ) ) {
 		new \VillaTheme_Support(
 			array(

@@ -108,7 +108,7 @@ class Query_DB {
 		$data_fm = $where_fm = array();
 
 		foreach ( $data as $item ) {
-			if ( isset( $format[ $item ] ) ) {
+			if ( isset( $this->format[ $item ] ) ) {
 				$data_fm[] = $this->format[ $item ];
 			}
 		}
@@ -593,6 +593,38 @@ class Query_DB {
 		}
 
 		$wpdb->update( $this->email_history_tb, array( $type => current_time( 'timestamp' ) ), array( 'sent_email_id' => $sent_email_id ), array( '%d' ), array( '%s' ) );// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+	}
+
+	/**
+	 * Check whether a sent_email_id exists in email history and matches the reference record.
+	 *
+	 * @param string $sent_email_id Sent email tracking ID from the token.
+	 * @param int    $ref_id        Cart record ID or order ID stored in acr_id column.
+	 * @param string $type          Optional history type: email|order.
+	 *
+	 * @return bool
+	 */
+	public function email_history_matches( $sent_email_id, $ref_id, $type = '' ) {
+		global $wpdb;
+
+		if ( ! $sent_email_id || ! $ref_id ) {
+			return false;
+		}
+
+		$query = "SELECT id FROM {$this->email_history_tb} WHERE sent_email_id = %s AND acr_id = %d";
+		$args  = array( $sent_email_id, (int) $ref_id );
+
+		if ( $type ) {
+			$query .= ' AND type = %s';
+			$args[] = $type;
+		}
+
+		$query .= ' LIMIT 1';
+
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared
+		$row_id = $wpdb->get_var( $wpdb->prepare( $query, $args ) );
+
+		return (bool) $row_id;
 	}
 
 

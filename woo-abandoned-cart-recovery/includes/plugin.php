@@ -50,31 +50,68 @@ class Plugin {
 	public function activate( $network_wide ) {
 		global $wpdb;
 
-		if ( function_exists( 'is_multisite' ) && is_multisite() && $network_wide ) {
-			$current_blog = $wpdb->blogid;
-			$blogs        = $wpdb->get_col( "SELECT blog_id FROM $wpdb->blogs" );// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.DirectQuery
-			foreach ( $blogs as $blog ) {
-				switch_to_blog( $blog );
-				$this->single_active();
-			}
-			switch_to_blog( $current_blog );
-		} else {
-			$this->single_active();
-		}
-	}
+        if ( function_exists( 'is_multisite' ) && is_multisite() && $network_wide ) {
+            $current_blog = $wpdb->blogid;
+            $blogs        = $wpdb->get_col( "SELECT blog_id FROM $wpdb->blogs" );// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.DirectQuery
+            foreach ( $blogs as $blog ) {
+                switch_to_blog( $blog );
+                $this->single_active();
+                $this->check_and_update_db();
+            }
+            switch_to_blog( $current_blog );
+        } else {
+            $this->single_active();
+            $this->check_and_update_db();
+        }
+    }
+
+    /**
+     * Hàm tự động kiểm tra version và chạy các bản cập nhật database tương ứng
+     */
+    /**
+     * Hàm tự động kiểm tra version và nâng cấp đồng bộ toàn bộ DB
+     */
+    public function check_and_update_db() {
+        global $wpdb;
+
+        $installed_ver = get_option( 'wacv_db_version' );
+
+        if ( $installed_ver == WACV_VERSION ) {
+            return;
+        }
+
+        if ( ! $installed_ver || version_compare( $installed_ver, '1.1.13', '<' ) ) {
+
+            $abd_record_tb   = $wpdb->prefix . "wacv_abandoned_cart_record";
+            $guest_record_tb = $wpdb->prefix . "wacv_guest_info_record";
+            $cart_log_tb     = $wpdb->prefix . "wacv_cart_log";
+
+            $wpdb->query( "ALTER TABLE {$abd_record_tb} MODIFY COLUMN `browser` TEXT COLLATE utf8_unicode_ci;" );
+            $wpdb->query( "ALTER TABLE {$guest_record_tb} MODIFY COLUMN `browser` TEXT COLLATE utf8_unicode_ci;" );
+            $wpdb->query( "ALTER TABLE {$cart_log_tb} MODIFY COLUMN `browser` TEXT COLLATE utf8_unicode_ci NOT NULL;" );
+
+        }
+
+        update_option( 'wacv_db_version', WACV_VERSION );
+    }
 
 	public function single_active() {
 		$this->create_database();
 
-		if ( ! get_option( 'wacv_private_key' ) ) {
-			update_option( 'wacv_private_key', uniqid() );
-		}
+        if ( ! get_option( 'wacv_signing_key' ) ) {
+            update_option( 'wacv_signing_key', wp_generate_password( 64, true, true ), false );
+        }
 
-		if ( ! get_option( 'wacv_cron_key' ) ) {
-			update_option( 'wacv_cron_key', md5( uniqid() ) );
-		}
-		update_option( 'wacv_check_balance', true );
-		$this->create_default_templates();
+        if ( ! get_option( 'wacv_cron_key' ) ) {
+            update_option( 'wacv_cron_key', md5( uniqid() ) );
+        }
+
+        update_option( 'wacv_check_balance', true );
+
+        // Gán trực tiếp hằng số phiên bản hiện tại cho user cài mới
+        update_option( 'wacv_db_version', WACV_VERSION );
+
+        $this->create_default_templates();
 //		$this->create_unsubscribe_page();
 
 	}
@@ -112,7 +149,7 @@ class Plugin {
                              `valid_phone` int(3) NOT NULL,
                              `customer_ip` tinytext COLLATE utf8_unicode_ci,
                              `os_platform` tinytext COLLATE utf8_unicode_ci,
-                             `browser` tinytext COLLATE utf8_unicode_ci,
+                             `browser` text COLLATE utf8_unicode_ci,
                              PRIMARY KEY  (`id`)
                              ) $wcav_collate";
 
@@ -126,7 +163,7 @@ class Plugin {
                 `user_ref` text,
                 `ip` tinytext,
                 `os` tinytext,
-                `browser` tinytext,
+                `browser` text,
                 `billing_first_name` text,
                 `billing_last_name` text,
                 `billing_company` text,
@@ -178,7 +215,7 @@ class Plugin {
 						`time_log` int(11) ,
 						`ip` tinytext NOT NULL ,
 						`os_platform` tinytext NOT NULL ,
-						`browser` tinytext NOT NULL ,
+						`browser` text NOT NULL ,
 						PRIMARY KEY  (`id`)
 						) $wcav_collate AUTO_INCREMENT=1 ";
 		dbDelta( $query );
