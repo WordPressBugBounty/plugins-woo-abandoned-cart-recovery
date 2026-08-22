@@ -1,11 +1,12 @@
-=== Abandoned Cart Recovery for WooCommerce ===
+=== Recarto – Abandoned Cart Recovery for WooCommerce ===
 Contributors: villatheme, mrt3vn
 Donate link: https://www.villatheme.com/donate
 Tags: abandoned cart pro for woocommerce, woocommerce, woocommerce abandoned cart, woocommerce abandoned cart email, woocommerce abandoned cart recovery
 Requires at least: 5.0
 Tested up to: 7.0
-WC tested up to: 10.8.1
+WC tested up to: 11.0
 Requires PHP: 7.0
+WC requires at least: 7.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Stable tag: trunk
@@ -16,7 +17,7 @@ A simple, effective solution to capture abandoned carts and auto-send reminders.
 
 What is WooCommerce Abandoned Cart Recovery? WooCommerce Abandoned Cart Recovery is a WooCommerce extension that helps you to recover unfinished orders in your store.  When a customer adds a product to the cart but does not complete check out. After a scheduled time, the cart will be marked as “abandoned”. WooCommerce Abandoned Cart Recovery will start to send cart recovery emails or Facebook messages to the customer, remind him/her to complete the order.
 
->[Try the Demo](https://new2new.com/?item=woocommerce-abandoned-cart-recovery) | [Documents](http://docs.villatheme.com/?item=woocommerce-abandoned-cart-recovery "Documents") | [Pro Version](https://1.envato.market/roBbv "Pro Version") | [Facebook group](https://www.facebook.com/groups/villatheme "VillaTheme")
+>[Try the Demo](https://new2new.com/?item=woocommerce-abandoned-cart-recovery) | [Documents](http://docs.villatheme.com/?item=woocommerce-abandoned-cart-recovery "Documents") | [Pro Version](https://villatheme.com/extensions/woo-abandoned-cart-recovery/ "Pro Version") | [Facebook group](https://www.facebook.com/groups/villatheme "VillaTheme")
 
 ###Preview Abandoned Cart Recovery for WooCommerce
 [youtube https://youtu.be/wUAWZ3noPT8]
@@ -254,8 +255,8 @@ https://youtu.be/HTFTNB9q-Ns
 
 == Installation ==
 1. Unzip the download package
-1. Upload `woo-abandoned-cart` to the `/wp-content/plugins/` directory
-1. Activate the plugin through the 'Plugins' menu in WordPress
+2. Upload `woo-abandoned-cart` to the `/wp-content/plugins/` directory
+3. Activate the plugin through the 'Plugins' menu in WordPress
 
 == Frequently Asked Questions ==
 
@@ -266,184 +267,192 @@ https://youtu.be/HTFTNB9q-Ns
 4. Reports
 
 == Changelog ==
-/**1.1.13 - 2026.06.27 **/
+2026.08.22 - version 1.1.15
+- Updated: Compatibility check with WP 7.1
+- Updated: VillaThem support
+
+2026.08.17 - version 1.1.14
+- Updated: Compatibility check with WC 11.0
+- Updated: Optimize code
+
+2026.06.26 - version 1.1.13
 - Updated: VillaTheme support
 
-/**1.1.12 - 2026.06.20 **/
+2026.06.20 - version 1.1.12
 - Updated: VillaTheme support
 - Update: Compatible with WP 7.0 and WC 10.8.1
 
-/**1.1.11 - 2026.02.25 **/
+2026.02.25 - version 1.1.11
 - Updated: update support class
 
-/**1.1.10 - 2026.01.20 **/
+2026.01.20 - version 1.1.10
 - Update: Compatible with WP 6.9 and WC 10.4
 - Updated: update support class
 
-/**1.1.9 - 2025.11.17 **/
+2025.11.17 - version 1.1.9
 - Updated: minify some source code
 - Updated: Add filter for edit recover link
 
-/**1.1.8 - 2025.02.28 **/
+2025.02.28 - version 1.1.8
 - Updated: update support class
 
-/**1.1.7 - 2024.12.13 **/
+2024.12.13 - version 1.1.7
 - Fixed: Error when active plugin
 - Update: Compatible with WP 6.7 and WC 9.4
 
-/**1.1.6 - 2024.10.26 **/
+2024.10.26 - version 1.1.6
 - Fixed: Environment requirement check
 
-/**1.1.5 - 2024.10.22 **/
+2024.10.22 - version 1.1.5
 - Updated: Compatible with WP 6.6 and WC 9.3
 - Removed: Facebook messenger tab
 
-/**1.1.4 - 2024.06.13 **/
+2024.06.13 - version 1.1.4
 - Updated: Translate text and sanitize output fields
 
-/**1.1.3 - 2024.04.13 **/
+2024.04.13 - version 1.1.3
 - Fixed: Save Guest postal code not correct
 
-/**1.1.2 - 2024.01.15 **/
+2024.01.15 - version 1.1.2
 - Updated: Add an option to Notification recover cart to custom email address
 
-/**1.1.1 - 2023.11.27 **/
+2023.11.27 - version 1.1.1
 - Update: Compatible with WP 6.4 and WC 8.3
 
-/**1.1.0 - 2023.09.05 **/
+2023.09.05 - version 1.1.0
 - Updated: Compatible with High-Performance order storage (COT)
 
-/**1.0.10 - 2023.05.08 **/
+2023.05.08 - version 1.0.10
 - Update: Compatible with WP 6.2 and WC 7.5
 
-/**1.0.9 - 2022.11.17 **/
+2022.11.17 - version 1.0.9
 - Updated: GDPR notice on checkout page
 
-/**1.0.8 - 2022.08.13 **/
+2022.08.13 - version 1.0.8
 - Fixed: Currency display on abandoned table incorrect
 - Updated: Change checkout button block in email template to work with Outlook mail
 - Updated: Update support file
 
-/**1.0.7 - 2022.06.29 **/
+2022.06.29 - version 1.0.7
 - Updated: Add filter 'wacv_cart_item' to edit item of email
 - Updated: Add a link to see the details of the IP address on the abandoned cart
 - Fixed: Error when input blank email on checkout
 - Fixed: Error with generate coupon
 
-/**1.0.6 - 2022.05.12 **/
+2022.05.12 - version 1.0.6
 - Updated: Update support file
 - Fixed: Email templates sometimes cause errors with cart block
 - Fixed: Error with invalid coupons
 - Fixed: Error with test email
 
-/**1.0.5 - 2022.03.21 **/
+2022.03.21 - version 1.0.5
 - Updated: Compatible with WooCommerce 6.3 and WP 5.9
 - Updated: Updated support
 - Updated: Compatible with WPML
 - Updated: Compatible with Polylang
 
-/**1.0.4.8 - 2022.01.08 **/
+2022.01.08 - version 1.0.4.8
 - Fixed: Filter member in abandoned cart
 - Fixed: Price tax in report table
 
-/**1.0.4.7 - 2021.12.21 **/
+2021.12.21 - version 1.0.4.7
 - Fixed: Price sort in report table
 - Updated: An option to remove the product link in the product detail in the abandoned emails
 
-/**1.0.4.6 - 2021.08.04 **/
+2021.08.04 - version 1.0.4.6
 - Fixed: Remove expired records
 
-/**1.0.4.5 - 2021.07.20 **/
+2021.07.20 - version 1.0.4.5
 - Updated: Report recovered cart
 
-/**1.0.4.4 - 2021.06.25 **/
+2021.06.25 - version 1.0.4.4
 - Fixed: Escaped variable, textdomain in translate function
 
-/**1.0.4.3 - 2021.06.22 **/
+2021.06.22 - version 1.0.4.3
 - Fixed: Escaped variable, update chartjs, define file location
 
-/**1.0.4.1 - 2021.06.18 **/
+2021.06.18 - version 1.0.4.1
 - Fixed: Check nonce
 
-/**1.0.4 - 2021.06.01 **/
+2021.06.01 - version 1.0.4
 - Update: Dashboard notices
 
-/**1.0.3.9 - 2021.04.16 **/
+2021.04.16 - version 1.0.3.9
 - Fixed: Bug with Funnel Builder
 
-/**1.0.3.8 - 2021.02.18 **/
+2021.02.18 - version 1.0.3.8
 - Update: Add option redirect to cart or checkout page when use recover link
 
-/**1.0.3.7 - 2020.12.18 **/
+2020.12.18 - version 1.0.3.7
 - Fixed: Modify column in database
 
-/**1.0.3.6 - 2020.12.17 **/
+2020.12.17 - version 1.0.3.6
 - Fixed: Query error
 
-/**1.0.3.5 - 2020.12.12 **/
+2020.12.12 - version 1.0.3.5
 - Fixed: Compatible with WooCommerce Coupon Box & WooCommerce Lucky Wheel
 
-/**1.0.3.4 - 2020.12.09 **/
+2020.12.09 - version 1.0.3.4
 - Fixed: Report page
 
-/**1.0.3.2 - 2020.10.09 **/
+2020.10.09 - version 1.0.3.2
 - Fixed: save abandoned cart method
 
-/**1.0.3.1 - 2020.08.31 **/
+2020.08.31 - version 1.0.3.1
 - Fixed: Send email reminder after checkout
 
-/**1.0.3 - 2020.06.22 **/
+2020.06.22 - version 1.0.3
 - Fixed: Email header option
 
-/**1.0.2.9 - 2020.05.21 **/
+2020.05.21 - version 1.0.2.9
 - Fixed: Encode checkout button url
 
-/**1.0.2.8 - 2020.04.23 **/
+2020.04.23 - version 1.0.2.8
 - Update: Support file
 - Update: Detect AspiegelBot spam bot
 
-/**1.0.2.7 - 2020.04.02 **/
+2020.04.02 - version 1.0.2.7
 - Update: Support file
 
-/**1.0.2.6 - 2020.03.17 **/
+2020.03.17 - version 1.0.2.6
 - Update: Add .pot file to translate
 
-/**1.0.2.5 - 2020.03.14 **/
+2020.03.14 - version 1.0.2.5
 - Fixed: Capture with user logged in
 
-/**1.0.2.4 - 2020.01.08 **/
+2020.01.08 - version 1.0.2.4
 - Update: Display coupon code
 
-/**1.0.2.3 - 2019.11.16 **/
+2019.11.16 - version 1.0.2.3
 - Update: Compatible with WP 5.3
 
-/**1.0.2.2 - 2019.10.16 **/
+2019.10.16 - version 1.0.2.2
 - Fixed: Recover link
 
-/**1.0.2.1 - 2019.10.07 **/
+2019.10.07 - version 1.0.2.1
 - Updated: Update read me
 
-/**1.0.2 - 2019.10.01 **/
+2019.10.01 - version 1.0.2
 - Updated: Update email template
 
-/**1.0.1.2 - 2019.08.01**/
+2019.08.01 - version 1.0.1.2
 - Fixed: Readme file
 
-/**1.0.1.1 - 2019.07.31**/
+2019.07.31 - version 1.0.1.1
 - Fixed: New Pro feature
 
-/**1.0.1 - 2019.07.29**/
+2019.07.29 - version 1.0.1
 - Updated: New email template
 - Added: Link premium version
 
-/**1.0.0.3 - 2019.06.05**/
+2019.06.05 - version 1.0.0.3
 -Fixed: assign email template
 
-/**1.0.0.2 - 2019.05.29**/
+2019.05.29 - version 1.0.0.2
 -Fixed: Load support file
 
-/**1.0.0.1 - 2019.05.22**/
+2019.05.22 - version 1.0.0.1
 -Fixed: Custom email template
 
-/**1.0.0 - 2019.05.10**/
+2019.05.10 - version 1.0.0
 - First release

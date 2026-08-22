@@ -134,7 +134,7 @@ class Email_Templates {
 			$use_viwec_url = admin_url( 'post-new.php?post_type=viwec_template&sample=abandoned_cart&style=basic' );
 			$target        = '';
 		} else {
-			$use_viwec_url = 'https://1.envato.market/BZZv1';
+			$use_viwec_url = 'https://villatheme.com/extensions/woocommerce-email-template-customizer/';
 			$target        = '_blank';
 		}
 

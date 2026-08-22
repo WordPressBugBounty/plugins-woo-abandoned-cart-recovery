@@ -1,9 +1,9 @@
 <?php
 /**
- * Plugin Name: Abandoned Cart Recovery for WooCommerce
+ * Plugin Name: Recarto – Abandoned Cart Recovery for WooCommerce
  * Plugin URI: https://villatheme.com/extensions/woo-abandoned-cart-recovery/
  * Description: Capture abandoned cart & send reminder emails to the customers.
- * Version: 1.1.13
+ * Version: 1.1.15
  * Author: VillaTheme
  * Author URI: https://villatheme.com
  * License:           GPL v2 or later
@@ -13,10 +13,10 @@
  * Copyright 2019-2026 VillaTheme.com. All rights reserved.
  * Requires Plugins: woocommerce
  * Requires at least: 5.0
- * Tested up to: 7.0
+ * Tested up to: 7.1
  * WC requires at least: 7.0
- * WC tested up to: 10.8.1
- * Requires PHP: 7.0
+ * WC tested up to: 11.0
+ * Requires PHP: 7.4
  **/
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -36,7 +36,7 @@ if ( is_plugin_active( 'woocommerce-abandoned-cart-recovery/woocommerce-abandone
 	return;
 }
 
-define( 'WACV_VERSION', '1.1.13' );
+define( 'WACV_VERSION', '1.1.15' );
 
 
 define( 'WACV_SLUG', 'woo-abandoned-cart-recovery' );
@@ -45,7 +45,7 @@ define( 'WACV_LANGUAGES', WACV_DIR . "/languages" . DIRECTORY_SEPARATOR );
 define( 'WACV_INCLUDES', WACV_DIR . "/includes" . DIRECTORY_SEPARATOR );
 define( 'WACV_VIEWS', WACV_DIR . "/views" . DIRECTORY_SEPARATOR );
 define( 'WACV_TEMPLATES', WACV_INCLUDES . "templates" . DIRECTORY_SEPARATOR );
-define( 'WACV_PRO_URL', 'https://1.envato.market/roBbv' );
+define( 'WACV_PRO_URL', 'https://villatheme.com/extensions/woo-abandoned-cart-recovery/' );
 
 class WACVPInit_F {
 	public function __construct() {
@@ -60,7 +60,7 @@ class WACVPInit_F {
 			include_once $include_dir . 'support.php';
 		}
 		$environment = new \VillaTheme_Require_Environment( [
-				'plugin_name'     => 'Abandoned Cart Recovery for WooCommerce',
+				'plugin_name'     => 'Recarto – Abandoned Cart Recovery for WooCommerce',
 				'php_version'     => '7.0',
 				'wp_version'      => '5.0',
 				'require_plugins' => [
