@@ -7,6 +7,57 @@ jQuery(document).ready(function ($) {
 
     $('.vi-ui.accordion').accordion();
 
+    function wacvControlSelector(name) {
+        return '.wacv-' + String(name).replace(/_/g, '-');
+    }
+
+    function wacvControlOn(name) {
+        let $el = $(wacvControlSelector(name)).filter('input, select, textarea');
+        if (!$el.length) {
+            return false;
+        }
+        if ($el.is(':checkbox')) {
+            if (!$el.is(':checked')) {
+                return false;
+            }
+        } else if ($el.is(':radio')) {
+            $el = $el.filter(':checked');
+            if (!$el.length) {
+                return false;
+            }
+        }
+        let $ownerRow = $el.closest('tr[data-wacv-depends]');
+        if ($ownerRow.length) {
+            return wacvRowShouldShow($ownerRow);
+        }
+        return true;
+    }
+
+    function wacvRowShouldShow($row) {
+        let deps = String($row.attr('data-wacv-depends') || '').split(',').map(function (s) {
+            return $.trim(s);
+        }).filter(Boolean);
+        if (!deps.length) {
+            return true;
+        }
+        for (let i = 0; i < deps.length; i++) {
+            if (wacvControlOn(deps[i])) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    function wacvToggleDepends() {
+        $('[data-wacv-depends]').each(function () {
+            let $row = $(this);
+            $row.toggle(wacvRowShouldShow($row));
+        });
+    }
+
+    wacvToggleDepends();
+    $('#wacv-admin-settings').on('change', 'input[type=checkbox], input[type=radio], select', wacvToggleDepends);
+
     $('.wacv-order-stt, .wacv-sms-order-stt').select2({});
 
     $('.wacv-tracking-user-exclude').select2({

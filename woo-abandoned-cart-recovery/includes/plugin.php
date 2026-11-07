@@ -92,11 +92,67 @@ class Plugin {
 
         }
 
+		if ( ! $installed_ver || version_compare( $installed_ver, '1.1.16', '<' ) ) {
+			self::ensure_performance_indexes();
+		}
+
         update_option( 'wacv_db_version', WACV_VERSION );
     }
 
+	public static function ensure_performance_indexes() {
+		global $wpdb;
+
+		if ( get_option( 'wacv_perf_indexes_1' ) ) {
+			return true;
+		}
+
+		$indexes = array(
+			$wpdb->prefix . 'wacv_abandoned_cart_record' => array(
+				'wacv_acr_user' => 'user_id',
+				'wacv_acr_time' => 'abandoned_cart_time',
+				'wacv_acr_cron' => 'cart_ignored, recovered_cart, number_of_mailing, abandoned_cart_time',
+			),
+			$wpdb->prefix . 'wacv_guest_info_record'     => array(
+				'wacv_guest_email' => 'billing_email(191)',
+			),
+			$wpdb->prefix . 'wacv_email_history'         => array(
+				'wacv_hist_acr'  => 'acr_id',
+				'wacv_hist_time' => 'sent_time',
+			),
+		);
+
+		$ok = true;
+		foreach ( $indexes as $table => $keys ) {
+			$found = $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $table ) );// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+			if ( $found !== $table ) {
+				continue;
+			}
+			foreach ( $keys as $name => $columns ) {
+				$exists = (int) $wpdb->get_var( $wpdb->prepare(
+					'SELECT COUNT(1) FROM information_schema.statistics WHERE table_schema = DATABASE() AND table_name = %s AND index_name = %s',
+					$table,
+					$name
+				) );// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+				if ( $exists ) {
+					continue;
+				}
+				$result = $wpdb->query( "ALTER TABLE `{$table}` ADD KEY `{$name}` ({$columns})" );// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange
+				if ( false === $result ) {
+					$ok = false;
+				}
+			}
+		}
+
+		if ( $ok ) {
+			update_option( 'wacv_perf_indexes_1', 1 );
+		}
+
+		return $ok;
+	}
+
 	public function single_active() {
 		$this->create_database();
+		self::ensure_performance_indexes();
 
         if ( ! get_option( 'wacv_signing_key' ) ) {
             update_option( 'wacv_signing_key', wp_generate_password( 64, true, true ), false );

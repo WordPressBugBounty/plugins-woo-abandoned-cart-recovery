@@ -36,16 +36,17 @@ class Abandoned_Cart {
 	public function __construct() {
 		$this->query = Query_DB::get_instance();
 
-		add_action( 'woocommerce_cart_updated', array( $this, 'save_abandoned_cart' ), 999 );
-		add_action( 'woocommerce_add_to_cart', array( $this, 'save_abandoned_cart' ), 999 );
-		add_action( 'woocommerce_cart_item_removed', array( $this, 'save_abandoned_cart' ), 999 );
-		add_action( 'woocommerce_cart_item_restored', array( $this, 'save_abandoned_cart' ), 999 );
-		add_action( 'woocommerce_after_cart_item_quantity_update', array( $this, 'save_abandoned_cart' ), 999 );
-		add_action( 'woocommerce_calculate_totals', array( $this, 'save_abandoned_cart' ), 999 );
-
-		add_action( 'woocommerce_checkout_update_order_meta', array( $this, 'remove_abandoned_cart_after_success_order' ) );
-		add_action( 'woocommerce_thankyou', array( $this, 'remove_abandoned_cart_at_thank_you_page' ) );
-		add_action( 'wp_login', array( $this, 'user_login' ), 10, 2 );
+		if ( ! isset( $_COOKIE['wacv_skip_track_data'] ) ) {
+			add_action( 'woocommerce_add_to_cart', array( $this, 'save_abandoned_cart' ), 999 );
+			add_action( 'woocommerce_cart_item_removed', array( $this, 'save_abandoned_cart' ), 999 );
+			add_action( 'woocommerce_cart_item_restored', array( $this, 'save_abandoned_cart' ), 999 );
+			add_action( 'woocommerce_after_cart_item_quantity_update', array( $this, 'save_abandoned_cart' ), 999 );
+			add_action( 'woocommerce_calculate_totals', array( $this, 'save_abandoned_cart_from_totals' ), 999 );
+			add_action( 'woocommerce_checkout_update_order_meta', array( $this, 'remove_abandoned_cart_after_success_order' ) );
+			add_action( 'woocommerce_store_api_checkout_order_processed', array( $this, 'remove_abandoned_cart_after_success_order' ) );
+			add_action( 'woocommerce_thankyou', array( $this, 'remove_abandoned_cart_at_thank_you_page' ) );
+			add_action( 'wp_login', array( $this, 'user_login' ), 10, 2 );
+		}
 	}
 
 	public static function get_instance() {
@@ -57,8 +58,11 @@ class Abandoned_Cart {
 	}
 
 	public function user_login( $user_name, $user_info ) {
+		if ( ! wc()->session ) {
+			return;
+		}
+
 		$u_id        = $user_info->ID;
-		if ( ! WC()->session ) return;
 		$g_id        = WC()->session->get( 'user_id' );
 		$session_key = WC()->session->get_customer_id();
 
@@ -89,9 +93,42 @@ class Abandoned_Cart {
 		}
 	}
 
+	public function save_abandoned_cart_from_totals() {
+		if ( ! function_exists( 'WC' ) || ! WC()->cart || ! WC()->session ) {
+			return;
+		}
+
+		$hash = $this->get_cart_snapshot_hash();
+		if ( $hash === (string) WC()->session->get( 'wacv_cart_snapshot_hash' ) ) {
+			return;
+		}
+
+		$this->save_abandoned_cart();
+	}
+
+	protected function get_cart_snapshot_hash() {
+		if ( ! function_exists( 'WC' ) || ! WC()->cart ) {
+			return '';
+		}
+
+		$parts = array();
+		foreach ( WC()->cart->get_cart() as $item ) {
+			$parts[] = (int) ( $item['product_id'] ?? 0 ) . ':' . (int) ( $item['variation_id'] ?? 0 ) . ':' . (float) ( $item['quantity'] ?? 0 );
+		}
+		sort( $parts );
+
+		return md5( implode( '|', $parts ) );
+	}
+
+	protected function store_cart_snapshot_hash() {
+		if ( function_exists( 'WC' ) && WC()->session && WC()->cart ) {
+			WC()->session->set( 'wacv_cart_snapshot_hash', $this->get_cart_snapshot_hash() );
+		}
+	}
+
 	public function save_abandoned_cart() {
 
-        if ( Functions::is_bot() || ( is_admin() && ! wp_doing_ajax() ) || current_user_can( 'update_core' ) ) {
+        if ( Functions::is_bot() || ( is_admin() && ! wp_doing_ajax() ) || current_user_can( 'manage_woocommerce' ) ) {
             return;
         }
 
@@ -104,7 +141,7 @@ class Abandoned_Cart {
 
 		$this->data        = Data::get_instance();
 		$this->params      = $this->data::get_params();
-		$this->os_platform = isset( $_SERVER['HTTP_USER_AGENT'] ) ? $_SERVER['HTTP_USER_AGENT'] : '';
+		$this->os_platform = isset( $_SERVER['HTTP_USER_AGENT'] ) ? sanitize_text_field( wp_unslash( $_SERVER['HTTP_USER_AGENT'] ) ) : '';
 		$this->ip_add      = \WC_Geolocation::get_ip_address();
 
 		if ( is_user_logged_in() ) {
@@ -116,6 +153,8 @@ class Abandoned_Cart {
 				$this->tracking_abandoned_cart( 'guest' );
 			}
 		}
+
+		$this->store_cart_snapshot_hash();
 	}
 
 	public function tracking_abandoned_cart( $type ) {
@@ -142,10 +181,17 @@ class Abandoned_Cart {
 			}
 		}
 
+		if ( ! wc()->session ) {
+			return;
+		}
+
 		$check_insert = false;
 		$recover_id   = wc()->session->get( 'wacv_recover_id' );
 		$cart_count   = wc()->cart->get_cart_contents_count();
 		$abdc_data    = $cart_count ? wp_json_encode( array( 'cart' => wc()->session->cart, 'currency' => get_woocommerce_currency() ) ) : '';
+		$browser_data = array(
+			'uri' => isset( $_SERVER['REQUEST_URI'] ) ? substr( sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ), 0, 180 ) : '',
+		);
 
 		if ( $recover_id ) {
 			$result = $this->query->get_abdc_record_by_recover_id( $recover_id ); //select record with cart_ignore = 0
@@ -180,7 +226,7 @@ class Abandoned_Cart {
 								'current_lang'        => $mlg_lang,
 								'user_id'             => $user_id,
 								'user_type'           => $type,
-								'browser'             => wp_json_encode( $_REQUEST )
+								'browser'             => wp_json_encode( $browser_data )
 							),
 							array( 'id' => $abdc_id ) );
 					}
@@ -205,7 +251,7 @@ class Abandoned_Cart {
 				'user_type'           => $type,
 				'customer_ip'         => $this->ip_add,
 				'os_platform'         => $this->os_platform,
-				'browser'             => wp_json_encode( $_REQUEST )
+				'browser'             => wp_json_encode( $browser_data )
 			) );
 
 			wc()->session->set( 'wacv_cart_record_id', $insert_id );
@@ -220,10 +266,11 @@ class Abandoned_Cart {
 	}
 
 	public function remove_abandoned_cart_when_cart_is_purchase( $order_id ) {
-		$id = $this->query::get_session( 'wacv_cart_record_id' );
 		if ( ! wc()->session ) {
 			return;
 		}
+
+		$id = $this->query::get_session( 'wacv_cart_record_id' );
 		if ( $id ) {
 			$this->query->remove_abd_record( $id );
 			wc()->session->__unset( 'wacv_cart_record_id' );
@@ -235,16 +282,20 @@ class Abandoned_Cart {
 			wc()->session->__unset( 'wacv_cart_record_ids_list' );
 		}
 
-		$wc_order = wc_get_order( $order_id );
-		$ip = $wc_order->get_customer_ip_address();
-//		$ip = $wc_order->get_meta('_customer_ip_address', true );
+		$order = wc_get_order( $order_id );
+		$ip    = $order ? $order->get_customer_ip_address() : '';
+		if ( ! $ip && $order ) {
+			$ip = $order->get_meta( '_customer_ip_address' );
+		}
 		if ( $ip ) {
 			$this->query->remove_abd_record_via_ip( $ip );
 		}
 	}
 
 	public function remove_abandoned_cart_after_success_order( $order_id ) {
-
+		if ( is_a( $order_id, 'WC_Order' ) ) {
+			$order_id = $order_id->get_id();
+		}
 
 		// Mark recover
 		$order_type     = ! empty( $this->query::get_session( 'wacv_order_type' ) ) ? 1 : 0;
@@ -275,9 +326,15 @@ class Abandoned_Cart {
 
 			$subject = esc_html__( 'Have a recovered order from abandoned cart', 'woo-abandoned-cart-recovery' );
 
+			$order_link = admin_url( "post.php?post={$order_id}&action=edit" );
+			$wc_order   = wc_get_order( $order_id );
+			if ( $wc_order && is_callable( array( $wc_order, 'get_edit_order_url' ) ) ) {
+				$order_link = $wc_order->get_edit_order_url();
+			}
+
 			$message = sprintf( "%s <a href='%s'>%s #%s</a>",
 				esc_html__( 'You’ve received a recovered order from abandoned cart.', 'woo-abandoned-cart-recovery' ),
-				esc_url( admin_url( "post.php?post={$order_id}&action=edit" ) ),
+				esc_url( $order_link ),
 				esc_html__( 'Click here to view order', 'woo-abandoned-cart-recovery' ),
 				esc_html( $order_id )
 			);

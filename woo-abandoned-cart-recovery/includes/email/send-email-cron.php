@@ -142,11 +142,11 @@ class Send_Email_Cron {
 
             if ( $item->user_type == 'guest' ) {
                 $results_guest = $this->query->get_guest_info( $item->user_id );
-                if ( count( $results_guest ) > 0 ) {
-                    $email            = $results_guest[0]->billing_email;
-                    $customer_name    = ! empty( trim( $results_guest[0]->billing_first_name ) ) ? trim( $results_guest[0]->billing_first_name ) : '';
-                    $customer_surname = ! empty( trim( $results_guest[0]->billing_last_name ) ) ? trim( $results_guest[0]->billing_last_name ) : '';
-                    $country          = ! empty( $results_guest[0]->billing_country ) ? $results_guest[0]->billing_country : '';
+                if ( ! empty( $results_guest ) ) {
+                    $email            = $results_guest->billing_email;
+                    $customer_name    = ! empty( trim( $results_guest->billing_first_name ) ) ? trim( $results_guest->billing_first_name ) : '';
+                    $customer_surname = ! empty( trim( $results_guest->billing_last_name ) ) ? trim( $results_guest->billing_last_name ) : '';
+                    $country          = ! empty( $results_guest->billing_country ) ? $results_guest->billing_country : '';
                 }
             } else {
                 $customer_surname = get_user_meta( $item->user_id, 'last_name', true ) ? : '';

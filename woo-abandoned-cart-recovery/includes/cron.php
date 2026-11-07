@@ -46,7 +46,7 @@ class Cron {
 
 	public function add_cron_schedule( $schedules ) {
 		$schedules['one_minute'] = array(
-			'interval' => 60,
+			'interval' => apply_filters( 'wacv_cron_interval', 60 ),
 			'display'  => esc_html__( 'One minute' ),
 		);
 
@@ -54,10 +54,20 @@ class Cron {
 	}
 
 	public function wacv_execute_cron() {
-		do_action( 'wacv_cron_send_email_abd_cart' );
-		do_action( 'wacv_cron_send_email_abd_order' );
-		do_action( 'wacv_cron_send_sms' );
-		do_action( 'wacv_cron_send_messenger' );
+		if ( get_transient( 'wacv_cron_running' ) ) {
+			return;
+		}
+
+		set_transient( 'wacv_cron_running', 1, 50 );
+
+		try {
+			do_action( 'wacv_before_cron' );
+			do_action( 'wacv_cron_send_email_abd_cart' );
+			do_action( 'wacv_cron_send_email_abd_order' );
+			do_action( 'wacv_after_cron' );
+		} finally {
+			delete_transient( 'wacv_cron_running' );
+		}
 	}
 
 	public function wacv_remove_abandoned_cart() {

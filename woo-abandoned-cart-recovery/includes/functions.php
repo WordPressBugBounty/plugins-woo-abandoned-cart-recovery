@@ -81,12 +81,18 @@ class Functions {
 
 		} else {
 			$time_range = get_option( 'wacv_time_range' );
+			if ( empty( $time_range ) ) {
+				$time_range = '7days';
+			}
 			switch ( $time_range ) {
 //				case 'today':
 //					break;
 				case 'yesterday':
 					$start = $start - 86400;
 					$end   = $end - 86400;
+					break;
+				case '7days':
+					$start = $start - 86400 * 6;
 					break;
 				case '30days':
 					$start = $start - 86400 * 30;
@@ -104,9 +110,22 @@ class Functions {
 	}
 
 	public static function is_bot() {
+		static $cached = null;
+		if ( null !== $cached ) {
+			return $cached;
+		}
 
 		if ( ! isset( $_SERVER['HTTP_USER_AGENT'] ) ) {
-			return true;
+			$cached = true;
+
+			return $cached;
+		}
+
+		$ua = wc_clean( wp_unslash( $_SERVER['HTTP_USER_AGENT'] ) );
+		if ( preg_match( '/bot|crawl|slurp|spider|mediapartners/i', $ua ) ) {
+			$cached = true;
+
+			return $cached;
 		}
 
 		$bots = array(
@@ -161,12 +180,12 @@ class Functions {
 			'AspiegelBot',
 			'curl',
 		);
+		$quoted = array();
 		foreach ( $bots as $bot ) {
-			if ( isset( $_SERVER['HTTP_USER_AGENT'] ) && ( stripos( $_SERVER['HTTP_USER_AGENT'], $bot ) !== false || preg_match( '/bot|crawl|slurp|spider|mediapartners/i', $_SERVER['HTTP_USER_AGENT'] ) ) ) {
-				return true;
-			}
+			$quoted[] = preg_quote( $bot, '/' );
 		}
+		$cached = (bool) preg_match( '/' . implode( '|', $quoted ) . '/i', $ua );
 
-		return false;
+		return $cached;
 	}
 }

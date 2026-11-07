@@ -1,4 +1,21 @@
 *** Abandoned Cart Recovery for WooCommerce Changelog ***
+2026.11.07 - version 1.1.16
+- Updated: Settings help text, dependent fields, and Semantic UI number inputs.
+- Updated: Unlock placeholders for new Pro options (cart logs auto-delete, block IP, abandoned-order coupon, popup/SMS extras).
+- Added: 7 days time range on reports and lists, used as the default filter.
+- Fixed: Abandoned cart database insert/update using incorrect field formats.
+- Fixed: Abandoned Carts list hiding carts still inside the cut-off window and guests without a guest-table email join.
+- Fixed: Guest recover checkout filling state with city instead of state.
+- Fixed: Guest recover crashed when guest info record was missing.
+- Fixed: Duplicate abandoned carts not removed by customer IP after checkout on HPOS.
+- Fixed: Admin recovered-order email linked to the classic post editor instead of the HPOS order screen.
+- Updated: Abandoned cart snapshot skips unchanged carts on calculate_totals.
+- Updated: Abandoned cart, guest, and email-history tables get indexes.
+- Updated: Bot UA check uses one regex.
+- Updated: Guest email is captured from checkout order review and the Store API checkout block.
+- Updated: Cron overlap lock; removed unused Messenger cron hook.
+- Fixed: Cart-log update used incorrect field formats.
+
 2026.08.22 - version 1.1.15
 - Updated: Compatibility check with WP 7.1
 - Updated: VillaThem support

@@ -208,6 +208,10 @@ class Reports {
 								$end   = strtotime( 'tomorrow', $start ) - 1;
 								$this->get_final_data( $start, $end, 'P1H', 'H' );
 								break;
+							case '7days':
+								$start = strtotime( 'midnight', $end ) - 6 * 86400;
+								$this->get_final_data( $start, $end, 'P1D', 'M-d' );
+								break;
 							case '30days':
 								$start = $end - 30 * 86400;
 								$this->get_final_data( $start, $end, 'P1D', 'M-d' );
@@ -315,8 +319,11 @@ class Reports {
 			}
 
 			$recovered_items = wc_get_order( $item->recovered_cart );
-			$order_total     += $recovered_items->get_total();
-			$order_tax       += $recovered_items->get_total_tax();
+			if ( ! $recovered_items ) {
+				continue;
+			}
+			$order_total += $recovered_items->get_total();
+			$order_tax   += $recovered_items->get_total_tax();
 			if ( ! isset( $rcv_data[ $time ] ) ) {
 				$rcv_data[ $time ] = 0;
 			}

@@ -56,16 +56,21 @@ spl_autoload_register( function ( $class ) {
 function load_class() {
     Recovery_Token::get_signing_key();
 	Init::get_instance();
-	Admin_Settings::get_instance();
 	Guest::get_instance();
 	Abandoned_Cart::get_instance();
 	Recovered::get_instance();
 	Send_Email_Cron::get_instance();
 	Email_Templates::get_instance();
-	Reports::get_instance();
-	Ajax::get_instance();
 	Cron::get_instance();
 	Cart_Logs::get_instance();
+
+	if ( ! is_admin() ) {
+		return;
+	}
+
+	Admin_Settings::get_instance();
+	Reports::get_instance();
+	Ajax::get_instance();
 
 	if ( is_file( WACV_INCLUDES . 'support.php' ) ) {
 		include_once( WACV_INCLUDES . 'support.php' );
@@ -174,6 +179,7 @@ class Init {
 					'checkbox.min',
 					'select2.min',
 					'form.min',
+					'input.min',
 					'segment.min',
 					'table.min',
 					'tab.min',

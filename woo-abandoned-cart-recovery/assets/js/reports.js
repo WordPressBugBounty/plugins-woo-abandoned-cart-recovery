@@ -6,10 +6,11 @@ jQuery(document).ready(function ($) {
     const oneDay = 86400000;
     let today = getDateRange(now);
 
-    $('.wacv-date-from').val(today);
+    let last7 = getDateRange(new Date(Date.now() - 6 * oneDay));
+    $('.wacv-date-from').val(last7);
     $('.wacv-date-to').val(today);
 
-    ajax_func({time_option: 'today'});
+    ajax_func({time_option: '7days'});
 
     $('.wacv-select-time-report').on('change', function () {
 
@@ -30,6 +31,10 @@ jQuery(document).ready(function ($) {
                     yesterday = getDateRange(yesterday);
                     from_date.val(yesterday);
                     to_date.val(yesterday);
+                    break;
+                case '7days':
+                    from_date.val(getDateRange(new Date(Date.now() - 6 * oneDay)));
+                    to_date.val(today);
                     break;
                 case '30days':
                     let _30days = new Date(Date.now() - 30 * oneDay);

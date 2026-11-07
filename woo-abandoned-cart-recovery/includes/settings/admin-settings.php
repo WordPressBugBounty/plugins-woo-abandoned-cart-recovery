@@ -20,6 +20,8 @@ class Admin_Settings {
 
 	protected static $instance = null;
 
+	public $pending_depends = '';
+
 	public function __construct() {
 		add_action( 'admin_init', array( $this, 'save_params' ), 1 );
 		add_action( 'admin_menu', array( $this, 'admin_menu_page' ), 40 );
@@ -57,17 +59,17 @@ class Admin_Settings {
                 <form class="vi-ui form" method="post">
 					<?php echo ent2ncr( self::set_nonce() );// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
                     <div class="vi-ui top attached tabular menu">
-                        <a class="active item" data-tab="first">
+                        <a class="active item" data-tab="general">
 							<?php esc_html_e( 'General', 'woo-abandoned-cart-recovery' ) ?>
                         </a>
-                        <a class="item" data-tab="second">
+                        <a class="item" data-tab="email">
 							<?php esc_html_e( 'Email', 'woo-abandoned-cart-recovery' ) ?>
                         </a>
-                        <a class="item" data-tab="fourth">
-							<?php esc_html_e( 'SMS', 'woo-abandoned-cart-recovery' ) ?>
-                        </a>
-                        <a class="item" data-tab="fifth">
+                        <a class="item" data-tab="popup">
 							<?php esc_html_e( 'Email popup', 'woo-abandoned-cart-recovery' ) ?>
+                        </a>
+                        <a class="item" data-tab="sms">
+							<?php esc_html_e( 'SMS', 'woo-abandoned-cart-recovery' ) ?>
                         </a>
                     </div>
 					<?php
@@ -136,24 +138,89 @@ class Admin_Settings {
 		return $option;
 	}
 
-	public function text_option( $field_name, $label = '', $units = '', $multi = false ) {
+	public function depends_on( $fields ) {
+		$this->pending_depends = $fields;
+	}
+
+	public function depends_attr() {
+		$fields = $this->pending_depends;
+		if ( '' === $fields ) {
+			return '';
+		}
+		$attr                  = ' data-wacv-depends="' . esc_attr( $fields ) . '"';
+		$this->pending_depends = '';
+
+		return $attr;
+	}
+
+	protected function field_description( $explain ) {
+		if ( '' === $explain || null === $explain ) {
+			return;
+		}
+		echo '<p class="description wacv-field-desc">' . esc_html( $explain ) . '</p>';
+	}
+
+	public function text_option( $field_name, $label = '', $placeholder = '', $multi = false, $multilingual = '', $explain = '' ) {
 		$set_name = $this->set_field( $field_name, $multi );
-//		$set_unit = $this->set_field( $field_name . '_unit', $multi );
-		$class = 'wacv-' . str_replace( '_', '-', $field_name );
-		$col   = ! empty( $units ) ? 9 : 12;
+		$class    = 'wacv-' . str_replace( '_', '-', $field_name );
 		?>
-        <tr>
+        <tr<?php echo $this->depends_attr(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
             <td class="col-1">
-                <label class=""><?php esc_html_e( $label );// phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText ?></label>
+                <label class=""><?php echo esc_html( $label ) ?></label>
             </td>
             <td class="col-2">
                 <div>
                     <input type="text" name="<?php echo esc_attr( $set_name ) ?>"
                            value="<?php echo esc_html( stripslashes( self::get_field( $field_name ) ) ) ?>"
-                           class="<?php echo esc_attr( $class ) ?> vlt-input vlt-border vlt-none-shadow vlt-round ">
+                           class="<?php echo esc_attr( $class ) ?> vlt-input vlt-border vlt-none-shadow vlt-round "
+                           placeholder="<?php echo esc_attr( $placeholder ) ?>">
+					<?php if ( $multilingual ) {
+						if ( is_plugin_active( 'sitepress-multilingual-cms/sitepress.php' ) ) {
+							global $sitepress;
+							$default_lang = $sitepress->get_default_language();
+							$languages    = icl_get_languages( 'skip_missing=N&orderby=KEY&order=DIR&link_empty_to=str' );
+							if ( count( $languages ) ) {
+								foreach ( $languages as $key => $language ) {
+									if ( $key == $default_lang ) {
+										continue;
+									}
+									$field_name_mlg = $field_name . '_' . $key;
+									$class_mlg      = 'wacv-' . str_replace( '_', '-', $field_name_mlg );
+									$set_name_mlg   = $this->set_field( $field_name_mlg, $multi );
+									?>
+                                    <p class="wacv-mlg-label"><?php echo esc_html( $language['native_name'] . ':' ) ?></p>
+                                    <input type="text"
+                                           name="<?php echo esc_attr( $set_name_mlg ) ?>"
+                                           value="<?php echo esc_html( stripslashes( self::get_field( $field_name_mlg ) ) ) ?>"
+                                           class="<?php echo esc_attr( $class_mlg ) ?> vlt-input vlt-border vlt-none-shadow vlt-round "
+                                           placeholder="<?php echo esc_attr( $placeholder ) ?>">
+									<?php
+								}
+							}
+						} elseif ( class_exists( 'Polylang' ) ) {
+							$languages = pll_languages_list();
+							foreach ( $languages as $language ) {
+								$default_lang = pll_default_language( 'slug' );
+								if ( $language == $default_lang ) {
+									continue;
+								}
+								$field_name_mlg = $field_name . '_' . $language;
+								$class_mlg      = 'wacv-' . str_replace( '_', '-', $field_name_mlg );
+								$set_name_mlg   = $this->set_field( $field_name_mlg, $multi );
+								?>
+                                <p class="wacv-mlg-label"><?php echo esc_html( $language . ':' ) ?></p>
+                                <input type="text"
+                                       name="<?php echo esc_attr( $set_name_mlg ) ?>"
+                                       value="<?php echo esc_html( stripslashes( self::get_field( $field_name_mlg ) ) ) ?>"
+                                       class="<?php echo esc_attr( $class_mlg ) ?> vlt-input vlt-border vlt-none-shadow vlt-round "
+                                       placeholder="<?php echo esc_attr( $placeholder ) ?>">
+								<?php
+							}
+						}
+					} ?>
                 </div>
+				<?php $this->field_description( $explain ); ?>
             </td>
-            <td class="col-3"></td>
         </tr>
 		<?php
 	}
@@ -167,98 +234,87 @@ class Admin_Settings {
 		$set_name = $this->set_field( $field_name, $multi );
 		$set_unit = $this->set_field( $field_name . '_unit', $multi );
 		$class    = 'wacv-' . str_replace( '_', '-', $field_name );
-		$col      = ! empty( $units ) ? 11 : 12;
+		$input    = sprintf(
+			'<input type="number" %s min="%s" %s name="%s" %s value="%s" class="%s">',
+			$required ? 'required' : '',
+			esc_attr( $min ),
+			$max != 'unset' ? 'max="' . esc_attr( $max ) . '"' : '',
+			esc_attr( $set_name ),
+			$max == 'unset' ? 'step="any"' : '',
+			esc_attr( self::get_field( $field_name ) ),
+			esc_attr( $class )
+		);
 		?>
-        <tr>
+        <tr<?php echo $this->depends_attr(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
             <td class="col-1">
-                <label><?php esc_html_e( $label );// phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText ?></label>
-				<?php
-				if ( $explain ) {
-					printf( '<span class="wacv-explain-group" data-tooltip="%s" data-variation="wide"><i class="question circle icon "></i></span>', esc_attr( $explain ) );
-				}
-				?>
+                <label><?php echo esc_html( $label ) ?></label>
             </td>
             <td class="col-2">
-                <div class="vlt-col s<?php echo esc_attr( $col ) ?>">
-                    <input type="number" <?php echo esc_attr( $required ? 'required' : '' ) ?>
-                           min="<?php echo esc_attr( $min ) ?>" max="<?php echo esc_attr( $max ) ?>"
-                           name="<?php echo esc_attr( $set_name ) ?>"
-                           value="<?php echo esc_attr( self::get_field( $field_name ) ) ?>"
-                           class="<?php echo esc_attr( $class ) ?>">
-                </div>
-
-            </td>
-            <td>
-                <div>
-					<?php
-					if ( ! empty( $units ) && is_array( $units ) ) {
-						?>
-                        <select name='<?php echo esc_attr( $set_unit ) ?>' class='wacv-unit'>
+				<?php if ( ! empty( $units ) && is_array( $units ) ) { ?>
+                    <div class="vi-ui action input wacv-unit-input">
+						<?php echo $input; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+                        <select name="<?php echo esc_attr( $set_unit ); ?>" class="vi-ui compact selection dropdown">
 							<?php
 							foreach ( $units as $unit ) {
 								$selected = self::get_field( $field_name . '_unit' ) == $unit ? 'selected' : '';
-								printf( '<option value="%s" %s>%s</option>', esc_attr( $unit ), esc_attr( $selected ), esc_html( $unit ) );
+								echo '<option ' . esc_attr( $selected ) . '>' . esc_html( $unit ) . '</option>';
 							}
 							?>
                         </select>
-						<?php
-					} elseif ( ! empty( $units ) ) {
-						?>
-                        <div class='wacv-unit'><?php echo esc_html( $units ) ?></div>
-						<?php
-					}
-					?>
-                </div>
+                    </div>
+				<?php } elseif ( ! empty( $units ) ) { ?>
+                    <div class="vi-ui right labeled input wacv-unit-input">
+						<?php echo $input; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+                        <div class="vi-ui basic label"><?php echo esc_html( $units ); ?></div>
+                    </div>
+				<?php } else { ?>
+					<?php echo $input; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+				<?php } ?>
+				<?php $this->field_description( $explain ); ?>
             </td>
         </tr>
 		<?php
 	}
 
-	public function select_option( $field_name, $option = array(), $label = '', $units = '', $multi = false ) {
-		$set_name = $this->set_field( $field_name, $multi );
-		$class    = 'wacv-' . str_replace( '_', '-', $field_name );
-		$col      = ! empty( $units ) ? 9 : 12;
-
+	public function select_option( $field_name, $option = array(), $label = '', $explain = '', $units = '', $multi = false ) {
+		$set_name   = $this->set_field( $field_name, $multi );
+		$class      = 'wacv-' . str_replace( '_', '-', $field_name );
+		$saved_data = self::get_field( $field_name );
 		?>
-        <tr>
+        <tr<?php echo $this->depends_attr(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
             <td class="col-1">
-                <label><?php esc_html_e( $label );// phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText ?></label>
+                <label><?php echo esc_html( $label ) ?></label>
             </td>
             <td class="col-2">
                 <div>
-                    <select <?php echo esc_attr( $multi ? 'multiple' : '' ) ?>
-                            class="<?php echo esc_attr( $class ) ?>"
-                            name="<?php echo esc_attr( $set_name ) ?>">
+                    <select <?php echo $multi ? 'multiple' : '' ?> class="<?php echo esc_attr( $class ) ?>"
+                                                                   name="<?php echo esc_attr( $set_name ) ?>">
 						<?php
 						if ( count( $option ) > 0 && is_array( $option ) ) {
 							foreach ( $option as $value => $view ) {
-								if ( is_array( self::get_field( $field_name ) ) ) {
-									$selected = in_array( $value, self::get_field( $field_name ) ) ? 'selected' : '';
+								if ( is_array( $saved_data ) ) {
+									$selected = in_array( $value, $saved_data ) ? 'selected' : '';
 								} else {
-									$selected = self::get_field( $field_name ) == $value ? 'selected' : '';
+									$selected = $saved_data == $value ? 'selected' : '';
 								}
 								printf( '<option value="%s" %s>%s</option>', esc_attr( $value ), esc_attr( $selected ), esc_html( $view ) );
 							}
 						} ?>
                     </select>
                 </div>
+				<?php $this->field_description( $explain ); ?>
             </td>
-            <td class="col-3"></td>
         </tr>
 		<?php
 	}
 
-	public function checkbox_option( $field_name, $label = '', $explain = '', $subffix = '' ) {
+	public function checkbox_option( $field_name, $label = '', $explain = '', $subffix = '', $suffix_explain = '' ) {
 		$set_name = $this->set_field( $field_name );
 		$class    = 'wacv-' . str_replace( '_', '-', $field_name );
 		?>
-        <tr class="">
+        <tr class=""<?php echo $this->depends_attr(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
             <td class="col-1">
-                <label><?php esc_html_e( $label );// phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText ?> </label>
-				<?php if ( $explain ) {
-					printf( '<span class="wacv-explain-group" data-tooltip="%s" data-variation="wide"><i class="question circle icon "></i></span>', esc_attr( $explain ) );
-				}
-				?>
+                <label><?php echo esc_html( $label ) ?> </label>
             </td>
             <td class="col-2">
                 <div class="vi-ui toggle checkbox">
@@ -266,30 +322,29 @@ class Admin_Settings {
                            value="1"
                            name="<?php echo esc_attr( $set_name ) ?>"
                            class="<?php echo esc_attr( $class ) ?>">
-                    <label><?php esc_html_e( $subffix );// phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText ?></label>
+                    <label><?php echo esc_html( $subffix ) ?></label>
                 </div>
+				<?php
+				$this->field_description( $explain );
+				$this->field_description( $suffix_explain );
+				?>
             </td>
-            <td class="col-3"></td>
         </tr>
 		<?php
 	}
 
 	public function get_pro_version( $title, $explain = '' ) {
 		?>
-        <tr>
+        <tr<?php echo $this->depends_attr(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
             <td class="col-1">
-                <label class=""><?php esc_html_e( $title );// phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText ?></label>
-	            <?php if ( $explain ) {
-		            printf( '<span class="wacv-explain-group" data-tooltip="%s" data-variation="wide"><i class="question circle icon "></i></span>', esc_attr( $explain ) );
-	            }
-	            ?>
+                <label class=""><?php echo esc_html( $title ) ?></label>
             </td>
             <td class="col-2">
                 <a href="<?php echo esc_url( WACV_PRO_URL ) ?>" class="vi-ui button tiny" target="_blank">
 					<?php esc_html_e( 'Unlock this feature', 'woo-abandoned-cart-recovery' ) ?>
                 </a>
+				<?php $this->field_description( $explain ); ?>
             </td>
-            <td class="col-3"></td>
         </tr>
 		<?php
 	}

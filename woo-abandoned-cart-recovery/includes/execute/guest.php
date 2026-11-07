@@ -22,10 +22,11 @@ class Guest {
 	public $query;
 	public $settings;
 	protected $language;
+	protected $saving_info = false;
 
 	private function __construct() {
 		$this->settings = Data::get_params();
-		$this->query = Query_DB::get_instance();
+		$this->query    = Query_DB::get_instance();
 
 		if ( ! isset( $_COOKIE['wacv_skip_track_data'] ) ) {
 
@@ -38,12 +39,13 @@ class Guest {
 
 			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_file' ) );
 
-//		add_filter( 'woocommerce_checkout_fields', array( $this, 'guest_checkout_fields' ) );
 			add_filter( 'woocommerce_checkout_get_value', [ $this, 'guest_checkout_fields' ], 20, 2 );
 
 			add_action( 'init', array( $this, 'get_email' ) );
 
 			add_action( 'woo_lucky_wheel_get_email', array( $this, 'woo_lucky_wheel_get_email' ), 10, 3 );
+			add_action( 'woocommerce_checkout_update_order_review', array( $this, 'save_from_order_review' ) );
+			add_action( 'woocommerce_store_api_cart_update_customer_from_request', array( $this, 'save_from_store_api_customer' ), 20, 2 );
 		}
 	}
 
@@ -126,54 +128,78 @@ class Guest {
 	}
 
 	public function save_info( $data ) {
+		if ( $this->saving_info || empty( $data ) || ! is_array( $data ) ) {
+			return false;
+		}
+
+		$this->saving_info = true;
+		$update_user       = $this->persist_guest_info( $data );
+		$this->saving_info = false;
+
+		return $update_user;
+	}
+
+	protected function persist_guest_info( $data ) {
 		$update_user = '';
 		$cookie_time = current_time( 'timestamp' ) + 86400;
 		setCookie( 'wacv_get_email', true, $cookie_time, '/' );
 
 		if ( ! is_user_logged_in() ) {
+			if ( ! function_exists( 'WC' ) || ! WC()->session ) {
+				return false;
+			}
 
 			if ( ! WC()->session->has_session() ) {
 				WC()->session->set_customer_session_cookie( true );
 			}
 
 			$guest_info = array();
-			$patterns   = array(
-				'billing_first_name',
-				'billing_last_name',
-				'billing_company',
-				'billing_address_1',
-				'billing_address_2',
-				'billing_city',
-				'billing_state',
-				'billing_postcode',
-				'billing_country',
-				'billing_phone',
-				'billing_email',
-				'order_notes',
-				'shipping_first_name',
-				'shipping_last_name',
-				'shipping_company',
-				'shipping_address_1',
-				'shipping_address_2',
-				'shipping_city',
-				'shipping_state',
-				'shipping_postcode',
-				'shipping_country',
-				'ship_to_billing',
-				'user_ref'
+			$patterns   = apply_filters(
+				'wacv_guest_info_fields',
+				array(
+					'billing_first_name',
+					'billing_last_name',
+					'billing_company',
+					'billing_address_1',
+					'billing_address_2',
+					'billing_city',
+					'billing_state',
+					'billing_postcode',
+					'billing_country',
+					'billing_phone',
+					'billing_email',
+					'order_notes',
+					'shipping_first_name',
+					'shipping_last_name',
+					'shipping_company',
+					'shipping_address_1',
+					'shipping_address_2',
+					'shipping_city',
+					'shipping_state',
+					'shipping_postcode',
+					'shipping_country',
+					'ship_to_billing',
+					'user_ref',
+				),
+				$data
 			);
+
 			foreach ( $data as $key => $value ) {
 				if ( in_array( $key, $patterns ) && $data[ $key ] != '' ) {
-					$guest_info[ $key ] = sanitize_text_field( $data[ $key ] );
+					if ( $key != 'billing_phone' ) {
+						$guest_info[ $key ] = sanitize_text_field( $data[ $key ] );
+					} else {
+						$guest_info[ $key ] = preg_replace( '/[^+|0-9]/', '', sanitize_text_field( $data[ $key ] ) );
+					}
 				}
 			}
 
 			$this->query::set_session( 'guest_info', $guest_info );
-			$guest_info = $this->query::get_session( 'guest_info' );
+			$guest_info = apply_filters( 'wacv_guest_info', $this->query::get_session( 'guest_info' ), $data );
 
 			$email_address = $guest_info['billing_email'] ?? '';
 			$user_ref      = $guest_info['user_ref'] ?? '';
-			$user_phone    = $guest_info['billing_phone'] ?? '';
+			$user_phone    = isset( $guest_info['billing_phone'] ) && $guest_info['billing_phone'] && strlen( $guest_info['billing_phone'] ) > 5 ? $guest_info['billing_phone'] : '';
 
 			$user_id = '';
 			if ( is_email( $email_address ) || ! empty( $user_ref ) || $user_phone ) {
@@ -191,14 +217,24 @@ class Guest {
 						$user_id = $this->query->insert_guest_info( $guest_info );
 					}
 				}
-				if ( is_email( $email_address ) ) {
-					wc()->customer->set_billing_email( $email_address );
+
+				if ( is_email( $email_address ) && WC()->customer ) {
+					WC()->customer->set_billing_email( $email_address );
 				}
-				wc()->session->set( 'user_id', $user_id );
-				$abdc_id = wc()->session->get( 'wacv_cart_record_id' );
-				$this->query->update_abd_cart_record(
-					array( 'abandoned_cart_time' => WACV_CURRENT_TIME, 'user_id' => $user_id ),
-					array( 'id' => $abdc_id ) );
+				WC()->session->set( 'user_id', $user_id );
+				$abdc_id = WC()->session->get( 'wacv_cart_record_id' );
+
+				$user = $this->query->get_guest_info( $user_id );
+				if ( $abdc_id && is_object( $user ) && ( ! property_exists( $user, 'status' ) || $user->status !== 'unsubscribe' ) ) {
+					$this->query->update_abd_cart_record(
+						array(
+							'abandoned_cart_time' => WACV_CURRENT_TIME,
+							'user_id'             => $user_id,
+							'user_type'           => 'guest',
+						),
+						array( 'id' => $abdc_id )
+					);
+				}
 
 				if ( $email_address ) {
 					$guests = $this->query->get_guest_info_rows( $email_address );
@@ -223,20 +259,59 @@ class Guest {
 					$this->query->update_cart_log( array( 'user_id' => $user_id ), array( 'user_id' => $get_cookie[0] ) );
 				}
 
+				do_action( 'wacv_guest_info_saved', $user_id, $guest_info );
 			}
 
-		} else {
-			if ( isset( $data['user_ref'] ) ) {
-				$user_ref    = sanitize_text_field( $data['user_ref'] );
-				$user_id     = get_current_user_id();
-				$update_user = update_user_meta( $user_id, 'wacv_user_ref', $user_ref );
-				$guest_info  = array( 'user_ref' => $user_ref );
-				$this->query::set_session( 'guest_info', $guest_info );
-			}
+		} elseif ( isset( $data['user_ref'] ) ) {
+			$user_ref    = sanitize_text_field( $data['user_ref'] );
+			$user_id     = get_current_user_id();
+			$update_user = update_user_meta( $user_id, 'wacv_user_ref', $user_ref );
+			$guest_info  = array( 'user_ref' => $user_ref );
+			$this->query::set_session( 'guest_info', $guest_info );
 		}
 
-
 		return $update_user;
+	}
+
+	public function save_from_order_review( $posted_data ) {
+		if ( is_user_logged_in() || empty( $posted_data ) ) {
+			return;
+		}
+
+		$data = array();
+		parse_str( $posted_data, $data );
+		if ( empty( $data ) || ! is_array( $data ) ) {
+			return;
+		}
+
+		$this->save_info( wc_clean( $data ) );
+	}
+
+	public function save_from_store_api_customer( $customer, $request = null ) {
+		if ( is_user_logged_in() || ! is_a( $customer, 'WC_Customer' ) ) {
+			return;
+		}
+
+		$this->save_info( array(
+			'billing_email'       => $customer->get_billing_email(),
+			'billing_first_name'  => $customer->get_billing_first_name(),
+			'billing_last_name'   => $customer->get_billing_last_name(),
+			'billing_phone'       => $customer->get_billing_phone(),
+			'billing_address_1'   => $customer->get_billing_address_1(),
+			'billing_address_2'   => $customer->get_billing_address_2(),
+			'billing_city'        => $customer->get_billing_city(),
+			'billing_state'       => $customer->get_billing_state(),
+			'billing_postcode'    => $customer->get_billing_postcode(),
+			'billing_country'     => $customer->get_billing_country(),
+			'shipping_first_name' => $customer->get_shipping_first_name(),
+			'shipping_last_name'  => $customer->get_shipping_last_name(),
+			'shipping_address_1'  => $customer->get_shipping_address_1(),
+			'shipping_address_2'  => $customer->get_shipping_address_2(),
+			'shipping_city'       => $customer->get_shipping_city(),
+			'shipping_state'      => $customer->get_shipping_state(),
+			'shipping_postcode'   => $customer->get_shipping_postcode(),
+			'shipping_country'    => $customer->get_shipping_country(),
+		) );
 	}
 
 	public function get_info() {

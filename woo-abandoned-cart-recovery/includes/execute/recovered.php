@@ -125,9 +125,14 @@ class Recovered {
 
 	public function recover_get_info( $user_id ) {
 		$result = $this->query->get_guest_info( $user_id );
-		$result = $result[0];
+		if ( ! is_object( $result ) ) {
+			return array();
+		}
 
-		return $customer = array(
+		$billing_state  = ! empty( $result->billing_state ) ? $result->billing_state : $result->billing_city;
+		$shipping_state = ! empty( $result->shipping_state ) ? $result->shipping_state : $result->shipping_city;
+
+		return array(
 			"id"                  => $result->id,
 			"date_modified"       => '',
 			"billing_postcode"    => $result->billing_postcode,
@@ -135,14 +140,14 @@ class Recovered {
 			"billing_address_1"   => $result->billing_address_1,
 			"billing_address"     => $result->billing_address_1,
 			"billing_address_2"   => $result->billing_address_2,
-			"billing_state"       => $result->billing_city,
+			"billing_state"       => $billing_state,
 			"billing_country"     => $result->billing_country,
 			"shipping_postcode"   => $result->shipping_postcode,
 			"shipping_city"       => $result->shipping_city,
 			"shipping_address_1"  => $result->shipping_address_1,
 			"shipping_address"    => $result->shipping_address_1,
 			"shipping_address_2"  => $result->shipping_address_2,
-			"shipping_state"      => $result->shipping_city,
+			"shipping_state"      => $shipping_state,
 			"shipping_country"    => $result->shipping_country,
 			"billing_first_name"  => $result->billing_first_name,
 			"billing_last_name"   => $result->billing_last_name,

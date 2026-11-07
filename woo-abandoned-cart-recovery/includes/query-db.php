@@ -87,15 +87,15 @@ class Query_DB {
 
 		$data_fm = $where_fm = array();
 
-		foreach ( $data as $item ) {
-			if ( isset( $this->format[ $item ] ) ) {
-				$data_fm[] = $this->format[ $item ];
+		foreach ( $data as $key => $item ) {
+			if ( isset( $this->format[ $key ] ) ) {
+				$data_fm[] = $this->format[ $key ];
 			}
 		}
 
-		foreach ( $where as $item ) {
-			if ( isset( $this->format[ $item ] ) ) {
-				$where_fm[] = $this->format[ $item ];
+		foreach ( $where as $key => $item ) {
+			if ( isset( $this->format[ $key ] ) ) {
+				$where_fm[] = $this->format[ $key ];
 			}
 		}
 
@@ -107,9 +107,9 @@ class Query_DB {
 
 		$data_fm = $where_fm = array();
 
-		foreach ( $data as $item ) {
-			if ( isset( $this->format[ $item ] ) ) {
-				$data_fm[] = $this->format[ $item ];
+		foreach ( $data as $key => $item ) {
+			if ( isset( $this->format[ $key ] ) ) {
+				$data_fm[] = $this->format[ $key ];
 			}
 		}
 
@@ -352,60 +352,51 @@ class Query_DB {
 	}
 
 	//Email reminder
+	protected function abd_list_user_type_clause( $option ) {
+		switch ( $option ) {
+			case 'member':
+				return "AND acr.user_type='member' ";
+			case 'guest':
+				return "AND acr.user_type='guest' ";
+			default:
+				return '';
+		}
+	}
+
 	public function get_abd_list( $option, $start, $end, $limit, $offset ) {
 		global $wpdb;
-		$compare_time_member = Data::get_instance()->member_compare_cut_off_time();
-		$compare_time_guest  = Data::get_instance()->guest_compare_cut_off_time();
-		$que                 = $sub_query = '';
-		switch ( $option ) {
-			case 'all_customer':
-				$que = "AND (({$compare_time_member} > abandoned_cart_time AND user_type='member') OR ({$compare_time_guest} > abandoned_cart_time AND user_type='guest'))";
-				break;
-			case 'member':
-				$que       = "AND (({$compare_time_member} > abandoned_cart_time AND user_type='member') OR ({$compare_time_guest} > abandoned_cart_time AND user_type='guest'))";
-				$sub_query = "AND acr.user_id!=0";
-				break;
-			case 'guest':
-				$que = "AND {$compare_time_guest} > abandoned_cart_time AND user_type='guest' AND acr.user_id=0";
-				break;
-		}
+
+		$start  = absint( $start );
+		$end    = absint( $end );
+		$limit  = absint( $limit );
+		$offset = absint( $offset );
+		$que    = $this->abd_list_user_type_clause( $option );
 
 		$query = "SELECT acr.* , wpu.user_login, wpu.user_email, wpi.user_ref, wpi.billing_email, wpi.billing_first_name, wpi.billing_last_name , wpi.billing_phone , wpi.billing_country ";
 		$query .= "FROM {$this->cart_record_tb} AS acr LEFT JOIN {$wpdb->users} AS wpu ON acr.user_id = wpu.id ";
-		$query .= "LEFT JOIN  {$wpdb->prefix}wacv_guest_info_record AS wpi ON acr.user_id = wpi.id ";
+		$query .= "LEFT JOIN {$wpdb->prefix}wacv_guest_info_record AS wpi ON acr.user_id = wpi.id ";
 		$query .= "WHERE ((acr.recovered_cart='0' AND acr.cart_ignored='0') OR (acr.recovered_cart_time!='0' AND acr.order_type='1')) ";
-		$query .= "AND acr.abandoned_cart_info NOT LIKE '\"\"' AND acr.abandoned_cart_info NOT LIKE '[]' AND acr.abandoned_cart_info NOT LIKE '{\"cart\":[]}' AND acr.abandoned_cart_info NOT LIKE '{\"cart\":null}' ";
-		$query .= "AND acr.abandoned_cart_time >{$start} AND acr.abandoned_cart_time <{$end} ";
-		$query .= " {$que} {$sub_query}  ORDER BY acr.abandoned_cart_time DESC LIMIT {$limit} OFFSET {$offset}";
+		$query .= "AND acr.abandoned_cart_info NOT IN ('', '\"\"', '[]', '{\"cart\":[]}', '{\"cart\":null}') ";
+		$query .= "AND acr.abandoned_cart_time > {$start} AND acr.abandoned_cart_time < {$end} ";
+		$query .= " {$que} ORDER BY acr.abandoned_cart_time DESC LIMIT {$limit} OFFSET {$offset}";
 
 		return $wpdb->get_results( $query );// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 	}
 
 	public function count_abd_items( $option, $start, $end ) {
 		global $wpdb;
-		$compare_time_member = Data::get_instance()->member_compare_cut_off_time();
-		$compare_time_guest  = Data::get_instance()->guest_compare_cut_off_time();
-		$que                 = $sub_query = '';
-		switch ( $option ) {
-			case 'all_customer':
-				$que = "AND (({$compare_time_member} > abandoned_cart_time AND user_type='member') OR ({$compare_time_guest} > abandoned_cart_time AND user_type='guest'))";
-				break;
-			case 'member':
-				$que       = "AND (({$compare_time_member} > abandoned_cart_time AND user_type='member') OR ({$compare_time_guest} > abandoned_cart_time AND user_type='guest'))";
-				$sub_query = "AND acr.user_id!=0";
-				break;
-			case 'guest':
-				$que = "AND {$compare_time_guest} > abandoned_cart_time AND user_type='guest' AND acr.user_id=0";
-				break;
-		}
 
-		$query = "SELECT COUNT(acr.id)  ";
+		$start = absint( $start );
+		$end   = absint( $end );
+		$que   = $this->abd_list_user_type_clause( $option );
+
+		$query = "SELECT COUNT(acr.id) ";
 		$query .= "FROM {$this->cart_record_tb} AS acr LEFT JOIN {$wpdb->users} AS wpu ON acr.user_id = wpu.id ";
-		$query .= "LEFT JOIN  {$wpdb->prefix}wacv_guest_info_record AS wpi ON acr.user_id = wpi.id ";
-		$query .= "WHERE ((acr.recovered_cart='0' AND acr.cart_ignored='0') OR (acr.recovered_cart='0' AND acr.order_type='1')) ";
-		$query .= "AND acr.abandoned_cart_info NOT LIKE '\"\"' AND acr.abandoned_cart_info NOT LIKE '[]' AND acr.abandoned_cart_info NOT LIKE '{\"cart\":[]}' ";
-		$query .= "AND acr.abandoned_cart_time >{$start} AND acr.abandoned_cart_time <{$end} ";
-		$query .= " {$que} {$sub_query}  ORDER BY acr.abandoned_cart_time DESC";
+		$query .= "LEFT JOIN {$wpdb->prefix}wacv_guest_info_record AS wpi ON acr.user_id = wpi.id ";
+		$query .= "WHERE ((acr.recovered_cart='0' AND acr.cart_ignored='0') OR (acr.recovered_cart_time!='0' AND acr.order_type='1')) ";
+		$query .= "AND acr.abandoned_cart_info NOT IN ('', '\"\"', '[]', '{\"cart\":[]}', '{\"cart\":null}') ";
+		$query .= "AND acr.abandoned_cart_time > {$start} AND acr.abandoned_cart_time < {$end} ";
+		$query .= " {$que}";
 
 		return $wpdb->get_var( $query );// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 	}
@@ -499,7 +490,7 @@ class Query_DB {
 		$args = wp_parse_args( $args, $arg_default );
 
 		$join     = array();
-		$where[]  = "acr.abandoned_cart_info NOT LIKE '\"\"' AND acr.abandoned_cart_info NOT LIKE '[]' AND acr.abandoned_cart_info NOT LIKE '{\"cart\":[]}'";
+		$where[]  = "acr.abandoned_cart_info NOT IN ('', '\"\"', '[]', '{\"cart\":[]}', '{\"cart\":null}')";
 		$fields[] = $args['acr_fields'] ? 'acr.' . str_replace( ',', ', acr.', $args['acr_fields'] ) : 'acr.*';
 		if ( $args['member_fields'] ) {
 			$fields[] = 'member.' . str_replace( ',', ', member.', $args['member_fields'] );
@@ -547,7 +538,7 @@ class Query_DB {
 		global $wpdb;
 		$query_guest = "SELECT * FROM {$this->guest_info_tb} WHERE id = %d AND id != 0 ";
 
-		return $wpdb->get_results( $wpdb->prepare( $query_guest, $user_id ) );// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared
+		return $wpdb->get_row( $wpdb->prepare( $query_guest, $user_id ) );// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared
 	}
 
 	public function get_email_history( $acr_id ) {
@@ -736,15 +727,15 @@ class Query_DB {
 			'browser'     => '%s',
 		);
 
-		foreach ( $data as $item ) {
-			if ( isset( $format[ $item ] ) ) {
-				$data_fm[] = $format[ $item ];
+		foreach ( $data as $k_item => $v_item ) {
+			if ( isset( $format[ $k_item ] ) ) {
+				$data_fm[] = $format[ $k_item ];
 			}
 		}
 
-		foreach ( $where as $item ) {
-			if ( isset( $format[ $item ] ) ) {
-				$where_fm[] = $format[ $item ];
+		foreach ( $where as $k_item => $v_item ) {
+			if ( isset( $format[ $k_item ] ) ) {
+				$where_fm[] = $format[ $k_item ];
 			}
 		}
 		$wpdb->update( $this->cart_log_tb, $data, $where, $data_fm, $where_fm );// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching

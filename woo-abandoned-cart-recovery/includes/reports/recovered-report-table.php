@@ -191,9 +191,9 @@ class Recovered_Report_Table extends \WP_List_Table {
 
 			if ( $result->user_type == 'guest' ) {
 				$results_guest = $this->query->get_guest_info( $result->user_id );
-				if ( count( $results_guest ) > 0 ) {
-					$user_email = $results_guest[0]->billing_email;
-					$name       = $results_guest[0]->billing_first_name . ' ' . $results_guest[0]->billing_last_name;
+				if ( ! empty( $results_guest ) ) {
+					$user_email = $results_guest->billing_email;
+					$name       = $results_guest->billing_first_name . ' ' . $results_guest->billing_last_name;
 					$name       = ! empty( trim( $name ) ) ? $name : esc_html__( 'Guest', 'woo-abandoned-cart-recovery' );
 				} else {
 					$user_email = '';
@@ -203,6 +203,9 @@ class Recovered_Report_Table extends \WP_List_Table {
 
 			$order_id = $result->recovered_cart;
 			$order    = wc_get_order( $order_id );
+			if ( ! $order ) {
+				continue;
+			}
 			$coupon   = implode( ',', $order->get_used_coupons() );
 
 			$item_total = ( $order->get_order_item_totals() );

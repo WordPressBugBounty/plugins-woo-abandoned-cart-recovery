@@ -351,9 +351,11 @@ class Abandoned_Report_Table extends \WP_List_Table {
 
 	public function extra_tablenav( $which ) {
 		if ( $which == 'top' ) {
-			$selected = get_option( 'wacv_time_range' );
+			$selected = isset( $_GET['wacv_time_range'] ) ? sanitize_text_field( wp_unslash( $_GET['wacv_time_range'] ) ) : get_option( 'wacv_time_range' );
+			if ( empty( $selected ) ) {
+				$selected = '7days';
+			}
 			if ( isset( $_GET['_wpnonce'] ) && wp_verify_nonce( wp_unslash( $_GET['_wpnonce'] ), 'wacv-filter' ) && current_user_can( 'manage_woocommerce' ) ) {
-				$selected = isset( $_GET['wacv_time_range'] ) ? sanitize_text_field( $_GET['wacv_time_range'] ) : $selected;
 				update_option( 'wacv_time_range', $selected );
 			}
 

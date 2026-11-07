@@ -17,11 +17,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 			$options = array(
 				"today"     => esc_html__( 'Today', 'woo-abandoned-cart-recovery' ),
 				"yesterday" => esc_html__( 'Yesterday', 'woo-abandoned-cart-recovery' ),
+				"7days"     => esc_html__( '7 days', 'woo-abandoned-cart-recovery' ),
 				"30days"    => esc_html__( '30 days', 'woo-abandoned-cart-recovery' ),
 				"90days"    => esc_html__( '90 days', 'woo-abandoned-cart-recovery' ),
 				"365days"   => esc_html__( '365 days', 'woo-abandoned-cart-recovery' ),
 				"custom"    => esc_html__( 'Custom', 'woo-abandoned-cart-recovery' ),
 			);
+			if ( empty( $selected ) ) {
+				$selected = '7days';
+			}
 			foreach ( $options as $key => $value ) {
 				$select = $selected == $key ? 'selected' : '';
 				printf( '<option value="%s" %s>%s</option>', esc_attr( $key ), $selected == $key ? 'selected' : '', esc_html( $value ) );

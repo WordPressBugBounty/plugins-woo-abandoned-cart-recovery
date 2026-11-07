@@ -33,6 +33,10 @@ jQuery(document).ready(function ($) {
                 from_date.val(yesterday);
                 to_date.val(yesterday);
                 break;
+            case '7days':
+                from_date.val(getDateRange(new Date(Date.now() - 6 * oneDay)));
+                to_date.val(today);
+                break;
             case '30days':
                 let _30days = new Date(Date.now() - 30 * oneDay);
                 _30days = getDateRange(_30days);
