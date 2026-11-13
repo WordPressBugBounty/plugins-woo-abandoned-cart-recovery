@@ -623,12 +623,16 @@ class Email_Templates {
 	}
 
 	public function dismiss_notice() {
-		if ( isset( $_REQUEST['_wacv_admin_nonce'] ) && ! wp_verify_nonce( wc_clean( wp_unslash( $_REQUEST['_wacv_admin_nonce'] ) ), 'wacv_admin_nonce' ) ) {
+		if ( empty( $_GET['wacv_dismiss_notice'] ) ) {
 			return;
 		}
-		if ( isset( $_GET['wacv_dismiss_notice'] ) && $_GET['wacv_dismiss_notice'] ) {
-			update_option( 'wacv_dismiss_notice', true );
+		if ( ! current_user_can( 'manage_woocommerce' ) ) {
+			return;
 		}
+		if ( empty( $_REQUEST['_wacv_admin_nonce'] ) || ! wp_verify_nonce( wc_clean( wp_unslash( $_REQUEST['_wacv_admin_nonce'] ) ), 'wacv_admin_nonce' ) ) {
+			return;
+		}
+		update_option( 'wacv_dismiss_notice', true );
 	}
 
 }

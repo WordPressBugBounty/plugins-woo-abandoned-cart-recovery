@@ -26,8 +26,6 @@ define( 'WACV_JS_DIR', WACV_DIR . "assets" . DIRECTORY_SEPARATOR . "js" . DIRECT
 define( 'WACV_IMAGES', $plugin_url . "/assets/img/" );
 define( 'WACV_FLAG', $plugin_url . "/assets/img/flag/" );
 
-define( 'WACV_CURRENT_TIME', current_time( 'U' ) );
-
 //Auto load class
 spl_autoload_register( function ( $class ) {
 	$prefix   = __NAMESPACE__;

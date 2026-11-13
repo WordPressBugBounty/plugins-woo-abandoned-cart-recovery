@@ -124,8 +124,11 @@ class Ajax {
 			$query  = Query_DB::get_instance();
 			$result = $query->get_abd_cart_detail( $id );
 			if ( $result ) {
-				$cart     = json_decode( $result->abandoned_cart_info );
-				$currency_symbol = array( 'currency' => $cart->currency ? $cart->currency : '' );
+				$cart = json_decode( $result->abandoned_cart_info );
+				if ( ! is_object( $cart ) || empty( $cart->cart ) ) {
+					wp_send_json( array() );
+				}
+				$currency_symbol = array( 'currency' => ! empty( $cart->currency ) ? $cart->currency : '' );
 				$response = array();
 				$show_tax = 'incl' === get_option( 'woocommerce_tax_display_cart' ) ? 1 : 0;
 				foreach ( $cart->cart as $item ) {

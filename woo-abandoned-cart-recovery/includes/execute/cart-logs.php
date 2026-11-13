@@ -62,11 +62,9 @@ class Cart_Logs {
 
 	public function handle_cart_log( $product_id, $quantity, $action ) {
 		if ( is_user_logged_in() ) {
-			$user_id   = get_current_user_id();
-			$test_user = 'logged';
+			$user_id = get_current_user_id();
 		} else {
-			$user_id   = ! empty( $this->query::get_session( 'user_id' ) ) ? $this->query::get_session( 'user_id' ) : WC()->session->get_customer_id();
-			$test_user = 'no_logged';
+			$user_id = ! empty( $this->query::get_session( 'user_id' ) ) ? $this->query::get_session( 'user_id' ) : WC()->session->get_customer_id();
 		}
 
 		$timestamp    = current_time( 'timestamp' );
@@ -91,9 +89,6 @@ class Cart_Logs {
 				'browser'     => $this->browser,
 			);
 			$this->query->insert_cart_log( $input );
-			if ( $user_id == 1 ) {
-				update_option( 'test_log_1', $test_user );
-			}
 		} else {
 			$el       = end( $pre_action );
 			$data     = $el->data ? unserialize( $el->data ) : array();
@@ -112,9 +107,6 @@ class Cart_Logs {
 				'browser'     => $this->browser,
 			);
 			$this->query->update_cart_log( $input, array( 'user_id' => $user_id, 'id' => $el->id ) );
-			if ( $user_id == 1 ) {
-				update_option( 'test_log_2', $test_user );
-			}
 		}
 	}
 

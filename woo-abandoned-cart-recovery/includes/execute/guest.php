@@ -75,28 +75,20 @@ class Guest {
 	}
 
 	public function get_email() {
-		if ( isset( $_REQUEST['_wacv_admin_nonce'] ) && ! wp_verify_nonce( wc_clean( wp_unslash( $_REQUEST['_wacv_admin_nonce'] ) ), 'wacv_admin_nonce' ) ) {
-			return;
-		}
+		// Lucky Wheel: use woo_lucky_wheel_get_email hook only (not bare public REQUEST on init).
 
-		if ( class_exists( 'Woocommerce_Lucky_Wheel' ) ) {
-			//Compatible with Lucky wheel
-			if ( isset( $_REQUEST['action'] ) && $_REQUEST['action'] == 'wlwl_get_email' ) {
-				$data                       = wc_clean( $_REQUEST );
-				$data['billing_email']      = isset( $data['user_email'] ) ? $data['user_email'] : '';
-				$data['billing_first_name'] = isset( $data['user_name'] ) ? $data['user_name'] : '';
-				$this->subscribe_data( $data );
-			}
-		}
-		//Compatible with coupon box
-		if ( isset( $_REQUEST['action'] ) && $_REQUEST['action'] == 'wcb_email' ) {
-			$data                  = wc_clean( $_REQUEST );
+		// Coupon Box partner AJAX only (not bare front-end GET).
+		$coupon_box_active = class_exists( 'VIWCC_COUPON_BOX' )
+			|| class_exists( 'VIWCCB_COUPON_BOX' )
+			|| is_plugin_active( 'woocommerce-coupon-box/woocommerce-coupon-box.php' );
+		if ( $coupon_box_active && wp_doing_ajax() && isset( $_REQUEST['action'] ) && 'wcb_email' === $_REQUEST['action'] ) {
+			$data                  = wc_clean( wp_unslash( $_REQUEST ) );
 			$data['billing_email'] = isset( $data['email'] ) ? $data['email'] : '';
 			$this->subscribe_data( $data );
 		}
 
 		if ( is_plugin_active( 'mailchimp-for-wp/mailchimp-for-wp.php' ) && isset( $_POST['_mc4wp_form_id'] ) ) {
-			$data                       = wc_clean( $_POST );
+			$data                       = wc_clean( wp_unslash( $_POST ) );
 			$data['billing_email']      = isset( $data['EMAIL'] ) ? $data['EMAIL'] : '';
 			$data['billing_phone']      = isset( $data['PHONE'] ) ? $data['PHONE'] : '';
 			$data['billing_city']       = isset( $data['ADDRESS']['city'] ) ? $data['ADDRESS']['city'] : '';
@@ -111,16 +103,12 @@ class Guest {
 		if ( ! ( $email || $mobile ) ) {
 			return;
 		}
-		if ( isset( $_REQUEST['_wacv_admin_nonce'] ) && ! wp_verify_nonce( wc_clean( wp_unslash( $_REQUEST['_wacv_admin_nonce'] ) ), 'wacv_admin_nonce' ) ) {
-			return;
-		}
-		//Compatible with Lucky wheel
-		if ( isset( $_REQUEST['action'] ) && $_REQUEST['action'] == 'wlwl_get_email' ) {
-			$data['billing_email']      = $email;
-			$data['billing_first_name'] = $name;
-			$data['billing_phone']      = $mobile;
-			$this->subscribe_data( $data );
-		}
+		$data = array(
+			'billing_email'      => $email,
+			'billing_first_name' => $name,
+			'billing_phone'      => $mobile,
+		);
+		$this->subscribe_data( $data );
 	}
 
 	public function subscribe_data( $data ) {
@@ -228,7 +216,7 @@ class Guest {
 				if ( $abdc_id && is_object( $user ) && ( ! property_exists( $user, 'status' ) || $user->status !== 'unsubscribe' ) ) {
 					$this->query->update_abd_cart_record(
 						array(
-							'abandoned_cart_time' => WACV_CURRENT_TIME,
+							'abandoned_cart_time' => current_time( 'timestamp' ),
 							'user_id'             => $user_id,
 							'user_type'           => 'guest',
 						),

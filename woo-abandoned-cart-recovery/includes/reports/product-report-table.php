@@ -138,7 +138,11 @@ class Product_Report_Table extends \WP_List_Table {
 		if ( count( $abd_results ) > 0 ) {
 
 			foreach ( $abd_results as $result ) {
-				$cart = json_decode( $result->abandoned_cart_info )->cart;
+				$decoded = json_decode( $result->abandoned_cart_info );
+				if ( ! is_object( $decoded ) || empty( $decoded->cart ) ) {
+					continue;
+				}
+				$cart = $decoded->cart;
 
 				foreach ( $cart as $item ) {
 					if ( ! empty( $search ) && ! in_array( $item->product_id, $search ) ) { //search item

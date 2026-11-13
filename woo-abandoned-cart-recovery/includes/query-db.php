@@ -788,14 +788,14 @@ class Query_DB {
 
 	public function remove_abd_record_via_ip( $ip ) {
 		global $wpdb;
-		$time  = WACV_CURRENT_TIME - 3600;
+		$time  = current_time( 'timestamp' ) - 3600;
 		$query = "delete from {$this->cart_record_tb} where customer_ip = %s and abandoned_cart_time > {$time} and recovered_cart = 0";
 		$wpdb->query( $wpdb->prepare( $query, $ip ) );// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 	}
 
 	public function remove_abd_record_by_time( $time ) {
 		global $wpdb;
-		$time  = WACV_CURRENT_TIME - $time * DAY_IN_SECONDS;
+		$time  = current_time( 'timestamp' ) - $time * DAY_IN_SECONDS;
 		$query = "delete from {$this->cart_record_tb} where abandoned_cart_time < %d limit 500";
 		$wpdb->query( $wpdb->prepare( $query, $time ) );// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 	}

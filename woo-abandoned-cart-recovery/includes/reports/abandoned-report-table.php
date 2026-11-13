@@ -207,7 +207,7 @@ class Abandoned_Report_Table extends \WP_List_Table {
 
 			$line_total = $line_tax = $item_qty = 0;
 
-			if ( ! is_object( $cart->cart ) || empty( $cart->cart ) ) {
+			if ( ! is_object( $cart ) || empty( $cart->cart ) || ( ! is_object( $cart->cart ) && ! is_array( $cart->cart ) ) ) {
 				continue;
 			}
 			$show_tax     = 'incl' === get_option( 'woocommerce_tax_display_cart' ) ? 1 : 0;
@@ -229,7 +229,8 @@ class Abandoned_Report_Table extends \WP_List_Table {
 
 			$_SERVER['HTTP_CF_IPCOUNTRY'] = $_SERVER['GEOIP_COUNTRY_CODE'] = $_SERVER['HTTP_X_COUNTRY_CODE'] = '';
 
-			$code = ! empty( \WC_Geolocation::geolocate_ip( $result->customer_ip )['country'] ) ? \WC_Geolocation::geolocate_ip( $result->customer_ip )['country'] : 'unknown';
+			$geo  = \WC_Geolocation::geolocate_ip( $result->customer_ip );
+			$code = ! empty( $geo['country'] ) ? $geo['country'] : 'unknown';
 
 			$export_data[ $i ]                     = new \stdClass();
 			$export_data[ $i ]->id                 = $result->id;

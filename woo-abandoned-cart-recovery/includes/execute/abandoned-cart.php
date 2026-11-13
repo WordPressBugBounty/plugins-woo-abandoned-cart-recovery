@@ -222,7 +222,7 @@ class Abandoned_Cart {
 						$this->query->update_abd_cart_record(
 							array(
 								'abandoned_cart_info' => $abdc_data,
-								'abandoned_cart_time' => WACV_CURRENT_TIME,
+								'abandoned_cart_time' => current_time( 'timestamp' ),
 								'current_lang'        => $mlg_lang,
 								'user_id'             => $user_id,
 								'user_type'           => $type,
@@ -246,7 +246,7 @@ class Abandoned_Cart {
 			$insert_id = $this->query->insert_abd_cart_record( array(
 				'user_id'             => $user_id,
 				'abandoned_cart_info' => $abdc_data,
-				'abandoned_cart_time' => WACV_CURRENT_TIME,
+				'abandoned_cart_time' => current_time( 'timestamp' ),
 				'current_lang'        => $mlg_lang,
 				'user_type'           => $type,
 				'customer_ip'         => $this->ip_add,
@@ -352,8 +352,14 @@ class Abandoned_Cart {
 	}
 
 	public function compare_cart( $cart_1, $cart_2 ) {
-		$cart_1 = ! is_array( $cart_1 ) ? json_decode( $cart_1 )->cart : $cart_1;
-		$cart_2 = ! is_array( $cart_2 ) ? json_decode( $cart_2 )->cart : $cart_2;
+		if ( ! is_array( $cart_1 ) ) {
+			$decoded = json_decode( $cart_1 );
+			$cart_1  = ( is_object( $decoded ) && isset( $decoded->cart ) ) ? $decoded->cart : array();
+		}
+		if ( ! is_array( $cart_2 ) ) {
+			$decoded = json_decode( $cart_2 );
+			$cart_2  = ( is_object( $decoded ) && isset( $decoded->cart ) ) ? $decoded->cart : array();
+		}
 
 		if ( count( (array) $cart_1 ) != count( (array) $cart_2 ) ) {
 			return false;

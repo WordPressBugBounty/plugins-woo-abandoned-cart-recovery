@@ -354,8 +354,8 @@ class Admin_Settings {
 			if ( ! isset( $_POST['_woo_abandoned_cart_nonce'] ) || ! wp_verify_nonce( $_POST['_woo_abandoned_cart_nonce'], 'woo_abandoned_settings' ) ) {
 				return;
 			}
-			if ( ! current_user_can( 'manage_options' ) ) {
-				wp_safe_redirect( $_POST['_wp_http_referer'] );
+			if ( ! current_user_can( 'manage_woocommerce' ) ) {
+				wp_safe_redirect( isset( $_POST['_wp_http_referer'] ) ? esc_url_raw( wp_unslash( $_POST['_wp_http_referer'] ) ) : admin_url() );
 				exit;
 			}
 

@@ -228,11 +228,11 @@ class Data {
 	}
 
 	public function member_cut_time() {
-		return WACV_CURRENT_TIME - self::get_param( 'member_cut_off_time' ) * 60;
+		return current_time( 'timestamp' ) - self::get_param( 'member_cut_off_time' ) * 60;
 	}
 
 	public function guest_cut_time() {
-		return WACV_CURRENT_TIME - self::get_param( 'guest_cut_off_time' ) * 60;
+		return current_time( 'timestamp' ) - self::get_param( 'guest_cut_off_time' ) * 60;
 	}
 
 	public static function get_update_params() {

@@ -4,8 +4,8 @@ Donate link: https://www.villatheme.com/donate
 Tags: abandoned cart pro for woocommerce, woocommerce, woocommerce abandoned cart, woocommerce abandoned cart email, woocommerce abandoned cart recovery
 Requires at least: 5.0
 Tested up to: 7.1
-WC tested up to: 11.0
-Requires PHP: 7.0
+WC tested up to: 11.2
+Requires PHP: 7.4
 WC requires at least: 7.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -267,6 +267,18 @@ https://youtu.be/HTFTNB9q-Ns
 4. Reports
 
 == Changelog ==
+2026.11.13 - version 1.1.17
+- Fixed: Admin settings CSS failed to compile (media query syntax) and broke Settings / Abandoned Carts layout
+- Fixed: Partner guest intake via bare public action query no longer pollutes guest records
+- Fixed: Admin debug mass-send and notice dismiss require capability and nonce
+- Fixed: Abandoned-order AJAX send requires manage_woocommerce
+- Fixed: Settings save capability aligned with Settings menu (manage_woocommerce)
+- Fixed: PHP 8.x null/JSON guards on reminder and report cart product paths
+- Fixed: Abandoned/cut-off timestamps use current_time at write/use instead of frozen bootstrap constant
+- Updated: Abandoned list geolocation runs once per row
+- Removed: Unused test_log_1 / test_log_2 option writes from cart logs
+- Updated: Compatibility check with WC 11.2 and Requires PHP 7.4
+
 2026.11.07 - version 1.1.16
 - Updated: Settings help text, dependent fields, and Semantic UI number inputs.
 - Updated: Unlock placeholders for new Pro options (cart logs auto-delete, block IP, abandoned-order coupon, popup/SMS extras).

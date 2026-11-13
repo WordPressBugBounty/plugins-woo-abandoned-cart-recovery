@@ -49,13 +49,19 @@ class Send_Email_Cron {
     }
 
     public function debug() {
-        if ( isset( $_REQUEST['_wacv_admin_nonce'] ) && ! wp_verify_nonce( wc_clean( wp_unslash( $_REQUEST['_wacv_admin_nonce'] ) ), 'wacv_admin_nonce' ) ) {
+        if ( ! isset( $_GET['debug'] ) ) {
             return;
         }
-        if ( isset( $_GET['debug'] ) && $_GET['debug'] === 'abandoned_cart' ) {
+        if ( ! current_user_can( 'manage_woocommerce' ) ) {
+            return;
+        }
+        if ( empty( $_REQUEST['_wacv_admin_nonce'] ) || ! wp_verify_nonce( wc_clean( wp_unslash( $_REQUEST['_wacv_admin_nonce'] ) ), 'wacv_admin_nonce' ) ) {
+            return;
+        }
+        if ( $_GET['debug'] === 'abandoned_cart' ) {
             $this->send_reminder_mail();
         }
-        if ( isset( $_GET['debug'] ) && $_GET['debug'] === 'abandoned_order' ) {
+        if ( $_GET['debug'] === 'abandoned_order' ) {
             $this->send_reminder_order();
         }
     }
@@ -157,6 +163,10 @@ class Send_Email_Cron {
                 $cart        = json_decode( $item->abandoned_cart_info );
                 $cart_detail = $pd_arr = array();
                 $cart_total  = 0;
+
+                if ( ! is_object( $cart ) || empty( $cart->cart ) ) {
+                    return '';
+                }
 
                 if ( $country && $this->data['price_incl_tax'] ) {
                     $this->country = $country;
@@ -563,9 +573,10 @@ class Send_Email_Cron {
                 $time_to_send = current_time( 'timestamp' ) - intval( $email_rules['time_to_send'][ $i ] ) * Data::get_instance()->case_unit( $email_rules['unit'][ $i ] );
 
                 $args = array(
-                    'post_type'   => 'shop_order',
-                    'post_status' => $this->data['order_stt'],
-                    'date_query'  => array(
+                    'post_type'      => 'shop_order',
+                    'post_status'    => $this->data['order_stt'],
+                    'posts_per_page' => -1,
+                    'date_query'     => array(
                         array(
                             'before' => array(
                                 'year'   => date_i18n( 'Y', $time_to_send ),
@@ -578,7 +589,7 @@ class Send_Email_Cron {
                             'column' => 'post_modified',
                         ),
                     ),
-                    'meta_query'  => array(// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
+                    'meta_query'     => array(// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
                         array(
                             'key'   => '_wacv_send_reminder_email',
                             'value' => $email_rules['send_time'] [ $i ] - 1,
@@ -635,12 +646,13 @@ class Send_Email_Cron {
                     $item      = $item->get_data();
                     $pid       = $item['variation_id'] ? $item['variation_id'] : $item['product_id'];
                     $product   = wc_get_product( $pid );
-                    $image     = wp_get_attachment_image_url( $product->get_image_id(), 'woocommerce_thumbnail' );
-                    $image_url = $image ? $image : wc_placeholder_img_src( 'woocommerce_thumbnail' );
 
                     if ( ! $product ) {
                         continue;
                     }
+
+                    $image     = wp_get_attachment_image_url( $product->get_image_id(), 'woocommerce_thumbnail' );
+                    $image_url = $image ? $image : wc_placeholder_img_src( 'woocommerce_thumbnail' );
 
                     $desc = explode( '.', $product->get_short_description() );
                     $desc = isset( $desc[0] ) ? $desc[0] : '';
@@ -754,6 +766,10 @@ class Send_Email_Cron {
 
     public function wacv_send_abd_order() {
         check_ajax_referer( 'wacv_order_nonce', 'nonce' );
+
+        if ( ! current_user_can( 'manage_woocommerce' ) ) {
+            wp_die();
+        }
 
         if ( isset( $_POST['id'], $_POST['temp'] ) ) {
             $result    = true;

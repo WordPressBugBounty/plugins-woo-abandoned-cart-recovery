@@ -255,7 +255,11 @@ class Reports {
 		$prefix      = $prefix ? $prefix . ' ' : '';
 
 		foreach ( $abd_results as $item ) {
-			$cart_items = json_decode( $item->abandoned_cart_info )->cart;
+			$decoded = json_decode( $item->abandoned_cart_info );
+			if ( ! is_object( $decoded ) || empty( $decoded->cart ) ) {
+				continue;
+			}
+			$cart_items = $decoded->cart;
 			$hour       = date_i18n( 'H', $item->abandoned_cart_time );
 			$day        = date_i18n( 'd', $item->abandoned_cart_time );
 			$month      = date_i18n( 'M', $item->abandoned_cart_time );
